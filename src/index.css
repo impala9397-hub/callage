@@ -1,0 +1,69 @@
+/* Callage — 글로벌 토큰 (BRAND.md 공유 디자인 토큰) */
+:root {
+  /* 배경 — 쿨 노션: 흰색+선 미니멀은 유지, 톤만 쿨/뉴트럴 (누런기 제거) */
+  --bg: #fcfcfd;        /* 앱 본문 — 순백 바로 아래(눈부심만 차단) */
+  --bg-subtle: #f5f6f8; /* 사이드바 — 쿨 옅은 회색 */
+  --surface: #fcfcfd;   /* 캘린더·카드 — 채움 없이 선으로 구분 */
+
+  /* 경계 — 쿨 옅은 회색 선 */
+  --border: #e7e9ed;
+  --border-strong: #d7dae0;
+
+  /* 텍스트 — 쿨 먹색 (노션 먹색에서 누런기 뺀 버전) */
+  --text: #2b2d33;
+  --text-secondary: #6a6d75;
+  --text-muted: #999ca4;
+
+  /* 액센트 */
+  --accent: #2e6be6;
+  --accent-hover: #2257c4;
+  --accent-fg: #ffffff;
+  --accent-soft: #e8f0fe;
+
+  /* 시맨틱 */
+  --success: #2f9e68;
+  --warning: #c98a1b;
+  --danger: #d6453d;
+
+  /* 이벤트 카테고리 */
+  --cat-sports: #e6552e;
+  --cat-esports: #7c3aed;
+  --cat-music: #db2777;
+  --cat-personal: #2e6be6;
+  --cat-other: #6e6b64;
+
+  /* 모양 */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --shadow: 0 1px 2px rgba(24, 27, 36, 0.04), 0 4px 12px rgba(24, 27, 36, 0.05);
+  --shadow-lg: 0 8px 30px rgba(24, 27, 36, 0.12);
+
+  font-family: Inter, system-ui, -apple-system, "Apple SD Gothic Neo",
+    "Segoe UI", Roboto, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
