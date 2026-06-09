@@ -131,4 +131,5 @@ export const EVENTS: CalEvent[] = [
   { id: "con-epikhigh", title: { en: "Epik High — 3.0 Tour", ko: "에픽하이 — 3.0 투어" }, category: "music", sub: "concert", starred: true, date: "2026-09-30", time: "20:00", location: { en: "Terminal 5, NY", ko: "터미널 5 (뉴욕)" }, emoji: "🎤" },
   { id: "con-katseye", title: { en: "KATSEYE — Wildworld Tour", ko: "캣츠아이 — Wildworld 투어" }, category: "music", sub: "concert", date: "2026-10-24", location: { en: "UBS Arena, Belmont Park NY", ko: "UBS 아레나 (벨몬트파크 뉴욕)" }, emoji: "🎤" },
   { id: "con-doja", title: { en: "Doja Cat — Tour Ma Vie", ko: "도자 캣 — Tour Ma Vie" }, category: "music", sub: "concert", starred: true, date: "2026-12-01", location: { en: "Madison Square Garden, NY", ko: "매디슨 스퀘어 가든 (뉴욕)" }, emoji: "🎤" },
+  { id: "con-ariana", title: { en: "Ariana Grande — Eternal Sunshine", ko: "아리아나 그란데 — Eternal Sunshine" }, category: "music", sub: "concert", starred: true, date: "2026-07-12", location: { en: "Barclays Center, Brooklyn NY", ko: "바클레이스 센터 (브루클린 뉴욕)" }, description: { en: "Jul 12·13·16·18·19", ko: "7/12·13·16·18·19 (5밤)" }, emoji: "🎤" },
 ];
