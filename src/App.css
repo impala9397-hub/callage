@@ -835,8 +835,9 @@
   .sidebar { display: none; }
   .detail { width: 100%; }
 
-  /* 대회 탭 — 한 줄 가로 스크롤 (모바일 세로공간 절약) */
-  .comp-tabs {
+  /* 대회 탭 — 한 줄 가로 스크롤 (모바일 세로공간 절약)
+     .comp-view 접두사로 우선순위↑ → 뒤에 오는 기본 .comp-tabs 규칙을 이김 */
+  .comp-view .comp-tabs {
     flex-wrap: nowrap;
     overflow-x: auto;
     padding: 6px 14px 0;
@@ -844,11 +845,11 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
-  .comp-tabs::-webkit-scrollbar { display: none; }
-  .comp-tab { flex: 0 0 auto; padding: 7px 12px; font-size: 13px; }
+  .comp-view .comp-tabs::-webkit-scrollbar { display: none; }
+  .comp-view .comp-tab { flex: 0 0 auto; padding: 7px 12px; font-size: 13px; }
 
   /* 검색바 ↔ 카테고리 간격 줄이기 */
-  .searchbar { margin: 0 14px 8px; }
+  .main .searchbar { margin: 0 14px 8px; }
 }
 
 /* ===== 대회별(Competition) 뷰 — 대회 탭 + 캘린더 ===== */
