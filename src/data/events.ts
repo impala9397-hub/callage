@@ -121,13 +121,14 @@ export const EVENTS: CalEvent[] = [
   { id: "worlds-knockout", title: { en: "Worlds · Knockouts", ko: "Worlds · 녹아웃" }, category: "esports", sub: "worlds", round: { en: "Knockout", ko: "녹아웃" }, date: "2026-11-03", location: { en: "Allen, Texas", ko: "앨런 (텍사스)" }, description: { en: "Knockouts · Nov 3 – 8", ko: "녹아웃 · 11.3~8" }, emoji: "🎮" },
   { id: "worlds-final", title: { en: "Worlds Final", ko: "Worlds 결승" }, category: "esports", sub: "worlds", round: { en: "Final", ko: "결승" }, starred: true, date: "2026-11-14", time: "17:00", location: { en: "Barclays Center, Brooklyn NY", ko: "바클레이스 센터 (브루클린 뉴욕)" }, description: { en: "Worlds 2026 Final · New York", ko: "Worlds 2026 결승 · 뉴욕" }, emoji: "🏆" },
 
-  // 🎤 콘서트 — 한국 아티스트 (뉴욕)
-  { id: "con-rose", title: { en: "The Rose — ROSETOPIA", ko: "The Rose 내한급 공연" }, category: "music", sub: "concert", starred: true, date: "2026-06-05", time: "20:00", location: { en: "Infosys Theater at MSG, NY", ko: "인포시스 시어터 @ MSG (뉴욕)" }, emoji: "🎸" },
+  // 🎤 콘서트 (Jongwon 큐레이션 · 뉴욕/뉴저지)
   { id: "con-cortis", title: { en: "CORTIS", ko: "CORTIS 콘서트" }, category: "music", sub: "concert", date: "2026-08-06", time: "20:00", location: { en: "Infosys Theater at MSG, NY", ko: "인포시스 시어터 @ MSG (뉴욕)" }, emoji: "🎤" },
-  { id: "con-monstax", title: { en: "MONSTA X", ko: "몬스타엑스 콘서트" }, category: "music", sub: "concert", date: "2026-10-06", time: "20:00", location: { en: "Infosys Theater at MSG, NY", ko: "인포시스 시어터 @ MSG (뉴욕)" }, emoji: "🎤" },
-  { id: "con-lesserafim", title: { en: "LE SSERAFIM", ko: "르세라핌 콘서트" }, category: "music", sub: "concert", starred: true, date: "2026-10-08", time: "19:30", location: { en: "Prudential Center, Newark NJ", ko: "프루덴셜 센터 (뉴어크 NJ)" }, emoji: "🎤" },
-
-  // 🎤 콘서트 — 미국 아티스트 (뉴욕)
-  { id: "con-phoebe", title: { en: "Phoebe Bridgers", ko: "피비 브리저스" }, category: "music", sub: "concert", date: "2026-06-04", time: "19:00", location: { en: "Madison Square Garden, NY", ko: "매디슨 스퀘어 가든 (뉴욕)" }, emoji: "🎸" },
-  { id: "con-groban", title: { en: "Josh Groban + Jennifer Hudson", ko: "조시 그로반 (제니퍼 허드슨 협연)" }, category: "music", sub: "concert", date: "2026-06-12", time: "20:00", location: { en: "Madison Square Garden, NY", ko: "매디슨 스퀘어 가든 (뉴욕)" }, emoji: "🎤" },
+  { id: "con-bensonboone", title: { en: "Benson Boone — Wanted Man Tour", ko: "벤슨 분 — Wanted Man 투어" }, category: "music", sub: "concert", date: "2026-07-10", location: { en: "Barclays Center, Brooklyn NY", ko: "바클레이스 센터 (브루클린 뉴욕)" }, description: { en: "Jul 10–11", ko: "7/10–11" }, emoji: "🎤" },
+  { id: "con-jcole", title: { en: "J. Cole — The Fall-Off", ko: "제이콜 — The Fall-Off" }, category: "music", sub: "concert", starred: true, date: "2026-07-31", location: { en: "Barclays Center, Brooklyn NY", ko: "바클레이스 센터 (브루클린 뉴욕)" }, description: { en: "Jul 31 – Aug 1", ko: "7/31–8/1" }, emoji: "🎤" },
+  { id: "con-harry", title: { en: "Harry Styles — MSG Residency", ko: "해리 스타일스 — MSG 잔류공연" }, category: "music", sub: "concert", starred: true, date: "2026-08-26", location: { en: "Madison Square Garden, NY", ko: "매디슨 스퀘어 가든 (뉴욕)" }, description: { en: "Residency Aug 26 – Oct 31 (Wed/Fri/Sat)", ko: "잔류공연 8/26~10/31 (수·금·토)" }, emoji: "🎸" },
+  { id: "con-aespa", title: { en: "aespa", ko: "에스파" }, category: "music", sub: "concert", starred: true, date: "2026-09-18", location: { en: "UBS Arena, Belmont Park NY", ko: "UBS 아레나 (벨몬트파크 뉴욕)" }, emoji: "🎤" },
+  { id: "con-bruno", title: { en: "Bruno Mars — The Romantic Tour", ko: "브루노 마스 — 로맨틱 투어" }, category: "music", sub: "concert", starred: true, date: "2026-08-21", location: { en: "MetLife Stadium, NJ", ko: "메트라이프 스타디움 (뉴저지)" }, description: { en: "Aug 21–26", ko: "8/21–26" }, emoji: "🎤" },
+  { id: "con-epikhigh", title: { en: "Epik High — 3.0 Tour", ko: "에픽하이 — 3.0 투어" }, category: "music", sub: "concert", starred: true, date: "2026-09-30", time: "20:00", location: { en: "Terminal 5, NY", ko: "터미널 5 (뉴욕)" }, emoji: "🎤" },
+  { id: "con-katseye", title: { en: "KATSEYE — Wildworld Tour", ko: "캣츠아이 — Wildworld 투어" }, category: "music", sub: "concert", date: "2026-10-24", location: { en: "UBS Arena, Belmont Park NY", ko: "UBS 아레나 (벨몬트파크 뉴욕)" }, emoji: "🎤" },
+  { id: "con-doja", title: { en: "Doja Cat — Tour Ma Vie", ko: "도자 캣 — Tour Ma Vie" }, category: "music", sub: "concert", starred: true, date: "2026-12-01", location: { en: "Madison Square Garden, NY", ko: "매디슨 스퀘어 가든 (뉴욕)" }, emoji: "🎤" },
 ];
