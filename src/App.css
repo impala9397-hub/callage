@@ -760,6 +760,7 @@
   overflow: hidden;
   background: var(--surface);
   box-shadow: var(--shadow);
+  flex-shrink: 0; /* flex로 찌부러지며 잘리지 않게 → .timeline이 스크롤되도록 */
 }
 .tl-lane {
   display: flex;
