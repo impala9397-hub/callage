@@ -527,8 +527,10 @@
   opacity: 0;
   transition: opacity 0.12s, background 0.12s;
 }
-.cell:hover .cell-add { opacity: 1; }
-.cell-add:hover { background: var(--accent-soft); color: var(--accent); }
+@media (hover: hover) {
+  .cell:hover .cell-add { opacity: 1; }
+  .cell-add:hover { background: var(--accent-soft); color: var(--accent); }
+}
 
 /* ===== Event form modal ===== */
 .modal {
@@ -662,7 +664,7 @@
   border-radius: 4px;
   transition: background 0.12s, color 0.12s, box-shadow 0.12s;
 }
-.view-opt:hover { color: var(--text); }
+@media (hover: hover) { .view-opt:hover { color: var(--text); } }
 .view-opt.on {
   background: var(--surface);
   color: var(--text);
@@ -695,7 +697,7 @@
   font-weight: 500;
   transition: background 0.12s, border-color 0.12s, color 0.12s;
 }
-.stage-chip:hover { background: var(--bg-subtle); }
+@media (hover: hover) { .stage-chip:hover { background: var(--bg-subtle); } }
 .stage-chip.on {
   border-color: var(--accent);
   background: var(--accent-soft);
