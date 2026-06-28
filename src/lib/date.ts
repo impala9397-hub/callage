@@ -40,6 +40,16 @@ export function isSameMonth(dateStr: string, year: number, month: number): boole
   return y === year && m - 1 === month;
 }
 
+/**
+ * 그 달 6주 그리드에 "실제로 보이는" 날짜 범위 안인가.
+ * 앞뒤로 걸친 인접 달 칸(예: 6월 뷰의 7/1~4)도 포함 → 그 칸에도 일정이 뜨게.
+ * 날짜가 "YYYY-MM-DD"라 문자열 비교로 충분.
+ */
+export function inMonthGrid(dateStr: string, year: number, month: number): boolean {
+  const cells = monthGrid(year, month);
+  return dateStr >= cells[0] && dateStr <= cells[cells.length - 1];
+}
+
 export function dayOfMonth(dateStr: string): number {
   return Number(dateStr.split("-")[2]);
 }

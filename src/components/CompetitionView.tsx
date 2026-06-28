@@ -2,7 +2,7 @@ import { Fragment, useMemo, useState } from "react";
 import type { CalEvent } from "../types";
 import type { I18nString, LocalizedText } from "../i18n";
 import { useI18n, loc, MONTHS, formatTimeTz, WEEKDAYS } from "../i18n";
-import { isSameMonth, weekdayOf } from "../lib/date";
+import { inMonthGrid, weekdayOf } from "../lib/date";
 import { MonthGrid } from "./MonthGrid";
 
 // ===== 이벤트별 색 (대회 안에서 의미를 갖게) =====
@@ -134,7 +134,7 @@ export function CompetitionView({ events, onSelect, selectedId, onAddOn }: Props
   const allCompEvents = useMemo(() => sortedFor(events, comp), [events, comp]);
   // 이번 달만 — 그리드용
   const monthEvents = useMemo(
-    () => events.filter((e) => comp.match(e) && isSameMonth(e.date, ym.y, ym.m)),
+    () => events.filter((e) => comp.match(e) && inMonthGrid(e.date, ym.y, ym.m)),
     [events, comp, ym],
   );
 

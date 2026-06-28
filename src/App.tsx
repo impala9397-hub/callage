@@ -3,7 +3,7 @@ import type { Category, CalEvent } from "./types";
 import { CATEGORIES } from "./types";
 import { EVENTS } from "./data/events";
 import { loadUserLayer, saveUserLayer, newEventId, resolveEvents } from "./lib/storage";
-import { isSameMonth } from "./lib/date";
+import { inMonthGrid } from "./lib/date";
 import { useI18n } from "./i18n";
 import type { I18nString } from "./i18n";
 import { Sidebar } from "./components/Sidebar";
@@ -75,7 +75,7 @@ export default function App() {
 
   // 보는 달이 바뀌면 시드(events.ts)에서 그 달 일정을 로드.
   useEffect(() => {
-    setSource(EVENTS.filter((e) => isSameMonth(e.date, year, month)));
+    setSource(EVENTS.filter((e) => inMonthGrid(e.date, year, month)));
     setStatus("demo");
   }, [year, month]);
 
