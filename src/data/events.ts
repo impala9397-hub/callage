@@ -121,6 +121,16 @@ const WC_R32_EVENTS: CalEvent[] = WC_R32_FIXTURES.map(([date, home, away, time, 
   emoji: "⚽",
 }));
 
+// MSI 2026 — 대전 경기장 + 팀 (다국어). 플레이인 4팀 = 각 리그 2번 시드.
+const DJ = { en: "Daejeon Convention Center II", ko: "대전컨벤션센터 II" };
+const MT = {
+  t1: { en: "T1", ko: "T1" },
+  liquid: { en: "Team Liquid", ko: "팀 리퀴드" },
+  kc: { en: "Karmine Corp", ko: "카민 코프" },
+  relove: { en: "Relove DCG", ko: "릴러브 DCG" },
+  tbd: { en: "TBD", ko: "미정" },
+};
+
 export const EVENTS: CalEvent[] = [
   // 🏀 NBA Finals 2026 — Knicks vs Spurs (스퍼스 홈코트 우위: 닉스 1·2 원정 / 3·4 홈 / 5 원정 / 6 홈 / 7 원정)
   { id: "nba-g1", title: { en: "NBA Finals G1", ko: "NBA 파이널 G1" }, category: "sports", sub: "nba", round: NBA_FINALS, homeAway: "away", starred: true, match: { home: T.spurs, away: T.knicks }, date: "2026-06-03", time: "20:00", location: { en: "Frost Bank Center", ko: "프로스트 뱅크 센터" }, emoji: "🏀" },
@@ -148,13 +158,24 @@ export const EVENTS: CalEvent[] = [
   { id: "wc-3rd", title: { en: "World Cup · Third Place", ko: "월드컵 · 3-4위전" }, category: "sports", sub: "worldcup", round: WC_3P, date: "2026-07-18", location: { en: "Hard Rock Stadium, Miami", ko: "하드록 스타디움 (마이애미)" }, emoji: "⚽" },
   { id: "wc-final", title: { en: "World Cup Final", ko: "월드컵 결승" }, category: "sports", sub: "worldcup", round: WC_FINAL, starred: true, date: "2026-07-19", time: "15:00", location: { en: "MetLife Stadium, NJ", ko: "메트라이프 스타디움 (뉴저지)" }, description: { en: "2026 FIFA World Cup Final", ko: "2026 FIFA 월드컵 결승" }, emoji: "🏆" },
 
-  // 🎮 LoL MSI 2026 — 대전컨벤션센터 II, 한국 (6.28~7.12). 11개 팀 / 6개 지역 (Wikipedia 검증).
-  // ⚠️ 경기별 시각·플레이인 대진은 미공개 → 단계 일정만, 시각 생략.
-  { id: "msi-playin", title: { en: "LoL MSI · Play-In", ko: "LoL MSI · 플레이인" }, category: "esports", sub: "msi", round: { en: "Play-In", ko: "플레이인" }, date: "2026-06-28", location: { en: "Daejeon Convention Center II", ko: "대전컨벤션센터 II" }, description: { en: "Play-In · Jun 28 – Jul 1 · 4 teams, GSL double-elim", ko: "플레이인 · 6.28~7.1 · 4팀 GSL 더블엘리미네이션" }, emoji: "🎮" },
-  { id: "msi-bracket", title: { en: "LoL MSI · Bracket Stage", ko: "LoL MSI · 브래킷 스테이지" }, category: "esports", sub: "msi", round: { en: "Bracket", ko: "브래킷" }, date: "2026-07-03", location: { en: "Daejeon Convention Center II", ko: "대전컨벤션센터 II" }, description: { en: "Bracket · Jul 3 – 8 · 8 teams double-elim (Bo5)", ko: "브래킷 · 7.3~8 · 8팀 더블엘리미네이션 (Bo5)" }, emoji: "🎮" },
-  { id: "msi-upper-final", title: { en: "LoL MSI · Upper Final", ko: "LoL MSI · 어퍼 파이널" }, category: "esports", sub: "msi", round: { en: "Upper Final", ko: "어퍼 파이널" }, date: "2026-07-09", location: { en: "Daejeon Convention Center II", ko: "대전컨벤션센터 II" }, emoji: "🎮" },
-  { id: "msi-lower-final", title: { en: "LoL MSI · Lower Final", ko: "LoL MSI · 로어 파이널" }, category: "esports", sub: "msi", round: { en: "Lower Final", ko: "로어 파이널" }, date: "2026-07-11", location: { en: "Daejeon Convention Center II", ko: "대전컨벤션센터 II" }, emoji: "🎮" },
-  { id: "msi-final", title: { en: "LoL MSI · Grand Final", ko: "LoL MSI · 결승" }, category: "esports", sub: "msi", round: { en: "Final", ko: "결승" }, starred: true, date: "2026-07-12", location: { en: "Daejeon Convention Center II", ko: "대전컨벤션센터 II" }, description: { en: "MSI Grand Final · Teams: T1, Hanwha Life (LCK) · Top Esports, Bilibili Gaming (LPL) · G2, Karmine Corp (LEC) · LYON, Team Liquid (LCS) · Team Secret Whales, Relove DCG (LCP) · FURIA (CBLOL)", ko: "MSI 결승 · 참가팀: T1·한화생명(LCK) · TES·BLG(LPL) · G2·카민코프(LEC) · LYON·팀리퀴드(LCS) · 시크릿웨일스·릴러브DCG(LCP) · FURIA(CBLOL)" }, emoji: "🏆" },
+  // 🎮 LoL MSI 2026 — 대전컨벤션센터 II, 한국 (6.28~7.12). 11팀/6지역 (Wikipedia 검증, 2026-06-28).
+  // 플레이인 = 각 리그 2번 시드 4팀(T1·카민코프·팀리퀴드·릴러브DCG) 더블엘리미네이션 Bo5.
+  // ⚠️ 앱 시각이 EST 고정 → 한국(KST) 경기는 시각을 description에 'KST'로 명시하고 time 필드는 비움.
+  // ⚠️ 6/30~7/1 플레이인·브래킷 대진은 결과 의존 → 팀 TBD(미정).
+  // -- 플레이인 1라운드 (6.28, 종료) --
+  { id: "msi-pi-1", title: { en: "T1 vs Team Liquid", ko: "T1 vs 팀 리퀴드" }, category: "esports", sub: "msi", round: { en: "Play-In R1", ko: "플레이인 R1" }, starred: true, match: { home: MT.t1, away: MT.liquid }, date: "2026-06-28", location: DJ, description: { en: "Play-In Upper R1 · 12:00 KST · Result: T1 3–0 ✅", ko: "플레이인 상위 R1 · 12:00 KST · 결과: T1 3–0 승 ✅" }, emoji: "🎮" },
+  { id: "msi-pi-2", title: { en: "Karmine Corp vs Relove DCG", ko: "카민 코프 vs 릴러브 DCG" }, category: "esports", sub: "msi", round: { en: "Play-In R1", ko: "플레이인 R1" }, match: { home: MT.kc, away: MT.relove }, date: "2026-06-28", location: DJ, description: { en: "Play-In Upper R1 · 17:00 KST · Result: Karmine Corp 3–0 ✅", ko: "플레이인 상위 R1 · 17:00 KST · 결과: 카민 코프 3–0 승 ✅" }, emoji: "🎮" },
+  // -- 플레이인 2일차 (6.29, 대진 확정·결과 미정) --
+  { id: "msi-pi-3", title: { en: "T1 vs Karmine Corp", ko: "T1 vs 카민 코프" }, category: "esports", sub: "msi", round: { en: "Play-In Winners", ko: "플레이인 승자전" }, starred: true, match: { home: MT.t1, away: MT.kc }, date: "2026-06-29", location: DJ, description: { en: "Play-In Winners' Match · 12:00 KST · winner advances to Bracket Stage", ko: "플레이인 승자전 · 12:00 KST · 승자 브래킷 진출" }, emoji: "🎮" },
+  { id: "msi-pi-4", title: { en: "Team Liquid vs Relove DCG", ko: "팀 리퀴드 vs 릴러브 DCG" }, category: "esports", sub: "msi", round: { en: "Play-In Elim", ko: "플레이인 탈락전" }, match: { home: MT.liquid, away: MT.relove }, date: "2026-06-29", location: DJ, description: { en: "Play-In Lower R1 · 17:00 KST · loser eliminated", ko: "플레이인 하위 R1 · 17:00 KST · 패자 탈락" }, emoji: "🎮" },
+  // -- 플레이인 마무리 (6.30~7.1, 대진 미정) --
+  { id: "msi-pi-5", title: { en: "Play-In · Lower R2 (TBD)", ko: "플레이인 · 하위 R2 (미정)" }, category: "esports", sub: "msi", round: { en: "Play-In Lower R2", ko: "플레이인 하위 R2" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-06-30", location: DJ, description: { en: "Lower Round 2 · 17:00 KST · 승자전 패자 vs 탈락전 승자", ko: "하위 2라운드 · 17:00 KST · 승자전 패자 vs 탈락전 승자" }, emoji: "🎮" },
+  { id: "msi-pi-6", title: { en: "Play-In · Qualification (TBD)", ko: "플레이인 · 진출전 (미정)" }, category: "esports", sub: "msi", round: { en: "Play-In Qual", ko: "플레이인 진출전" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-01", location: DJ, description: { en: "Qualification Match · 17:00 KST · winner takes last Bracket spot", ko: "진출전 · 17:00 KST · 승자 브래킷 마지막 자리" }, emoji: "🎮" },
+  // -- 브래킷 스테이지 (7.3~12) — 8팀 더블엘리. 직행 시드 확정, 대진은 추첨·플레이인 결과 후 --
+  { id: "msi-bracket", title: { en: "MSI · Bracket Stage begins", ko: "MSI · 브래킷 스테이지 시작" }, category: "esports", sub: "msi", round: { en: "Bracket", ko: "브래킷" }, date: "2026-07-03", location: DJ, description: { en: "Bracket · Jul 3–8 · 8 teams Bo5. Direct seeds: G2, Hanwha Life, FURIA, LYON, Top Esports, Bilibili Gaming, Team Secret Whales (+ Play-In qualifiers)", ko: "브래킷 · 7.3~8 · 8팀 Bo5. 직행: G2·한화생명·FURIA·LYON·TES·BLG·시크릿웨일스 (+플레이인 통과팀)" }, emoji: "🎮" },
+  { id: "msi-upper-final", title: { en: "MSI · Upper Final (TBD)", ko: "MSI · 어퍼 파이널 (미정)" }, category: "esports", sub: "msi", round: { en: "Upper Final", ko: "어퍼 파이널" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-09", location: DJ, emoji: "🎮" },
+  { id: "msi-lower-final", title: { en: "MSI · Lower Final (TBD)", ko: "MSI · 로어 파이널 (미정)" }, category: "esports", sub: "msi", round: { en: "Lower Final", ko: "로어 파이널" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-11", location: DJ, emoji: "🎮" },
+  { id: "msi-final", title: { en: "MSI · Grand Final (TBD)", ko: "MSI · 결승 (미정)" }, category: "esports", sub: "msi", round: { en: "Final", ko: "결승" }, starred: true, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-12", location: DJ, description: { en: "Mid-Season Invitational Grand Final · 16:00 KST", ko: "MSI 결승 · 16:00 KST" }, emoji: "🏆" },
 
   // 🎮 LoL Worlds 2026 (10.15~11.14) — 결승은 뉴욕 바클레이스!
   { id: "worlds-playin", title: { en: "Worlds · Play-In", ko: "Worlds · 플레이인" }, category: "esports", sub: "worlds", round: { en: "Play-In", ko: "플레이인" }, date: "2026-10-15", location: { en: "Riot Games Arena, LA", ko: "라이엇 게임즈 아레나 (LA)" }, description: { en: "Play-In · Oct 15 – 18", ko: "플레이인 · 10.15~18" }, emoji: "🎮" },
