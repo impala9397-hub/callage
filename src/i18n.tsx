@@ -164,9 +164,9 @@ export function formatTime(time: string | undefined, lang: Lang): string {
   return `${h < 12 ? "오전" : "오후"} ${h12}:${mm}`;
 }
 
-// 표시 타임존 — 일단 EST 고정. 추후 사용자 설정으로 바꿀 자리.
-// (시드 시간은 ET 기준으로 간주. 다른 존 변환은 소스 존이 생기면 추가.)
-export const DISPLAY_TZ = "EST";
+// 표시 타임존 — "ET"(Eastern Time)로 뭉뚱그림. EST(겨울)·EDT(여름)를 모두 포괄해
+// 계절 무관하게 정확. (시드 시간은 ET 기준으로 저장. 다른 존은 소스 존이 생기면 추가.)
+export const DISPLAY_TZ = "ET";
 
 /** 시간 + 타임존 라벨. 예: "8:30 PM EST" / "오후 8:30 EST". */
 export function formatTimeTz(time: string | undefined, lang: Lang): string {

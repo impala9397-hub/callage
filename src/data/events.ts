@@ -160,9 +160,9 @@ export const EVENTS: CalEvent[] = [
 
   // 🎮 LoL MSI 2026 — 대전컨벤션센터 II, 한국 (6.28~7.12). 11팀/6지역 (Wikipedia 검증, 2026-06-28).
   // 플레이인 = 각 리그 2번 시드 4팀(T1·카민코프·팀리퀴드·릴러브DCG) 더블엘리미네이션 Bo5.
-  // ⚠️ 시각은 미 동부(ET) 기준으로 환산해 date+time 저장 (앱 표시 타임존이 EST 고정·모델이 ET 기준).
+  // ⚠️ 시각은 미 동부(ET) 기준으로 환산해 date+time 저장 (앱 표시 타임존·모델이 ET 기준).
   //    KST = ET + 13h → 한국 낮 경기는 미 동부 전날 밤이 됨 (예: 한국 6/28 12:00 = ET 6/27 23:00).
-  //    원래 한국 시각은 description에 'KST'로 함께 보존. (6~7월은 엄밀히 EDT지만 앱 라벨은 EST 고정.)
+  //    원래 한국 시각은 description에 'KST'로 함께 보존. (ET = EST/EDT 포괄 라벨.)
   // ⚠️ 6/30~7/1 플레이인·브래킷 대진은 결과 의존 → 팀 TBD(미정).
   // -- 플레이인 1라운드 (한국 6.28, 종료) --
   { id: "msi-pi-1", title: { en: "T1 vs Team Liquid", ko: "T1 vs 팀 리퀴드" }, category: "esports", sub: "msi", round: { en: "Play-In R1", ko: "플레이인 R1" }, starred: true, match: { home: MT.t1, away: MT.liquid }, date: "2026-06-27", time: "23:00", location: DJ, description: { en: "Play-In Upper R1 · 12:00 KST (Jun 28) · Result: T1 3–0 ✅", ko: "플레이인 상위 R1 · 한국 6/28 12:00 KST · 결과: T1 3–0 승 ✅" }, emoji: "🎮" },
