@@ -3,9 +3,10 @@ import type { CalEvent } from "../types";
 // 시드 데이터 — 실제 일정 기반.
 // 기간: 2026년 6월 ~ 2027년 1월. 제목·장소는 다국어(LocalizedText).
 // ✅ 검증: 월드컵 32강 대진 + MSI 일정/팀 = Wikipedia 확인 (2026-06-28).
+// ✅ 32강 결과 추적 중 (WC_R32_RESULTS) — Wikipedia·ESPN 교차 확인.
 // ⚠️ 32강 이후(16강~결승) 대진은 결과 의존 → "단계 일정"으로만 표기(팀 미정).
 // ⚠️ 대한민국은 조별리그 탈락 → 32강 명단에 없음(32강 16경기 모두 한국 없음, Wikipedia).
-// ⚠️ MSI 경기별 시각·플레이인 대진은 미공개(플레이인 6.28 시작) → 시각 생략, 단계 일정만.
+// ⚠️ MSI 플레이인 Day2(6.29 KST) 결과 대기 중; Day1 결과 반영 완료.
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -108,6 +109,11 @@ const WC_R32_FIXTURES: [string, string, string, string, string][] = [
   ["2026-07-03", "Colombia", "Ghana", "20:30", "Arrowhead Stadium, Kansas City"],
 ];
 
+// 32강 경기 결과 (인덱스는 WC_R32_FIXTURES 배열 순서 기준) — Wikipedia·ESPN 교차 확인
+const WC_R32_RESULTS: Partial<Record<number, { en: string; ko: string }>> = {
+  0: { en: "Result: South Africa 0–1 Canada ✅ (Eustáquio 90+2')", ko: "결과: 남아공 0–1 캐나다 ✅ (Eustáquio 90+2')" },
+};
+
 const WC_R32_EVENTS: CalEvent[] = WC_R32_FIXTURES.map(([date, home, away, time, location], i) => ({
   id: `wc-r32-${i}`,
   title: `${home} vs ${away}`,
@@ -118,6 +124,7 @@ const WC_R32_EVENTS: CalEvent[] = WC_R32_FIXTURES.map(([date, home, away, time, 
   date,
   time,
   location,
+  ...(WC_R32_RESULTS[i] ? { description: WC_R32_RESULTS[i] } : {}),
   emoji: "⚽",
 }));
 
