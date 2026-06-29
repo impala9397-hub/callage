@@ -17,9 +17,15 @@ export interface CalEvent {
   match?: { home: I18nString; away: I18nString };
   /** 내가 따라가는 핵심 일정 — 강조 표시. */
   starred?: boolean;
-  /** ISO date, "YYYY-MM-DD" */
+  /**
+   * 절대 시각(UTC ISO, 예 "2026-06-28T19:00:00Z"). 있으면 이게 진실의 원천 —
+   * date·time을 America/New_York로 자동 도출(서머타임·날짜경계 자동, 사람 환산 불필요).
+   * 타임존 다른 경기(해외·미 서부 등)는 utc로 넣을 것. 뉴욕 현지 행사면 date+time 직접 써도 됨.
+   */
+  utc?: string;
+  /** ISO date, "YYYY-MM-DD" (뉴욕 기준). utc가 있으면 거기서 자동 도출됨. */
   date: string;
-  /** "HH:MM" 24h, optional */
+  /** "HH:MM" 24h, 뉴욕 기준, optional. utc가 있으면 자동 도출됨. */
   time?: string;
   location?: I18nString;
   description?: I18nString;

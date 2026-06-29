@@ -35,6 +35,21 @@ export function monthGrid(year: number, month: number): string[] {
   return cells;
 }
 
+// UTC 절대시각 → 뉴욕(America/New_York) 날짜+시각. 서머타임(EST/EDT)·날짜경계 자동 처리.
+const NY_FMT = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "America/New_York",
+  year: "numeric", month: "2-digit", day: "2-digit",
+  hour: "2-digit", minute: "2-digit", hour12: false,
+});
+export function nyFromUtc(utcIso: string): { date: string; time: string } | null {
+  const d = new Date(utcIso);
+  if (isNaN(d.getTime())) return null;
+  const p: Record<string, string> = {};
+  for (const part of NY_FMT.formatToParts(d)) p[part.type] = part.value;
+  const hour = p.hour === "24" ? "00" : p.hour; // 일부 환경의 24:00 표기 보정
+  return { date: `${p.year}-${p.month}-${p.day}`, time: `${hour}:${p.minute}` };
+}
+
 export function isSameMonth(dateStr: string, year: number, month: number): boolean {
   const [y, m] = dateStr.split("-").map(Number);
   return y === year && m - 1 === month;

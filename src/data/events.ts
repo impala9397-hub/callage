@@ -1,17 +1,24 @@
 import type { CalEvent } from "../types";
+import { nyFromUtc } from "../lib/date";
+
+// UTC 절대시각 → { utc, date, time } (뉴욕 기준 자동 환산). 시각 있는 이벤트는 이걸로 펼쳐 넣는다.
+function at(utc: string): { utc: string; date: string; time: string } {
+  const ny = nyFromUtc(utc);
+  if (!ny) throw new Error(`잘못된 UTC 타임스탬프: ${utc}`);
+  return { utc, date: ny.date, time: ny.time };
+}
 
 // 시드 데이터 — 실제 일정 기반.
 // 기간: 2026년 6월 ~ 2027년 1월. 제목·장소는 다국어(LocalizedText).
 //
-// ⏰⏰ 타임존 불변식(INVARIANT): 모든 `time` 필드는 "그 경기 당일 뉴욕(America/New_York) 벽시계 시각"이다. ⏰⏰
-//   앱이 라벨을 "ET"로 고정 표시(i18n.tsx DISPLAY_TZ). ET는 여름 EDT(UTC−4)·겨울 EST(UTC−5)를 포괄하므로,
-//   값이 "그 날짜의 뉴욕 시각"이기만 하면 EST/EDT 구분 없이 항상 맞다. 경기장 현지 시각을 그대로 넣으면 틀린다.
-//   ⚠️ UTC 오프셋을 −4(또는 −5)로 손으로 고정하지 말 것! 서머타임 여부에 따라 다르다
-//      (대략 3월 둘째 일요일~11월 첫째 일요일은 EDT=−4, 그 외는 EST=−5). 날짜마다 달라지니 암산 금지.
-//   안전한 환산 절차:
-//     1순위) 출처(ESPN 등)가 ET/뉴욕 시각을 직접 주면 그대로 저장(환산 X — 가장 안전).
-//     2순위) UTC만 있으면 뉴욕으로 변환(서머타임 자동):
-//            new Date("2026-06-28T19:00:00Z").toLocaleString("en-US",{timeZone:"America/New_York"}) → 3:00 PM
+// ⏰⏰ 타임존(권장: `utc` 필드 사용) ⏰⏰
+//   타임존이 다른 경기(해외·미 서부 등)는 **절대시각 `utc`**(예 "2026-06-28T19:00:00Z")로 적고
+//   `at(utc)`로 펼쳐 넣는다 → date·time이 뉴욕(America/New_York)으로 자동 환산된다.
+//   서머타임(EST/EDT)·날짜경계를 코드가 알아서 처리하므로 사람이 −4/−5 암산할 일이 없다(실수 원천 제거).
+//   UTC 구하는 법: 출처가 ET 시각이면 ET+offset(여름 ET+4), KST면 KST−9, 현지면 현지+offset. 또는
+//     node -e 'console.log(new Date("2026-06-28T19:00:00Z").toLocaleString("en-US",{timeZone:"America/New_York"}))'로 검산.
+//   ⚠️ 표시는 앱이 "ET"로 라벨(i18n.tsx DISPLAY_TZ) — `time`은 뉴욕 벽시계여야 한다. `utc`를 쓰면 자동 보장됨.
+//   뉴욕 현지 행사(콘서트·MSG 등)는 타임존 변환이 없으니 date+time 직접 써도 된다.
 //   원래 현지·한국 시각은 description에 함께 적어 사람이 교차확인하게 한다. (과거 32강을 현지시각으로 잘못 넣은 적 있음.)
 // ✅ 검증: 월드컵 32강 대진 + MSI 일정/팀 = Wikipedia 확인 (2026-06-28).
 // ✅ 32강 결과 추적 중 (WC_R32_RESULTS) — Wikipedia·ESPN 교차 확인.
@@ -99,27 +106,26 @@ const WC_GROUP_EVENTS: CalEvent[] = WC_FIXTURES.map(([date, home, away], i) => (
   emoji: "⚽",
 }));
 
-// 월드컵 32강 — 조별리그 결과로 확정된 16경기 (Wikipedia 검증, 2026-06-28).
-// ⏰ 시각은 모두 뉴욕(ET) 킥오프. 이 경기들은 6~7월=서머타임(EDT)이라 마침 UTC−4였음(ESPN ET와 교차검증).
-//    겨울 경기는 UTC−5가 되니 −4로 고정 금지 — 일반 규칙은 위 INVARIANT 주석 참조.
-//    경기장 현지 시각이 아님! (예: SoFi=LA 정오 12:00 → UTC 19:00 → 뉴욕 15:00) [date, home, away, ET시각, 경기장]
-const WC_R32_FIXTURES: [string, string, string, string, string][] = [
-  ["2026-06-28", "South Africa", "Canada", "15:00", "SoFi Stadium, Inglewood"],
-  ["2026-06-29", "Brazil", "Japan", "13:00", "NRG Stadium, Houston"],
-  ["2026-06-29", "Germany", "Paraguay", "16:30", "Gillette Stadium, Foxborough"],
-  ["2026-06-29", "Netherlands", "Morocco", "21:00", "Estadio BBVA, Guadalupe"],
-  ["2026-06-30", "Ivory Coast", "Norway", "13:00", "AT&T Stadium, Arlington"],
-  ["2026-06-30", "France", "Sweden", "17:00", "MetLife Stadium, East Rutherford"],
-  ["2026-06-30", "Mexico", "Ecuador", "21:00", "Estadio Azteca, Mexico City"],
-  ["2026-07-01", "England", "DR Congo", "12:00", "Mercedes-Benz Stadium, Atlanta"],
-  ["2026-07-01", "Belgium", "Senegal", "16:00", "Lumen Field, Seattle"],
-  ["2026-07-01", "United States", "Bosnia and Herzegovina", "20:00", "Levi's Stadium, Santa Clara"],
-  ["2026-07-02", "Spain", "Austria", "15:00", "SoFi Stadium, Inglewood"],
-  ["2026-07-02", "Portugal", "Croatia", "19:00", "BMO Field, Toronto"],
-  ["2026-07-02", "Switzerland", "Algeria", "23:00", "BC Place, Vancouver"],
-  ["2026-07-03", "Australia", "Egypt", "14:00", "AT&T Stadium, Arlington"],
-  ["2026-07-03", "Argentina", "Cape Verde", "18:00", "Hard Rock Stadium, Miami Gardens"],
-  ["2026-07-03", "Colombia", "Ghana", "21:30", "Arrowhead Stadium, Kansas City"],
+// 월드컵 32강 — 조별리그 결과로 확정된 16경기 (Wikipedia·ESPN 교차검증, 2026-06-28).
+// ⏰ 시각은 UTC(절대시각)로 저장 → at()이 뉴욕 시각으로 자동 환산(서머타임 자동). [UTC, home, away, 경기장]
+//    (예: 남아공vs캐나다 = SoFi LA 정오 → 19:00Z → 뉴욕 3:00 PM. 손 환산 불필요.)
+const WC_R32_FIXTURES: [string, string, string, string][] = [
+  ["2026-06-28T19:00:00Z", "South Africa", "Canada", "SoFi Stadium, Inglewood"],
+  ["2026-06-29T17:00:00Z", "Brazil", "Japan", "NRG Stadium, Houston"],
+  ["2026-06-29T20:30:00Z", "Germany", "Paraguay", "Gillette Stadium, Foxborough"],
+  ["2026-06-30T01:00:00Z", "Netherlands", "Morocco", "Estadio BBVA, Guadalupe"],
+  ["2026-06-30T17:00:00Z", "Ivory Coast", "Norway", "AT&T Stadium, Arlington"],
+  ["2026-06-30T21:00:00Z", "France", "Sweden", "MetLife Stadium, East Rutherford"],
+  ["2026-07-01T01:00:00Z", "Mexico", "Ecuador", "Estadio Azteca, Mexico City"],
+  ["2026-07-01T16:00:00Z", "England", "DR Congo", "Mercedes-Benz Stadium, Atlanta"],
+  ["2026-07-01T20:00:00Z", "Belgium", "Senegal", "Lumen Field, Seattle"],
+  ["2026-07-02T00:00:00Z", "United States", "Bosnia and Herzegovina", "Levi's Stadium, Santa Clara"],
+  ["2026-07-02T19:00:00Z", "Spain", "Austria", "SoFi Stadium, Inglewood"],
+  ["2026-07-02T23:00:00Z", "Portugal", "Croatia", "BMO Field, Toronto"],
+  ["2026-07-03T03:00:00Z", "Switzerland", "Algeria", "BC Place, Vancouver"],
+  ["2026-07-03T18:00:00Z", "Australia", "Egypt", "AT&T Stadium, Arlington"],
+  ["2026-07-03T22:00:00Z", "Argentina", "Cape Verde", "Hard Rock Stadium, Miami Gardens"],
+  ["2026-07-04T01:30:00Z", "Colombia", "Ghana", "Arrowhead Stadium, Kansas City"],
 ];
 
 // 32강 경기 결과 (인덱스는 WC_R32_FIXTURES 배열 순서 기준) — Wikipedia·ESPN 교차 확인
@@ -127,15 +133,14 @@ const WC_R32_RESULTS: Partial<Record<number, { en: string; ko: string }>> = {
   0: { en: "Result: South Africa 0–1 Canada ✅ (Eustáquio 90+2')", ko: "결과: 남아공 0–1 캐나다 ✅ (Eustáquio 90+2')" },
 };
 
-const WC_R32_EVENTS: CalEvent[] = WC_R32_FIXTURES.map(([date, home, away, time, location], i) => ({
+const WC_R32_EVENTS: CalEvent[] = WC_R32_FIXTURES.map(([utc, home, away, location], i) => ({
   id: `wc-r32-${i}`,
   title: `${home} vs ${away}`,
   category: "sports",
   sub: "worldcup",
   round: WC_R32,
   match: { home, away },
-  date,
-  time,
+  ...at(utc),
   location,
   ...(WC_R32_RESULTS[i] ? { description: WC_R32_RESULTS[i] } : {}),
   emoji: "⚽",
@@ -180,24 +185,23 @@ export const EVENTS: CalEvent[] = [
 
   // 🎮 LoL MSI 2026 — 대전컨벤션센터 II, 한국 (6.28~7.12). 11팀/6지역 (Wikipedia 검증, 2026-06-28).
   // 플레이인 = 각 리그 2번 시드 4팀(T1·카민코프·팀리퀴드·릴러브DCG) 더블엘리미네이션 Bo5.
-  // ⚠️ 시각은 미 동부(ET) 기준으로 환산해 date+time 저장 (앱 표시 타임존·모델이 ET 기준).
-  //    KST = ET + 13h → 한국 낮 경기는 미 동부 전날 밤이 됨 (예: 한국 6/28 12:00 = ET 6/27 23:00).
-  //    원래 한국 시각은 description에 'KST'로 함께 보존. (ET = EST/EDT 포괄 라벨.)
+  // ⏰ 시각은 UTC(절대시각)로 저장 → at()이 뉴욕 시각으로 자동 환산. 한국 경기라 KST−9h가 UTC.
+  //    (예: 한국 6/28 12:00 KST = 03:00Z → 뉴욕 6/27 23:00.) 원래 한국 시각은 description에 'KST'로 보존.
   // ⚠️ 6/30~7/1 플레이인·브래킷 대진은 결과 의존 → 팀 TBD(미정).
   // -- 플레이인 1라운드 (한국 6.28, 종료) --
-  { id: "msi-pi-1", title: { en: "T1 vs Team Liquid", ko: "T1 vs 팀 리퀴드" }, category: "esports", sub: "msi", round: { en: "Play-In R1", ko: "플레이인 R1" }, starred: true, match: { home: MT.t1, away: MT.liquid }, date: "2026-06-27", time: "23:00", location: DJ, description: { en: "Play-In Upper R1 · 12:00 KST (Jun 28) · Result: T1 3–0 ✅", ko: "플레이인 상위 R1 · 한국 6/28 12:00 KST · 결과: T1 3–0 승 ✅" }, emoji: "🎮" },
-  { id: "msi-pi-2", title: { en: "Karmine Corp vs Relove DCG", ko: "카민 코프 vs 릴러브 DCG" }, category: "esports", sub: "msi", round: { en: "Play-In R1", ko: "플레이인 R1" }, match: { home: MT.kc, away: MT.relove }, date: "2026-06-28", time: "04:00", location: DJ, description: { en: "Play-In Upper R1 · 17:00 KST (Jun 28) · Result: Karmine Corp 3–0 ✅", ko: "플레이인 상위 R1 · 한국 6/28 17:00 KST · 결과: 카민 코프 3–0 승 ✅" }, emoji: "🎮" },
+  { id: "msi-pi-1", title: { en: "T1 vs Team Liquid", ko: "T1 vs 팀 리퀴드" }, category: "esports", sub: "msi", round: { en: "Play-In R1", ko: "플레이인 R1" }, starred: true, match: { home: MT.t1, away: MT.liquid }, ...at("2026-06-28T03:00:00Z"), location: DJ, description: { en: "Play-In Upper R1 · 12:00 KST (Jun 28) · Result: T1 3–0 ✅", ko: "플레이인 상위 R1 · 한국 6/28 12:00 KST · 결과: T1 3–0 승 ✅" }, emoji: "🎮" },
+  { id: "msi-pi-2", title: { en: "Karmine Corp vs Relove DCG", ko: "카민 코프 vs 릴러브 DCG" }, category: "esports", sub: "msi", round: { en: "Play-In R1", ko: "플레이인 R1" }, match: { home: MT.kc, away: MT.relove }, ...at("2026-06-28T08:00:00Z"), location: DJ, description: { en: "Play-In Upper R1 · 17:00 KST (Jun 28) · Result: Karmine Corp 3–0 ✅", ko: "플레이인 상위 R1 · 한국 6/28 17:00 KST · 결과: 카민 코프 3–0 승 ✅" }, emoji: "🎮" },
   // -- 플레이인 2일차 (한국 6.29, 대진 확정·결과 미정) --
-  { id: "msi-pi-3", title: { en: "T1 vs Karmine Corp", ko: "T1 vs 카민 코프" }, category: "esports", sub: "msi", round: { en: "Play-In Winners", ko: "플레이인 승자전" }, starred: true, match: { home: MT.t1, away: MT.kc }, date: "2026-06-28", time: "23:00", location: DJ, description: { en: "Play-In Winners' Match · 12:00 KST (Jun 29) · winner advances to Bracket Stage", ko: "플레이인 승자전 · 한국 6/29 12:00 KST · 승자 브래킷 진출" }, emoji: "🎮" },
-  { id: "msi-pi-4", title: { en: "Team Liquid vs Relove DCG", ko: "팀 리퀴드 vs 릴러브 DCG" }, category: "esports", sub: "msi", round: { en: "Play-In Elim", ko: "플레이인 탈락전" }, match: { home: MT.liquid, away: MT.relove }, date: "2026-06-29", time: "04:00", location: DJ, description: { en: "Play-In Lower R1 · 17:00 KST (Jun 29) · loser eliminated", ko: "플레이인 하위 R1 · 한국 6/29 17:00 KST · 패자 탈락" }, emoji: "🎮" },
+  { id: "msi-pi-3", title: { en: "T1 vs Karmine Corp", ko: "T1 vs 카민 코프" }, category: "esports", sub: "msi", round: { en: "Play-In Winners", ko: "플레이인 승자전" }, starred: true, match: { home: MT.t1, away: MT.kc }, ...at("2026-06-29T03:00:00Z"), location: DJ, description: { en: "Play-In Winners' Match · 12:00 KST (Jun 29) · winner advances to Bracket Stage", ko: "플레이인 승자전 · 한국 6/29 12:00 KST · 승자 브래킷 진출" }, emoji: "🎮" },
+  { id: "msi-pi-4", title: { en: "Team Liquid vs Relove DCG", ko: "팀 리퀴드 vs 릴러브 DCG" }, category: "esports", sub: "msi", round: { en: "Play-In Elim", ko: "플레이인 탈락전" }, match: { home: MT.liquid, away: MT.relove }, ...at("2026-06-29T08:00:00Z"), location: DJ, description: { en: "Play-In Lower R1 · 17:00 KST (Jun 29) · loser eliminated", ko: "플레이인 하위 R1 · 한국 6/29 17:00 KST · 패자 탈락" }, emoji: "🎮" },
   // -- 플레이인 마무리 (한국 6.30~7.1, 대진 미정) --
-  { id: "msi-pi-5", title: { en: "Play-In · Lower R2 (TBD)", ko: "플레이인 · 하위 R2 (미정)" }, category: "esports", sub: "msi", round: { en: "Play-In Lower R2", ko: "플레이인 하위 R2" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-06-30", time: "04:00", location: DJ, description: { en: "Lower Round 2 · 17:00 KST (Jun 30) · 승자전 패자 vs 탈락전 승자", ko: "하위 2라운드 · 한국 6/30 17:00 KST · 승자전 패자 vs 탈락전 승자" }, emoji: "🎮" },
-  { id: "msi-pi-6", title: { en: "Play-In · Qualification (TBD)", ko: "플레이인 · 진출전 (미정)" }, category: "esports", sub: "msi", round: { en: "Play-In Qual", ko: "플레이인 진출전" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-01", time: "04:00", location: DJ, description: { en: "Qualification Match · 17:00 KST (Jul 1) · winner takes last Bracket spot", ko: "진출전 · 한국 7/1 17:00 KST · 승자 브래킷 마지막 자리" }, emoji: "🎮" },
+  { id: "msi-pi-5", title: { en: "Play-In · Lower R2 (TBD)", ko: "플레이인 · 하위 R2 (미정)" }, category: "esports", sub: "msi", round: { en: "Play-In Lower R2", ko: "플레이인 하위 R2" }, match: { home: MT.tbd, away: MT.tbd }, ...at("2026-06-30T08:00:00Z"), location: DJ, description: { en: "Lower Round 2 · 17:00 KST (Jun 30) · 승자전 패자 vs 탈락전 승자", ko: "하위 2라운드 · 한국 6/30 17:00 KST · 승자전 패자 vs 탈락전 승자" }, emoji: "🎮" },
+  { id: "msi-pi-6", title: { en: "Play-In · Qualification (TBD)", ko: "플레이인 · 진출전 (미정)" }, category: "esports", sub: "msi", round: { en: "Play-In Qual", ko: "플레이인 진출전" }, match: { home: MT.tbd, away: MT.tbd }, ...at("2026-07-01T08:00:00Z"), location: DJ, description: { en: "Qualification Match · 17:00 KST (Jul 1) · winner takes last Bracket spot", ko: "진출전 · 한국 7/1 17:00 KST · 승자 브래킷 마지막 자리" }, emoji: "🎮" },
   // -- 브래킷 스테이지 (7.3~12) — 8팀 더블엘리. 직행 시드 확정, 대진은 추첨·플레이인 결과 후 --
   { id: "msi-bracket", title: { en: "MSI · Bracket Stage begins", ko: "MSI · 브래킷 스테이지 시작" }, category: "esports", sub: "msi", round: { en: "Bracket", ko: "브래킷" }, date: "2026-07-03", location: DJ, description: { en: "Bracket · Jul 3–8 · 8 teams Bo5. Direct seeds: G2, Hanwha Life, FURIA, LYON, Top Esports, Bilibili Gaming, Team Secret Whales (+ Play-In qualifiers)", ko: "브래킷 · 7.3~8 · 8팀 Bo5. 직행: G2·한화생명·FURIA·LYON·TES·BLG·시크릿웨일스 (+플레이인 통과팀)" }, emoji: "🎮" },
   { id: "msi-upper-final", title: { en: "MSI · Upper Final (TBD)", ko: "MSI · 어퍼 파이널 (미정)" }, category: "esports", sub: "msi", round: { en: "Upper Final", ko: "어퍼 파이널" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-09", location: DJ, emoji: "🎮" },
   { id: "msi-lower-final", title: { en: "MSI · Lower Final (TBD)", ko: "MSI · 로어 파이널 (미정)" }, category: "esports", sub: "msi", round: { en: "Lower Final", ko: "로어 파이널" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-11", location: DJ, emoji: "🎮" },
-  { id: "msi-final", title: { en: "MSI · Grand Final (TBD)", ko: "MSI · 결승 (미정)" }, category: "esports", sub: "msi", round: { en: "Final", ko: "결승" }, starred: true, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-12", time: "03:00", location: DJ, description: { en: "Grand Final · 16:00 KST (Jul 12)", ko: "MSI 결승 · 한국 7/12 16:00 KST" }, emoji: "🏆" },
+  { id: "msi-final", title: { en: "MSI · Grand Final (TBD)", ko: "MSI · 결승 (미정)" }, category: "esports", sub: "msi", round: { en: "Final", ko: "결승" }, starred: true, match: { home: MT.tbd, away: MT.tbd }, ...at("2026-07-12T07:00:00Z"), location: DJ, description: { en: "Grand Final · 16:00 KST (Jul 12)", ko: "MSI 결승 · 한국 7/12 16:00 KST" }, emoji: "🏆" },
 
   // 🎮 LoL Worlds 2026 (10.15~11.14) — 결승은 뉴욕 바클레이스!
   { id: "worlds-playin", title: { en: "Worlds · Play-In", ko: "Worlds · 플레이인" }, category: "esports", sub: "worlds", round: { en: "Play-In", ko: "플레이인" }, date: "2026-10-15", location: { en: "Riot Games Arena, LA", ko: "라이엇 게임즈 아레나 (LA)" }, description: { en: "Play-In · Oct 15 – 18", ko: "플레이인 · 10.15~18" }, emoji: "🎮" },
