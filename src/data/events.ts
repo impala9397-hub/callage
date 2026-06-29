@@ -2,6 +2,13 @@ import type { CalEvent } from "../types";
 
 // 시드 데이터 — 실제 일정 기반.
 // 기간: 2026년 6월 ~ 2027년 1월. 제목·장소는 다국어(LocalizedText).
+//
+// ⏰⏰ 타임존 불변식(INVARIANT): 모든 `time` 필드는 반드시 미 동부(ET) 기준이다. ⏰⏰
+//   앱이 시각 라벨을 "ET"로 고정 표시하므로(i18n.tsx DISPLAY_TZ), 경기장 현지 시각을
+//   그대로 넣으면 틀린다. 해외/타임존 다른 경기는 ET로 환산해 저장할 것.
+//   안전한 절차: ① 출처에서 UTC 킥오프를 구한다 → ② ET = UTC − 4 (여름 EDT 기준) → ③ time에 ET 저장.
+//   참고 변환: 미 서부 PT = ET−3 / 산악 MT = ET−2 / 중부 CT = ET−1 / 멕시코시티 = ET−2 / 한국 KST = ET+13.
+//   원래 현지·한국 시각은 description에 함께 적어 사람이 교차확인하게 한다. (과거 32강을 현지시각으로 잘못 넣은 적 있음.)
 // ✅ 검증: 월드컵 32강 대진 + MSI 일정/팀 = Wikipedia 확인 (2026-06-28).
 // ✅ 32강 결과 추적 중 (WC_R32_RESULTS) — Wikipedia·ESPN 교차 확인.
 // ⚠️ 32강 이후(16강~결승) 대진은 결과 의존 → "단계 일정"으로만 표기(팀 미정).
@@ -89,24 +96,25 @@ const WC_GROUP_EVENTS: CalEvent[] = WC_FIXTURES.map(([date, home, away], i) => (
 }));
 
 // 월드컵 32강 — 조별리그 결과로 확정된 16경기 (Wikipedia 검증, 2026-06-28).
-// 시각은 현지 킥오프(현지 시간대), 경기장 포함. [date, home, away, 현지시각, 경기장]
+// ⏰ 시각은 모두 미 동부(ET) 킥오프 = UTC−4로 환산. (UTC로 교차검증, ESPN ET와 일치.)
+//    경기장 현지 시각이 아님! (예: SoFi=LA 정오 12:00 → UTC 19:00 → ET 15:00) [date, home, away, ET시각, 경기장]
 const WC_R32_FIXTURES: [string, string, string, string, string][] = [
-  ["2026-06-28", "South Africa", "Canada", "12:00", "SoFi Stadium, Inglewood"],
-  ["2026-06-29", "Brazil", "Japan", "12:00", "NRG Stadium, Houston"],
+  ["2026-06-28", "South Africa", "Canada", "15:00", "SoFi Stadium, Inglewood"],
+  ["2026-06-29", "Brazil", "Japan", "13:00", "NRG Stadium, Houston"],
   ["2026-06-29", "Germany", "Paraguay", "16:30", "Gillette Stadium, Foxborough"],
-  ["2026-06-29", "Netherlands", "Morocco", "19:00", "Estadio BBVA, Guadalupe"],
-  ["2026-06-30", "Ivory Coast", "Norway", "12:00", "AT&T Stadium, Arlington"],
+  ["2026-06-29", "Netherlands", "Morocco", "21:00", "Estadio BBVA, Guadalupe"],
+  ["2026-06-30", "Ivory Coast", "Norway", "13:00", "AT&T Stadium, Arlington"],
   ["2026-06-30", "France", "Sweden", "17:00", "MetLife Stadium, East Rutherford"],
-  ["2026-06-30", "Mexico", "Ecuador", "19:00", "Estadio Azteca, Mexico City"],
+  ["2026-06-30", "Mexico", "Ecuador", "21:00", "Estadio Azteca, Mexico City"],
   ["2026-07-01", "England", "DR Congo", "12:00", "Mercedes-Benz Stadium, Atlanta"],
-  ["2026-07-01", "Belgium", "Senegal", "13:00", "Lumen Field, Seattle"],
-  ["2026-07-01", "United States", "Bosnia and Herzegovina", "17:00", "Levi's Stadium, Santa Clara"],
-  ["2026-07-02", "Spain", "Austria", "12:00", "SoFi Stadium, Inglewood"],
+  ["2026-07-01", "Belgium", "Senegal", "16:00", "Lumen Field, Seattle"],
+  ["2026-07-01", "United States", "Bosnia and Herzegovina", "20:00", "Levi's Stadium, Santa Clara"],
+  ["2026-07-02", "Spain", "Austria", "15:00", "SoFi Stadium, Inglewood"],
   ["2026-07-02", "Portugal", "Croatia", "19:00", "BMO Field, Toronto"],
-  ["2026-07-02", "Switzerland", "Algeria", "20:00", "BC Place, Vancouver"],
-  ["2026-07-03", "Australia", "Egypt", "13:00", "AT&T Stadium, Arlington"],
+  ["2026-07-02", "Switzerland", "Algeria", "23:00", "BC Place, Vancouver"],
+  ["2026-07-03", "Australia", "Egypt", "14:00", "AT&T Stadium, Arlington"],
   ["2026-07-03", "Argentina", "Cape Verde", "18:00", "Hard Rock Stadium, Miami Gardens"],
-  ["2026-07-03", "Colombia", "Ghana", "20:30", "Arrowhead Stadium, Kansas City"],
+  ["2026-07-03", "Colombia", "Ghana", "21:30", "Arrowhead Stadium, Kansas City"],
 ];
 
 // 32강 경기 결과 (인덱스는 WC_R32_FIXTURES 배열 순서 기준) — Wikipedia·ESPN 교차 확인
