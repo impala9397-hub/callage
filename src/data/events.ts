@@ -3,11 +3,15 @@ import type { CalEvent } from "../types";
 // 시드 데이터 — 실제 일정 기반.
 // 기간: 2026년 6월 ~ 2027년 1월. 제목·장소는 다국어(LocalizedText).
 //
-// ⏰⏰ 타임존 불변식(INVARIANT): 모든 `time` 필드는 반드시 미 동부(ET) 기준이다. ⏰⏰
-//   앱이 시각 라벨을 "ET"로 고정 표시하므로(i18n.tsx DISPLAY_TZ), 경기장 현지 시각을
-//   그대로 넣으면 틀린다. 해외/타임존 다른 경기는 ET로 환산해 저장할 것.
-//   안전한 절차: ① 출처에서 UTC 킥오프를 구한다 → ② ET = UTC − 4 (여름 EDT 기준) → ③ time에 ET 저장.
-//   참고 변환: 미 서부 PT = ET−3 / 산악 MT = ET−2 / 중부 CT = ET−1 / 멕시코시티 = ET−2 / 한국 KST = ET+13.
+// ⏰⏰ 타임존 불변식(INVARIANT): 모든 `time` 필드는 "그 경기 당일 뉴욕(America/New_York) 벽시계 시각"이다. ⏰⏰
+//   앱이 라벨을 "ET"로 고정 표시(i18n.tsx DISPLAY_TZ). ET는 여름 EDT(UTC−4)·겨울 EST(UTC−5)를 포괄하므로,
+//   값이 "그 날짜의 뉴욕 시각"이기만 하면 EST/EDT 구분 없이 항상 맞다. 경기장 현지 시각을 그대로 넣으면 틀린다.
+//   ⚠️ UTC 오프셋을 −4(또는 −5)로 손으로 고정하지 말 것! 서머타임 여부에 따라 다르다
+//      (대략 3월 둘째 일요일~11월 첫째 일요일은 EDT=−4, 그 외는 EST=−5). 날짜마다 달라지니 암산 금지.
+//   안전한 환산 절차:
+//     1순위) 출처(ESPN 등)가 ET/뉴욕 시각을 직접 주면 그대로 저장(환산 X — 가장 안전).
+//     2순위) UTC만 있으면 뉴욕으로 변환(서머타임 자동):
+//            new Date("2026-06-28T19:00:00Z").toLocaleString("en-US",{timeZone:"America/New_York"}) → 3:00 PM
 //   원래 현지·한국 시각은 description에 함께 적어 사람이 교차확인하게 한다. (과거 32강을 현지시각으로 잘못 넣은 적 있음.)
 // ✅ 검증: 월드컵 32강 대진 + MSI 일정/팀 = Wikipedia 확인 (2026-06-28).
 // ✅ 32강 결과 추적 중 (WC_R32_RESULTS) — Wikipedia·ESPN 교차 확인.
@@ -96,8 +100,9 @@ const WC_GROUP_EVENTS: CalEvent[] = WC_FIXTURES.map(([date, home, away], i) => (
 }));
 
 // 월드컵 32강 — 조별리그 결과로 확정된 16경기 (Wikipedia 검증, 2026-06-28).
-// ⏰ 시각은 모두 미 동부(ET) 킥오프 = UTC−4로 환산. (UTC로 교차검증, ESPN ET와 일치.)
-//    경기장 현지 시각이 아님! (예: SoFi=LA 정오 12:00 → UTC 19:00 → ET 15:00) [date, home, away, ET시각, 경기장]
+// ⏰ 시각은 모두 뉴욕(ET) 킥오프. 이 경기들은 6~7월=서머타임(EDT)이라 마침 UTC−4였음(ESPN ET와 교차검증).
+//    겨울 경기는 UTC−5가 되니 −4로 고정 금지 — 일반 규칙은 위 INVARIANT 주석 참조.
+//    경기장 현지 시각이 아님! (예: SoFi=LA 정오 12:00 → UTC 19:00 → 뉴욕 15:00) [date, home, away, ET시각, 경기장]
 const WC_R32_FIXTURES: [string, string, string, string, string][] = [
   ["2026-06-28", "South Africa", "Canada", "15:00", "SoFi Stadium, Inglewood"],
   ["2026-06-29", "Brazil", "Japan", "13:00", "NRG Stadium, Houston"],
