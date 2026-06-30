@@ -21,11 +21,12 @@ function at(utc: string): { utc: string; date: string; time: string } {
 //   뉴욕 현지 행사(콘서트·MSG 등)는 타임존 변환이 없으니 date+time 직접 써도 된다.
 //   원래 현지·한국 시각은 description에 함께 적어 사람이 교차확인하게 한다. (과거 32강을 현지시각으로 잘못 넣은 적 있음.)
 // ✅ 검증: 월드컵 32강 대진 + MSI 일정/팀 = Wikipedia 확인 (2026-06-28).
-// ✅ 32강 결과 추적 중 (WC_R32_RESULTS) — Wikipedia·ESPN 교차 확인.
+// ✅ 32강 결과 추적 중 (WC_R32_RESULTS) — Wikipedia·ESPN 교차 확인 (2026-06-30).
+//    결과 확인: 남아공→캐나다 ✅, 브라질→일본 ✅, 파라과이→독일(PSO) ✅, 모로코→네덜란드(PSO) ✅.
 // ⚠️ 32강 이후(16강~결승) 대진은 결과 의존 → "단계 일정"으로만 표기(팀 미정).
 // ⚠️ 대한민국은 조별리그 탈락 → 32강 명단에 없음(32강 16경기 모두 한국 없음, Wikipedia).
-// ✅ MSI 플레이인 Day1(6.28 KST) + Day2(6.29 KST) 결과 반영 완료 (Wikipedia 확인).
-//    T1 브래킷 직행; 6/30 KST KC vs Liquid(하위 R2) · 7/1 KST 진출전 예정.
+// ✅ MSI 플레이인 Day1(6.28 KST)+Day2(6.29 KST)+Day3(6.30 KST) 결과 반영 완료 (Wikipedia 확인).
+//    T1 브래킷 직행; 6/30 KST KC vs Liquid → 팀 리퀴드 3-0 ✅ (KC 탈락); 7/1 KST T1 vs 팀 리퀴드(진출전) 예정.
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -132,6 +133,9 @@ const WC_R32_FIXTURES: [string, string, string, string][] = [
 // 32강 경기 결과 (인덱스는 WC_R32_FIXTURES 배열 순서 기준) — Wikipedia·ESPN 교차 확인
 const WC_R32_RESULTS: Partial<Record<number, { en: string; ko: string }>> = {
   0: { en: "Result: South Africa 0–1 Canada ✅ (Eustáquio 90+2')", ko: "결과: 남아공 0–1 캐나다 ✅ (Eustáquio 90+2')" },
+  1: { en: "Result: Brazil 2–1 Japan ✅ (Casemiro 56', Martinelli 90+5' | Sano 29')", ko: "결과: 브라질 2–1 일본 ✅ (카세미로 56', 마르티넬리 90+5' | 사노 29')" },
+  2: { en: "Result: Germany 1–1 Paraguay a.e.t., Paraguay 4–3 pens ✅ (Havertz 54' | Enciso 42')", ko: "결과: 독일 1–1 파라과이 연장, 파라과이 승부차기 4–3 ✅ (하버츠 54' | 엔시소 42')" },
+  3: { en: "Result: Netherlands 1–1 Morocco a.e.t., Morocco 3–2 pens ✅ (Gakpo 72' | Issa Diop 90+1')", ko: "결과: 네덜란드 1–1 모로코 연장, 모로코 승부차기 3–2 ✅ (하크포 72' | 이사 디옵 90+1')" },
 };
 
 const WC_R32_EVENTS: CalEvent[] = WC_R32_FIXTURES.map(([utc, home, away, location], i) => ({
@@ -196,8 +200,8 @@ export const EVENTS: CalEvent[] = [
   { id: "msi-pi-3", title: { en: "T1 vs Karmine Corp", ko: "T1 vs 카민 코프" }, category: "esports", sub: "msi", round: { en: "Play-In Winners", ko: "플레이인 승자전" }, starred: true, match: { home: MT.t1, away: MT.kc }, ...at("2026-06-29T03:00:00Z"), location: DJ, description: { en: "Play-In Winners' Match · 12:00 KST (Jun 29) · Result: T1 3–0 ✅ · T1 advances to Bracket Stage", ko: "플레이인 승자전 · 한국 6/29 12:00 KST · 결과: T1 3–0 승 ✅ · T1 브래킷 진출" }, emoji: "🎮" },
   { id: "msi-pi-4", title: { en: "Team Liquid vs Relove DCG", ko: "팀 리퀴드 vs 릴러브 DCG" }, category: "esports", sub: "msi", round: { en: "Play-In Elim", ko: "플레이인 탈락전" }, match: { home: MT.liquid, away: MT.relove }, ...at("2026-06-29T08:00:00Z"), location: DJ, description: { en: "Play-In Lower R1 · 17:00 KST (Jun 29) · Result: Team Liquid 3–0 ✅ · Relove DCG eliminated", ko: "플레이인 하위 R1 · 한국 6/29 17:00 KST · 결과: 팀 리퀴드 3–0 승 ✅ · 릴러브 DCG 탈락" }, emoji: "🎮" },
   // -- 플레이인 마무리 (한국 6.30~7.1) --
-  { id: "msi-pi-5", title: { en: "Karmine Corp vs Team Liquid", ko: "카민 코프 vs 팀 리퀴드" }, category: "esports", sub: "msi", round: { en: "Play-In Lower R2", ko: "플레이인 하위 R2" }, match: { home: MT.kc, away: MT.liquid }, ...at("2026-06-30T08:00:00Z"), location: DJ, description: { en: "Lower Round 2 · 17:00 KST (Jun 30) · loser eliminated", ko: "하위 2라운드 · 한국 6/30 17:00 KST · 패자 탈락" }, emoji: "🎮" },
-  { id: "msi-pi-6", title: { en: "Play-In · Qualification (TBD)", ko: "플레이인 · 진출전 (미정)" }, category: "esports", sub: "msi", round: { en: "Play-In Qual", ko: "플레이인 진출전" }, match: { home: MT.tbd, away: MT.tbd }, ...at("2026-07-01T08:00:00Z"), location: DJ, description: { en: "Qualification Match · 17:00 KST (Jul 1) · winner takes last Bracket spot", ko: "진출전 · 한국 7/1 17:00 KST · 승자 브래킷 마지막 자리" }, emoji: "🎮" },
+  { id: "msi-pi-5", title: { en: "Karmine Corp vs Team Liquid", ko: "카민 코프 vs 팀 리퀴드" }, category: "esports", sub: "msi", round: { en: "Play-In Lower R2", ko: "플레이인 하위 R2" }, match: { home: MT.kc, away: MT.liquid }, ...at("2026-06-30T08:00:00Z"), location: DJ, description: { en: "Lower Round 2 · 17:00 KST (Jun 30) · Result: Team Liquid 3–0 ✅ · Karmine Corp eliminated", ko: "하위 2라운드 · 한국 6/30 17:00 KST · 결과: 팀 리퀴드 3–0 승 ✅ · 카민 코프 탈락" }, emoji: "🎮" },
+  { id: "msi-pi-6", title: { en: "T1 vs Team Liquid · Play-In Qualification", ko: "T1 vs 팀 리퀴드 · 플레이인 진출전" }, category: "esports", sub: "msi", round: { en: "Play-In Qual", ko: "플레이인 진출전" }, match: { home: MT.t1, away: MT.liquid }, ...at("2026-07-01T08:00:00Z"), location: DJ, description: { en: "Qualification Match · 17:00 KST (Jul 1) · winner takes last Bracket spot", ko: "진출전 · 한국 7/1 17:00 KST · 승자 브래킷 마지막 자리" }, emoji: "🎮" },
   // -- 브래킷 스테이지 (7.3~12) — 8팀 더블엘리. 직행 시드 확정, 대진은 추첨·플레이인 결과 후 --
   { id: "msi-bracket", title: { en: "MSI · Bracket Stage begins", ko: "MSI · 브래킷 스테이지 시작" }, category: "esports", sub: "msi", round: { en: "Bracket", ko: "브래킷" }, date: "2026-07-03", location: DJ, description: { en: "Bracket · Jul 3–8 · 8 teams Bo5. Direct seeds: G2, Hanwha Life, FURIA, LYON, Top Esports, Bilibili Gaming, Team Secret Whales (+ Play-In qualifiers)", ko: "브래킷 · 7.3~8 · 8팀 Bo5. 직행: G2·한화생명·FURIA·LYON·TES·BLG·시크릿웨일스 (+플레이인 통과팀)" }, emoji: "🎮" },
   { id: "msi-upper-final", title: { en: "MSI · Upper Final (TBD)", ko: "MSI · 어퍼 파이널 (미정)" }, category: "esports", sub: "msi", round: { en: "Upper Final", ko: "어퍼 파이널" }, match: { home: MT.tbd, away: MT.tbd }, date: "2026-07-09", location: DJ, emoji: "🎮" },
