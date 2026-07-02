@@ -21,13 +21,14 @@ function at(utc: string): { utc: string; date: string; time: string } {
 //   뉴욕 현지 행사(콘서트·MSG 등)는 타임존 변환이 없으니 date+time 직접 써도 된다.
 //   원래 현지·한국 시각은 description에 함께 적어 사람이 교차확인하게 한다. (과거 32강을 현지시각으로 잘못 넣은 적 있음.)
 // ✅ 검증: 월드컵 32강 대진 + MSI 일정/팀 = Wikipedia 확인 (2026-06-28).
-// ✅ 32강 결과 추적 중 (WC_R32_RESULTS) — Wikipedia·ESPN 교차 확인 (2026-07-01, 7경기/16 완료).
+// ✅ 32강 결과 — Wikipedia·ESPN 교차 확인 (2026-07-02, 10경기/16 완료).
 //    결과 확인: 남아공→캐나다 ✅, 브라질→일본 ✅, 파라과이→독일(PSO) ✅, 모로코→네덜란드(PSO) ✅,
-//    노르웨이→코트디부아르 ✅, 프랑스→스웨덴 ✅, 멕시코→에콰도르 ✅.
-// ⚠️ 32강 나머지 9경기(7/1~7/4) 진행 중 → 16강 대진은 부분만 확정(노르웨이 vs 브라질, 프랑스 vs 파라과이 — R32 완료 후 정식 반영 예정).
+//    노르웨이→코트디부아르 ✅, 프랑스→스웨덴 ✅, 멕시코→에콰도르 ✅,
+//    영국→DR콩고 ✅(케인 2골 역전), 벨기에→세네갈 ✅(연장, 티엘레만스 125분 PK), 미국→보스니아 ✅(발로군·틸먼).
+// ⚠️ 32강 나머지 6경기(7/2~7/4) 진행 중 → 16강 대진 4/8 확정(WC_R16_FIXTURES), 나머지 4경기는 TBD.
 // ⚠️ 대한민국은 조별리그 탈락 → 32강 명단에 없음(32강 16경기 모두 한국 없음, Wikipedia).
 // ✅ MSI 플레이인 전 라운드(6.28~7.1 KST) 결과 반영 완료 — Liquipedia·Wikipedia 교차 확인 (2026-07-01).
-//    T1 브래킷 직행 확정(플레이인 최종 진출전 T1 3-0 팀 리퀴드 ✅). 브래킷 R1(7.3~4) 대진 공식 확정 → msi-br1-1~4.
+//    T1 브래킷 직행 확정(플레이인 최종 진출전 T1 3-0 팀 리퀴드 ✅). 브래킷 R1(7.3~4) 대진 공식 확정 → msi-br1-1~4 (2026-07-02 재확인, Liquipedia 변동 없음).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -140,6 +141,9 @@ const WC_R32_RESULTS: Partial<Record<number, { en: string; ko: string }>> = {
   4: { en: "Result: Ivory Coast 1–2 Norway ✅ (Diallo 74' | Nusa 39', Haaland 86') · Norway advance to face Brazil in R16", ko: "결과: 코트디부아르 1–2 노르웨이 ✅ (디알로 74' | 누사 39', 홀란 86') · 노르웨이 16강 진출, 브라질과 대결" },
   5: { en: "Result: France 3–0 Sweden ✅ (Mbappé 45', 74', Barcola 53') · France advance to face Paraguay in R16", ko: "결과: 프랑스 3–0 스웨덴 ✅ (음바페 45', 74', 바르콜라 53') · 프랑스 16강 진출, 파라과이와 대결" },
   6: { en: "Result: Mexico 2–0 Ecuador ✅ (Quiñones 22', Jiménez 31')", ko: "결과: 멕시코 2–0 에콰도르 ✅ (키뇨네스 22', 히메네스 31')" },
+  7: { en: "Result: England 2–1 DR Congo ✅ (Kane x2 2nd half | Cipenga 7') · advance to face Mexico in R16", ko: "결과: 잉글랜드 2–1 DR콩고 ✅ (케인 후반 2골 | 시펭가 7') · 16강 멕시코전" },
+  8: { en: "Result: Belgium 3–2 Senegal a.e.t. ✅ (Lukaku 86', Tielemans 89'+125' pen | Diarra, Sarr) · advance to face USA in R16", ko: "결과: 벨기에 3–2 세네갈 연장 ✅ (루카쿠 86', 티엘레만스 89'+연장 125' PK | 디아라, 사르) · 16강 미국전" },
+  9: { en: "Result: United States 2–0 Bosnia and Herzegovina ✅ (Balogun, Tillman) · advance to face Belgium in R16 (Seattle)", ko: "결과: 미국 2–0 보스니아 ✅ (발로군, 틸먼) · 16강 벨기에전 (시애틀)" },
 };
 
 const WC_R32_EVENTS: CalEvent[] = WC_R32_FIXTURES.map(([utc, home, away, location], i) => ({
@@ -152,6 +156,38 @@ const WC_R32_EVENTS: CalEvent[] = WC_R32_FIXTURES.map(([utc, home, away, locatio
   ...at(utc),
   location,
   ...(WC_R32_RESULTS[i] ? { description: WC_R32_RESULTS[i] } : {}),
+  emoji: "⚽",
+}));
+
+// 월드컵 16강 — R32 결과로 확정된 매치업 (ESPN·Wikipedia 교차검증, 2026-07-02). 4/8 확정, 나머지 4경기는 R32 진행 중이라 TBD.
+const WC_R16_FIXTURES: [string, string, string, string][] = [
+  ["2026-07-04T17:00:00Z", "Canada", "Morocco", "NRG Stadium, Houston"],
+  ["2026-07-04T21:00:00Z", "Paraguay", "France", "Lincoln Financial Field, Philadelphia"],
+  ["2026-07-05T20:00:00Z", "Brazil", "Norway", "MetLife Stadium, East Rutherford"],
+  ["2026-07-06T00:00:00Z", "Mexico", "England", "Estadio Azteca, Mexico City"],
+  ["2026-07-06T19:00:00Z", "TBD", "TBD", "AT&T Stadium, Arlington"],
+  ["2026-07-06T21:00:00Z", "United States", "Belgium", "Lumen Field, Seattle"],
+  ["2026-07-07T16:00:00Z", "TBD", "TBD", "Mercedes-Benz Stadium, Atlanta"],
+  ["2026-07-07T20:00:00Z", "TBD", "TBD", "BC Place, Vancouver"],
+];
+
+// 미정 매치업의 소스(승자 미정) — 추측 대신 원본 대진 표기
+const WC_R16_PENDING: Partial<Record<number, { en: string; ko: string }>> = {
+  4: { en: "Pending: Portugal/Croatia winner vs Spain/Austria winner", ko: "대진 미정: 포르투갈/크로아티아 승자 vs 스페인/오스트리아 승자" },
+  6: { en: "Pending: Argentina/Cape Verde winner vs Australia/Egypt winner", ko: "대진 미정: 아르헨티나/카보베르데 승자 vs 호주/이집트 승자" },
+  7: { en: "Pending: Switzerland/Algeria winner vs Colombia/Ghana winner", ko: "대진 미정: 스위스/알제리 승자 vs 콜롬비아/가나 승자" },
+};
+
+const WC_R16_EVENTS: CalEvent[] = WC_R16_FIXTURES.map(([utc, home, away, location], i) => ({
+  id: `wc-r16-${i}`,
+  title: `${home} vs ${away}`,
+  category: "sports",
+  sub: "worldcup",
+  round: WC_R16,
+  match: { home, away },
+  ...at(utc),
+  location,
+  ...(WC_R16_PENDING[i] ? { description: WC_R16_PENDING[i] } : {}),
   emoji: "⚽",
 }));
 
@@ -191,8 +227,9 @@ export const EVENTS: CalEvent[] = [
   ...WC_GROUP_EVENTS,
   // 32강 — 조별리그 결과로 확정된 실제 16경기 (Wikipedia 검증)
   ...WC_R32_EVENTS,
-  // 16강 이후 — 대진은 결과에 따라 정해짐(팀 미정), 일정만
-  { id: "wc-r16", title: { en: "World Cup · Round of 16 begins", ko: "월드컵 · 16강 시작" }, category: "sports", sub: "worldcup", round: WC_R16, date: "2026-07-04", description: { en: "Round of 16 · Jul 4 – 7", ko: "16강 · 7.4~7" }, emoji: "⚽" },
+  // 16강 — R32 결과로 확정된 매치업 (4/8, 나머지는 TBD)
+  ...WC_R16_EVENTS,
+  // 8강 이후 — 대진은 결과에 따라 정해짐(팀 미정), 일정만
   { id: "wc-qf", title: { en: "World Cup · Quarter-finals", ko: "월드컵 · 8강" }, category: "sports", sub: "worldcup", round: WC_QF, date: "2026-07-11", description: { en: "Quarter-finals · Jul 9 – 11", ko: "8강 · 7.9~11" }, emoji: "⚽" },
   { id: "wc-sf1", title: { en: "World Cup · Semi-final 1", ko: "월드컵 · 준결승 1" }, category: "sports", sub: "worldcup", round: WC_SF, date: "2026-07-14", time: "20:00", location: { en: "AT&T Stadium, Dallas", ko: "AT&T 스타디움 (댈러스)" }, emoji: "⚽" },
   { id: "wc-sf2", title: { en: "World Cup · Semi-final 2", ko: "월드컵 · 준결승 2" }, category: "sports", sub: "worldcup", round: WC_SF, date: "2026-07-15", time: "20:00", location: { en: "Mercedes-Benz Stadium, Atlanta", ko: "메르세데스-벤츠 스타디움 (애틀랜타)" }, emoji: "⚽" },
