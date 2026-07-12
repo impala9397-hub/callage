@@ -21,7 +21,9 @@ const WC_STAGE_COLOR: Record<string, string> = {
 };
 const LOL_COLOR: Record<string, string> = {
   msi: "#6d5cf0",
+  ewc: "#d97706",
   worlds: "#c026d3",
+  lck: "#0e7490",
 };
 const FALLBACK_COLOR = "#d6336c";
 
@@ -79,10 +81,10 @@ const COMPETITIONS: Comp[] = [
     },
   },
   {
-    key: "lol", emoji: "🎮", label: { en: "LoL Internationals", ko: "LoL 국제대회" },
+    key: "lol", emoji: "🎮", label: { en: "LoL", ko: "LoL" },
     match: (e) => e.category === "esports",
     format: {
-      note: { en: "MSI (Jun) · Worlds (Oct–Nov)", ko: "MSI(6월) · Worlds(10~11월)" },
+      note: { en: "MSI (Jun–Jul) · EWC (Jul) · Worlds (Oct–Nov) · LCK", ko: "MSI(6~7월) · EWC(7월) · Worlds(10~11월) · LCK" },
       stages: [
         { label: { en: "Play-In", ko: "플레이인" } }, { label: { en: "Swiss/Bracket", ko: "스위스/브래킷" } },
         { label: { en: "Knockout", ko: "녹아웃" } }, { label: { en: "Final", ko: "결승" } },
@@ -90,7 +92,9 @@ const COMPETITIONS: Comp[] = [
     },
     legend: [
       { color: LOL_COLOR.msi, label: { en: "MSI", ko: "MSI" } },
+      { color: LOL_COLOR.ewc, label: { en: "EWC", ko: "EWC" } },
       { color: LOL_COLOR.worlds, label: { en: "Worlds", ko: "Worlds" } },
+      { color: LOL_COLOR.lck, label: { en: "LCK", ko: "LCK" } },
     ],
   },
   { key: "concert", emoji: "🎤", label: { en: "Concerts", ko: "콘서트" }, match: (e) => e.category === "music" },

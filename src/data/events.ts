@@ -53,6 +53,11 @@ function at(utc: string): { utc: string; date: string; time: string } {
 //    노르웨이 1-2 잉글랜드(연장), 아르헨티나 3-1 스위스(연장) → 준결승1(7/14, 댈러스) 프랑스vs스페인, 준결승2(7/15, 애틀랜타) 잉글랜드vs아르헨티나 확정.
 // ✅ MSI 로어 R3·로어 파이널·그랜드파이널 결과 반영, 대회 종료 — Liquipedia·Wikipedia 교차 확인(2026-07-12):
 //    로어 R3 리옹 3-0 G2 ✅, 로어 파이널 한화생명 3-2 리옹 ✅(그랜드파이널行), 그랜드파이널 한화생명 3-2 빌리빌리 ✅ → 한화생명e스포츠 MSI 2026 우승.
+// ✅ EWC 2026 LoL 신규(7/15~19, 파리 Paris Expo Porte de Versailles — 리야드에서 이전) — Liquipedia·esportsworldcup.com(공식) 교차 확인(2026-07-12):
+//    16팀 4개 조 GSL 더블엘림(Bo1, 탈락전 Bo3) 7/15~16 → 싱글엘림 플레이오프(Bo3, 결승 Bo5) 7/17~19. 1일차 8경기 대진·시각(CEST=UTC+2) 확정, 이후 대진 TBD.
+// ✅ LCK 2026 Rounds 3~4 재개 첫 주(7/29~8/2) 신규 — Liquipedia 확인(2026-07-12): MSI·EWC 휴식기 후 7/29 재개.
+//    레전드 그룹(KT·젠지·T1·디플러스·한화생명) / 라이즈 그룹(농심·브리온·SOOPers·피어엑스·DRX), 전 경기 Bo3, KST 17:00·19:00.
+//    ⚠️ 7/29 17:00 경기 팀 표기가 출처 요약에서 한 번 "KRX"로 흔들림 → DRX로 기재(스폿체크 권장). 월드컵 준결승(7/14·15)은 아직 미래 경기라 결과 없음·변경 없음.
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -243,6 +248,31 @@ const MT = {
   tbd: { en: "TBD", ko: "미정" },
 };
 
+// EWC 2026 · LCK 2026 팀 (MT에 없는 팀만 추가)
+const PARIS_EXPO = { en: "Paris Expo Porte de Versailles", ko: "파리 엑스포 포르트 드 베르사유" };
+const GOYANG = { en: "Goyang, Korea", ko: "고양" };
+const LT = {
+  geng: { en: "Gen.G Esports", ko: "젠지" },
+  dplus: { en: "Dplus", ko: "디플러스" },
+  kt: { en: "KT Rolster", ko: "KT 롤스터" },
+  drx: { en: "DRX", ko: "DRX" },
+  ns: { en: "Nongshim RedForce", ko: "농심 레드포스" },
+  brion: { en: "BRION", ko: "브리온" },
+  soopers: { en: "SOOPers", ko: "SOOPers" },
+  fearx: { en: "FEARX", ko: "피어엑스" },
+  gam: { en: "GAM Esports", ko: "GAM e스포츠" },
+  jdg: { en: "JD Gaming", ko: "징동 게이밍" },
+  mkoi: { en: "Movistar KOI", ko: "모비스타 코이" },
+  sen: { en: "Sentinels", ko: "센티널스" },
+  agal: { en: "AG.AL International", ko: "AG.AL 인터내셔널" },
+  mibr: { en: "MIBR.LOS", ko: "MIBR.LOS" },
+};
+
+// EWC · LCK 라운드 라벨
+const EWC_GRP = { en: "Group Stage", ko: "그룹 스테이지" };
+const LCK_LEGEND = { en: "Legend Group", ko: "레전드 그룹" };
+const LCK_RISE = { en: "Rise Group", ko: "라이즈 그룹" };
+
 export const EVENTS: CalEvent[] = [
   // 🏀 NBA Finals 2026 — Knicks vs Spurs (스퍼스 홈코트 우위: 닉스 1·2 원정 / 3·4 홈 / 5 원정 / 6 홈 / 7 원정)
   { id: "nba-g1", title: { en: "NBA Finals G1", ko: "NBA 파이널 G1" }, category: "sports", sub: "nba", round: NBA_FINALS, homeAway: "away", starred: true, match: { home: T.spurs, away: T.knicks }, date: "2026-06-03", time: "20:00", location: { en: "Frost Bank Center", ko: "프로스트 뱅크 센터" }, emoji: "🏀" },
@@ -306,6 +336,41 @@ export const EVENTS: CalEvent[] = [
   { id: "msi-lr3", title: { en: "G2 Esports vs LYON", ko: "G2 e스포츠 vs 리옹" }, category: "esports", sub: "msi", round: { en: "Lower R3", ko: "로어 브래킷 3라운드" }, match: { home: MT.g2, away: MT.lyon }, ...at("2026-07-10T08:00:00Z"), location: DJ, description: { en: "Lower Bracket R3 · 17:00 KST (Jul 10) · Result: LYON 3–0 ✅ · advance to Lower Final vs Hanwha Life Esports", ko: "로어 브래킷 3라운드 · 한국 7/10 17:00 KST · 결과: 리옹 3–0 승 ✅ · 로어 파이널 한화생명전" }, emoji: "🎮" },
   { id: "msi-lower-final", title: { en: "Hanwha Life Esports vs LYON", ko: "한화생명e스포츠 vs 리옹" }, category: "esports", sub: "msi", round: { en: "Lower Final", ko: "로어 파이널" }, starred: true, match: { home: MT.hanwha, away: MT.lyon }, ...at("2026-07-11T08:00:00Z"), location: DJ, description: { en: "Lower Final · 17:00 KST (Jul 11) · Result: Hanwha Life Esports 3–2 ✅ · advance to Grand Final vs Bilibili Gaming", ko: "로어 파이널 · 한국 7/11 17:00 KST · 결과: 한화생명e스포츠 3–2 승 ✅ · 그랜드파이널 빌리빌리전" }, emoji: "🎮" },
   { id: "msi-final", title: { en: "Bilibili Gaming vs Hanwha Life Esports", ko: "빌리빌리 게이밍 vs 한화생명e스포츠" }, category: "esports", sub: "msi", round: { en: "Final", ko: "결승" }, starred: true, match: { home: MT.blg, away: MT.hanwha }, ...at("2026-07-12T06:00:00Z"), location: DJ, description: { en: "Grand Final · 15:00 KST (Jul 12) · Result: Hanwha Life Esports 3–2 ✅ · MSI 2026 Champions", ko: "MSI 결승 · 한국 7/12 15:00 KST · 결과: 한화생명e스포츠 3–2 승 ✅ · MSI 2026 우승" }, emoji: "🏆" },
+
+  // 🎮 LoL EWC 2026 — Esports World Cup, 파리 Paris Expo (7.15~19). 리야드→파리 이전 확인.
+  // 16팀 4개 조 GSL 더블엘림(Bo1, 탈락전 Bo3) → 싱글엘림 플레이오프(Bo3, 결승 Bo5).
+  // ⏰ 파리 여름 = CEST(UTC+2) → CEST−2h가 UTC. (예: 11:00 CEST = 09:00Z → 뉴욕 05:00.) 원래 CEST 시각은 description에 보존.
+  // 조: A(G2·AG.AL·디플러스·퓨리아) B(시크릿웨일스·젠지·카민코프·센티널스) C(빌리빌리·T1·GAM·모비스타코이) D(한화생명·리옹·징동·MIBR.LOS)
+  // -- 그룹 스테이지 1일차 (7/15, 대진·시각 확정 · Liquipedia·공식 교차검증 2026-07-12) --
+  { id: "ewc-grp-1", title: { en: "Team Secret Whales vs Sentinels", ko: "시크릿 웨일스 vs 센티널스" }, category: "esports", sub: "ewc", round: EWC_GRP, match: { home: MT.secretWhales, away: LT.sen }, ...at("2026-07-15T09:00:00Z"), location: PARIS_EXPO, description: { en: "Group B · Bo1 · 11:00 CEST (Jul 15)", ko: "B조 · Bo1 · 파리 7/15 11:00 CEST" }, emoji: "🎮" },
+  { id: "ewc-grp-2", title: { en: "Gen.G vs Karmine Corp", ko: "젠지 vs 카민 코프" }, category: "esports", sub: "ewc", round: EWC_GRP, starred: true, match: { home: LT.geng, away: MT.kc }, ...at("2026-07-15T09:00:00Z"), location: PARIS_EXPO, description: { en: "Group B · Bo1 · 11:00 CEST (Jul 15)", ko: "B조 · Bo1 · 파리 7/15 11:00 CEST" }, emoji: "🎮" },
+  { id: "ewc-grp-3", title: { en: "Bilibili Gaming vs Movistar KOI", ko: "빌리빌리 게이밍 vs 모비스타 코이" }, category: "esports", sub: "ewc", round: EWC_GRP, match: { home: MT.blg, away: LT.mkoi }, ...at("2026-07-15T10:10:00Z"), location: PARIS_EXPO, description: { en: "Group C · Bo1 · 12:10 CEST (Jul 15)", ko: "C조 · Bo1 · 파리 7/15 12:10 CEST" }, emoji: "🎮" },
+  { id: "ewc-grp-4", title: { en: "T1 vs GAM Esports", ko: "T1 vs GAM e스포츠" }, category: "esports", sub: "ewc", round: EWC_GRP, starred: true, match: { home: MT.t1, away: LT.gam }, ...at("2026-07-15T10:10:00Z"), location: PARIS_EXPO, description: { en: "Group C · Bo1 · 12:10 CEST (Jul 15)", ko: "C조 · Bo1 · 파리 7/15 12:10 CEST" }, emoji: "🎮" },
+  { id: "ewc-grp-5", title: { en: "G2 Esports vs FURIA", ko: "G2 e스포츠 vs 퓨리아" }, category: "esports", sub: "ewc", round: EWC_GRP, match: { home: MT.g2, away: MT.furia }, ...at("2026-07-15T11:20:00Z"), location: PARIS_EXPO, description: { en: "Group A · Bo1 · 13:20 CEST (Jul 15)", ko: "A조 · Bo1 · 파리 7/15 13:20 CEST" }, emoji: "🎮" },
+  { id: "ewc-grp-6", title: { en: "AG.AL vs Dplus", ko: "AG.AL vs 디플러스" }, category: "esports", sub: "ewc", round: EWC_GRP, match: { home: LT.agal, away: LT.dplus }, ...at("2026-07-15T11:20:00Z"), location: PARIS_EXPO, description: { en: "Group A · Bo1 · 13:20 CEST (Jul 15)", ko: "A조 · Bo1 · 파리 7/15 13:20 CEST" }, emoji: "🎮" },
+  { id: "ewc-grp-7", title: { en: "Hanwha Life Esports vs MIBR.LOS", ko: "한화생명e스포츠 vs MIBR.LOS" }, category: "esports", sub: "ewc", round: EWC_GRP, starred: true, match: { home: MT.hanwha, away: LT.mibr }, ...at("2026-07-15T12:30:00Z"), location: PARIS_EXPO, description: { en: "Group D · Bo1 · 14:30 CEST (Jul 15) · MSI 2026 champions' first EWC match", ko: "D조 · Bo1 · 파리 7/15 14:30 CEST · MSI 2026 우승팀 첫 경기" }, emoji: "🎮" },
+  { id: "ewc-grp-8", title: { en: "LYON vs JD Gaming", ko: "리옹 vs 징동 게이밍" }, category: "esports", sub: "ewc", round: EWC_GRP, match: { home: MT.lyon, away: LT.jdg }, ...at("2026-07-15T12:30:00Z"), location: PARIS_EXPO, description: { en: "Group D · Bo1 · 14:30 CEST (Jul 15)", ko: "D조 · Bo1 · 파리 7/15 14:30 CEST" }, emoji: "🎮" },
+  // -- 그룹 스테이지 2일차 · 플레이오프 (대진은 결과 따라 확정 → TBD) --
+  { id: "ewc-grp-d2", title: { en: "EWC · Group Stage Day 2", ko: "EWC · 그룹 스테이지 2일차" }, category: "esports", sub: "ewc", round: EWC_GRP, ...at("2026-07-16T09:00:00Z"), location: PARIS_EXPO, description: { en: "Winners'/Elimination/Decider matches · from 11:00 CEST · matchups set by Day 1 results · top 2 per group advance", ko: "승자전·탈락전·최종전 · 파리 11:00 CEST부터 · 대진은 1일차 결과로 확정 · 조별 상위 2팀 플레이오프 진출" }, emoji: "🎮" },
+  { id: "ewc-qf", title: { en: "EWC · Quarterfinals", ko: "EWC · 8강" }, category: "esports", sub: "ewc", round: { en: "Quarter-final", ko: "8강" }, ...at("2026-07-17T11:00:00Z"), location: PARIS_EXPO, description: { en: "Bo3 · from 13:00 CEST (Jul 17) · teams TBD (group stage results)", ko: "Bo3 · 파리 7/17 13:00 CEST부터 · 대진 미정(그룹 결과 대기)" }, emoji: "🎮" },
+  { id: "ewc-sf", title: { en: "EWC · Semifinals", ko: "EWC · 준결승" }, category: "esports", sub: "ewc", round: { en: "Semi-final", ko: "준결승" }, ...at("2026-07-18T11:00:00Z"), location: PARIS_EXPO, description: { en: "Bo3 · from 13:00 CEST (Jul 18) · teams TBD", ko: "Bo3 · 파리 7/18 13:00 CEST부터 · 대진 미정" }, emoji: "🎮" },
+  { id: "ewc-3rd", title: { en: "EWC · Third Place", ko: "EWC · 3위 결정전" }, category: "esports", sub: "ewc", round: { en: "Third Place", ko: "3위 결정전" }, ...at("2026-07-19T10:00:00Z"), location: PARIS_EXPO, description: { en: "Bo3 · 12:00 CEST (Jul 19) · teams TBD", ko: "Bo3 · 파리 7/19 12:00 CEST · 대진 미정" }, emoji: "🎮" },
+  { id: "ewc-final", title: { en: "EWC Grand Final", ko: "EWC 그랜드 파이널" }, category: "esports", sub: "ewc", round: { en: "Final", ko: "결승" }, starred: true, ...at("2026-07-19T12:30:00Z"), location: PARIS_EXPO, description: { en: "Bo5 · 14:30 CEST (Jul 19) · teams TBD", ko: "Bo5 · 파리 7/19 14:30 CEST · 대진 미정" }, emoji: "🏆" },
+
+  // 🎮 LCK 2026 — Rounds 3~4 재개 첫 주 (7.29~8.2, Week 10). MSI·EWC 휴식기 후 재개 (Liquipedia 검증 2026-07-12).
+  // 레전드 그룹(1~2라운드 상위 5팀: KT·젠지·T1·디플러스·한화생명) / 라이즈 그룹(하위 5팀) 더블 라운드로빈, 전 경기 Bo3.
+  // ⏰ 한국 경기 → KST−9h = UTC. (17:00 KST = 08:00Z → 뉴욕 04:00 · 19:00 KST = 10:00Z → 뉴욕 06:00.)
+  // 매일 루틴이 rolling window(~2주)로 다음 경기를 추가하고 지난 경기 결과를 채운다.
+  { id: "lck-w10-1", title: { en: "DRX vs Nongshim RedForce", ko: "DRX vs 농심 레드포스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.drx, away: LT.ns }, ...at("2026-07-29T08:00:00Z"), description: { en: "Bo3 · 17:00 KST (Jul 29) · R3–4 Week 10 · LCK resumes after MSI/EWC break", ko: "Bo3 · 한국 7/29 17:00 KST · 3~4라운드 10주차 · MSI·EWC 휴식기 후 LCK 재개" }, emoji: "🎮" },
+  { id: "lck-w10-2", title: { en: "T1 vs KT Rolster", ko: "T1 vs KT 롤스터" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.t1, away: LT.kt }, ...at("2026-07-29T10:00:00Z"), description: { en: "Bo3 · 19:00 KST (Jul 29) · Telecom War", ko: "Bo3 · 한국 7/29 19:00 KST · 통신사 더비" }, emoji: "🎮" },
+  { id: "lck-w10-3", title: { en: "SOOPers vs FEARX", ko: "SOOPers vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.soopers, away: LT.fearx }, ...at("2026-07-30T08:00:00Z"), description: { en: "Bo3 · 17:00 KST (Jul 30)", ko: "Bo3 · 한국 7/30 17:00 KST" }, emoji: "🎮" },
+  { id: "lck-w10-4", title: { en: "Hanwha Life Esports vs Dplus", ko: "한화생명e스포츠 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.hanwha, away: LT.dplus }, ...at("2026-07-30T10:00:00Z"), description: { en: "Bo3 · 19:00 KST (Jul 30) · MSI champions return to LCK", ko: "Bo3 · 한국 7/30 19:00 KST · MSI 우승팀 LCK 복귀전" }, emoji: "🎮" },
+  { id: "lck-w10-5", title: { en: "Gen.G vs T1", ko: "젠지 vs T1" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.geng, away: MT.t1 }, ...at("2026-07-31T08:00:00Z"), location: GOYANG, description: { en: "Bo3 · 17:00 KST (Jul 31) · Goyang", ko: "Bo3 · 한국 7/31 17:00 KST · 고양" }, emoji: "🎮" },
+  { id: "lck-w10-6", title: { en: "BRION vs DRX", ko: "브리온 vs DRX" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.brion, away: LT.drx }, ...at("2026-07-31T10:00:00Z"), description: { en: "Bo3 · 19:00 KST (Jul 31)", ko: "Bo3 · 한국 7/31 19:00 KST" }, emoji: "🎮" },
+  { id: "lck-w10-7", title: { en: "Nongshim RedForce vs FEARX", ko: "농심 레드포스 vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.ns, away: LT.fearx }, ...at("2026-08-01T08:00:00Z"), description: { en: "Bo3 · 17:00 KST (Aug 1)", ko: "Bo3 · 한국 8/1 17:00 KST" }, emoji: "🎮" },
+  { id: "lck-w10-8", title: { en: "Gen.G vs Dplus", ko: "젠지 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.geng, away: LT.dplus }, ...at("2026-08-01T10:00:00Z"), location: GOYANG, description: { en: "Bo3 · 19:00 KST (Aug 1) · Goyang", ko: "Bo3 · 한국 8/1 19:00 KST · 고양" }, emoji: "🎮" },
+  { id: "lck-w10-9", title: { en: "SOOPers vs BRION", ko: "SOOPers vs 브리온" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.soopers, away: LT.brion }, ...at("2026-08-02T08:00:00Z"), description: { en: "Bo3 · 17:00 KST (Aug 2)", ko: "Bo3 · 한국 8/2 17:00 KST" }, emoji: "🎮" },
+  { id: "lck-w10-10", title: { en: "KT Rolster vs Hanwha Life Esports", ko: "KT 롤스터 vs 한화생명e스포츠" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.kt, away: MT.hanwha }, ...at("2026-08-02T10:00:00Z"), description: { en: "Bo3 · 19:00 KST (Aug 2)", ko: "Bo3 · 한국 8/2 19:00 KST" }, emoji: "🎮" },
 
   // 🎮 LoL Worlds 2026 (10.15~11.14) — 결승은 뉴욕 바클레이스!
   { id: "worlds-playin", title: { en: "Worlds · Play-In", ko: "Worlds · 플레이인" }, category: "esports", sub: "worlds", round: { en: "Play-In", ko: "플레이인" }, date: "2026-10-15", location: { en: "Riot Games Arena, LA", ko: "라이엇 게임즈 아레나 (LA)" }, description: { en: "Play-In · Oct 15 – 18", ko: "플레이인 · 10.15~18" }, emoji: "🎮" },

@@ -60,7 +60,9 @@ export const SUBCATEGORIES: Record<Category, SubMeta[]> = {
   ],
   esports: [
     { key: "msi", label: { en: "LoL MSI", ko: "LoL MSI" } },
+    { key: "ewc", label: { en: "LoL EWC", ko: "LoL EWC" } },
     { key: "worlds", label: { en: "LoL Worlds", ko: "LoL 월드챔피언십" } },
+    { key: "lck", label: { en: "LCK", ko: "LCK" } },
   ],
   music: [
     { key: "concert", label: { en: "Concert", ko: "콘서트" } },
