@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/check-times.mjs && tsc -b && vite build",
+    "check:times": "node scripts/check-times.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
   },

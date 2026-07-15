@@ -35,19 +35,30 @@ export function monthGrid(year: number, month: number): string[] {
   return cells;
 }
 
-// UTC 절대시각 → 뉴욕(America/New_York) 날짜+시각. 서머타임(EST/EDT)·날짜경계 자동 처리.
-const NY_FMT = new Intl.DateTimeFormat("en-CA", {
-  timeZone: "America/New_York",
-  year: "numeric", month: "2-digit", day: "2-digit",
-  hour: "2-digit", minute: "2-digit", hour12: false,
-});
-export function nyFromUtc(utcIso: string): { date: string; time: string } | null {
+// UTC 절대시각 → 임의 IANA 타임존의 날짜+시각. 서머타임·날짜경계 자동 처리.
+// 표시용(뉴욕)과 검증용(출처 현지시각 교차검증, events.ts의 at()) 둘 다 이걸 쓴다.
+const TZ_FMT = new Map<string, Intl.DateTimeFormat>();
+export function localFromUtc(utcIso: string, tz: string): { date: string; time: string } | null {
   const d = new Date(utcIso);
   if (isNaN(d.getTime())) return null;
+  let fmt = TZ_FMT.get(tz);
+  if (!fmt) {
+    fmt = new Intl.DateTimeFormat("en-CA", {
+      timeZone: tz,
+      year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", hour12: false,
+    });
+    TZ_FMT.set(tz, fmt);
+  }
   const p: Record<string, string> = {};
-  for (const part of NY_FMT.formatToParts(d)) p[part.type] = part.value;
+  for (const part of fmt.formatToParts(d)) p[part.type] = part.value;
   const hour = p.hour === "24" ? "00" : p.hour; // 일부 환경의 24:00 표기 보정
   return { date: `${p.year}-${p.month}-${p.day}`, time: `${hour}:${p.minute}` };
+}
+
+// UTC 절대시각 → 뉴욕(America/New_York) 날짜+시각.
+export function nyFromUtc(utcIso: string): { date: string; time: string } | null {
+  return localFromUtc(utcIso, "America/New_York");
 }
 
 export function isSameMonth(dateStr: string, year: number, month: number): boolean {
