@@ -114,8 +114,16 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 // ✅ LCK 11주차(8/5~8/9) 신규 추가 — Liquipedia Rounds 3-4 직접 조회 2회 교차 확인(2026-07-22): 9경기 팀명·조·날짜·시각 확인, 그룹 내부 정합(각 매치가 한 그룹 안, 과거 요약이 섞던 크로스그룹 오류 없음).
 //    10주차(7/29~8/2)는 전부 미래 경기라 결과 없음·변경 없음(7/29 T1vsKT 19:00 KST 재확인, 기존 값 유지). Aug 9는 17:00 단일 경기(19:00 없음)로 확인. 월드컵·MSI·EWC 종료 → 스킵.
 //    2주 롤링 윈도우(~8/5)에 11주차 진입 → at(utc, src)로 저장, check-times 통과.
-// 📅 Worlds 2026(다음 메이저): 10/15~11/14 미국 개최, LA(플레이인)·앨런TX(스위스·8강·4강)·뉴욕 바클레이스 센터(결승) — Wikipedia 확인.
-//    단계별 정확한 날짜·결승 날짜는 출처 간 불일치(전체 종료 11/14 vs 녹아웃 11/3~8)로 미확정 → 이번 실행 미반영, 공식 일정 공개 후 추가.
+// ✅ Worlds 2026 단계별 날짜 확정 — lolesports.com 공식 뉴스 원문 인용 확인(2026-07-25):
+//    "Play-In Stage: October 15–18"(Riot Games Arena, LA) · "Swiss Stage: October 23–26 and October 28–31" ·
+//    "Knockout Stage: November 3-8"(둘 다 Credit Union of Texas Event Center, 앨런 TX) · "Grand Final: November 14"(바클레이스 센터, 브루클린).
+//    → 기존 4개 항목의 날짜가 전부 공식과 일치 확인, 경기장 정식 명칭·스위스 2주 분할 표기만 보강.
+//    ⛔ 결승 시각은 공식이 아직 미발표 → 출처 없이 들어가 있던 time "17:00"을 제거하고 description에 "시작 시각 미발표"로 명시(추측 표기 금지 규칙).
+//    Liquipedia World_Championship/2026은 아직 Format "TBA"(대진·조편성 미공개) — 팀/대진은 지역 리그 종료 후 추가.
+// ✅ LCK 10주차(7/29~8/2) 3차 재검증 — Liquipedia Rounds 3-4 직접 조회(2026-07-25): 10경기 팀명·날짜·시각(17:00/19:00 KST) 기존 기재와 전부 일치,
+//    "결과 기록 없음·7/29 이전 경기 없음"도 원문 확인(LCK는 7/29 재개가 맞음). 11주차(8/5~9)는 7/22 2회 교차확인분 유지(이번 조회는 8/5 이후가 잘려 재확인 불가).
+//    ⚠️ 이번 조회 요약이 7/29 DRX vs 농심을 "Legend Group"으로 표기 → 같은 요약이 7/31 브리온vsDRX는 Rise로 적어 자기모순. DRX·농심 둘 다 라이즈 그룹 팀이므로 기존(Rise) 유지.
+//    MSI·EWC·월드컵은 종료(스킵). 이번 실행에서 새로 치러진 경기 없음 → 결과 갱신분 없음.
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -455,9 +463,9 @@ export const EVENTS: CalEvent[] = [
 
   // 🎮 LoL Worlds 2026 (10.15~11.14) — 결승은 뉴욕 바클레이스!
   { id: "worlds-playin", title: { en: "Worlds · Play-In", ko: "Worlds · 플레이인" }, category: "esports", sub: "worlds", round: { en: "Play-In", ko: "플레이인" }, date: "2026-10-15", location: { en: "Riot Games Arena, LA", ko: "라이엇 게임즈 아레나 (LA)" }, description: { en: "Play-In · Oct 15 – 18", ko: "플레이인 · 10.15~18" }, emoji: "🎮" },
-  { id: "worlds-swiss", title: { en: "Worlds · Swiss Stage", ko: "Worlds · 스위스 스테이지" }, category: "esports", sub: "worlds", round: { en: "Swiss", ko: "스위스" }, date: "2026-10-23", location: { en: "Allen, Texas", ko: "앨런 (텍사스)" }, description: { en: "Swiss · Oct 23 – 31", ko: "스위스 · 10.23~31" }, emoji: "🎮" },
-  { id: "worlds-knockout", title: { en: "Worlds · Knockouts", ko: "Worlds · 녹아웃" }, category: "esports", sub: "worlds", round: { en: "Knockout", ko: "녹아웃" }, date: "2026-11-03", location: { en: "Allen, Texas", ko: "앨런 (텍사스)" }, description: { en: "Knockouts · Nov 3 – 8", ko: "녹아웃 · 11.3~8" }, emoji: "🎮" },
-  { id: "worlds-final", title: { en: "Worlds Final", ko: "Worlds 결승" }, category: "esports", sub: "worlds", round: { en: "Final", ko: "결승" }, starred: true, date: "2026-11-14", time: "17:00", location: { en: "Barclays Center, Brooklyn NY", ko: "바클레이스 센터 (브루클린 뉴욕)" }, description: { en: "Worlds 2026 Final · New York", ko: "Worlds 2026 결승 · 뉴욕" }, emoji: "🏆" },
+  { id: "worlds-swiss", title: { en: "Worlds · Swiss Stage", ko: "Worlds · 스위스 스테이지" }, category: "esports", sub: "worlds", round: { en: "Swiss", ko: "스위스" }, date: "2026-10-23", location: { en: "Credit Union of Texas Event Center, Allen TX", ko: "크레딧 유니언 오브 텍사스 이벤트 센터 (앨런, 텍사스)" }, description: { en: "Swiss · Oct 23–26 and Oct 28–31", ko: "스위스 · 10.23~26 및 10.28~31" }, emoji: "🎮" },
+  { id: "worlds-knockout", title: { en: "Worlds · Knockouts", ko: "Worlds · 녹아웃" }, category: "esports", sub: "worlds", round: { en: "Knockout", ko: "녹아웃" }, date: "2026-11-03", location: { en: "Credit Union of Texas Event Center, Allen TX", ko: "크레딧 유니언 오브 텍사스 이벤트 센터 (앨런, 텍사스)" }, description: { en: "Knockouts · Nov 3 – 8", ko: "녹아웃 · 11.3~8" }, emoji: "🎮" },
+  { id: "worlds-final", title: { en: "Worlds Final", ko: "Worlds 결승" }, category: "esports", sub: "worlds", round: { en: "Final", ko: "결승" }, starred: true, date: "2026-11-14", location: { en: "Barclays Center, Brooklyn NY", ko: "바클레이스 센터 (브루클린 뉴욕)" }, description: { en: "Worlds 2026 Grand Final · Nov 14 · New York (start time not yet announced)", ko: "Worlds 2026 그랜드 파이널 · 11/14 · 뉴욕 (시작 시각 미발표)" }, emoji: "🏆" },
 
   // 🎤 콘서트 (Jongwon 큐레이션 · 뉴욕/뉴저지)
   { id: "con-cortis", title: { en: "CORTIS", ko: "CORTIS 콘서트" }, category: "music", sub: "concert", date: "2026-08-06", time: "20:00", location: { en: "Infosys Theater at MSG, NY", ko: "인포시스 시어터 @ MSG (뉴욕)" }, emoji: "🎤" },
