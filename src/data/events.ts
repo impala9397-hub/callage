@@ -136,6 +136,18 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    통째로 뒤바꿔 표기(10주차=레전드, 11주차=라이즈) → 7/31만 재조회해 "BRION vs DRX" 19:00 존재 확인, 그룹은 기존 per-match 값 유지.
 //    LCK 재개는 7/29 → 오늘(7/27) 기준 치러진 경기 없음·결과 갱신분 없음. 12주차(8/12~)는 페이지에 아직 미게시 → 보류
 //    (2주 롤링 윈도우 ~8/10은 10·11주차로 충족). Worlds 2026: Liquipedia Format 여전히 "TBA", 19슬롯 전부 TBD, 기간 10/15~11/14로 기존과 일치 → 변경 없음.
+// ✅ LCK 11주차 누락 경기 발견·추가 + 12주차(8/12~8/16) 신규 — Liquipedia 개별 매치 페이지 원문 확인(2026-07-28):
+//    ⛔→✅ 8/9은 17:00 단일 경기가 아니라 2경기였음: Match 109 "Dplus vs KT Rolster … August 9, 2026 - 17:00 KST",
+//       Match 110 "FEARX vs DRX … August 9, 2026 - 19:00 KST" → lck-w11-10 신규 추가(7/22 목록 요약이 이 경기를 누락 → "Aug 9은 17:00 하나뿐"으로 잘못 기록했던 것 정정).
+//       (이번 목록 요약은 같은 경기를 "8/9 17:00"으로 표기 → 개별 매치 페이지의 19:00 채택. 목록 요약 불신 규칙 재확인.)
+//    12주차 10경기 = Match 111~120 전부 개별 페이지로 확인, _0011은 404(주차 경계 확인):
+//       8/12 SOOPers vs 농심(17:00)·KT vs 디플러스(19:00) / 8/13 DRX vs FEARX(17:00)·젠지 vs 한화생명(19:00) /
+//       8/14 T1 vs 디플러스(17:00)·농심 vs 브리온(19:00) / 8/15 한화생명 vs KT(17:00)·FEARX vs SOOPers(19:00) /
+//       8/16 T1 vs 젠지(17:00)·DRX vs 브리온(19:00). 10경기 모두 그룹 내부 대진으로 정합(레전드=KT·젠지·T1·디플러스·한화생명 / 라이즈=농심·브리온·SOOPers·FEARX·DRX).
+//       경기장은 출처에 표기 없어 미기재(젠지 홈=고양 추론 금지). at(utc, src)로 저장, check-times 통과.
+//    10주차(7/29~8/2)는 전부 미래 경기(7/29 재개) → 결과 없음·변경 없음. 7/31 19:00 브리온vsDRX는 이번에도 목록 요약에서 누락돼 개별 페이지(Match 96)로 존재 재확인.
+//    참고: DRX의 태그가 "KRX", FEARX가 "BFX"임을 매치 페이지에서 확인 — 과거 실행들의 "KRX"·"BFX" 혼동은 팀 태그였음.
+//    Worlds 2026: Liquipedia Format 여전히 "TBA", 진출팀 전부 TBD, 기간 10/15~11/14·경기장 기존과 일치 → 변경 없음. MSI·EWC·월드컵 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -472,6 +484,18 @@ export const EVENTS: CalEvent[] = [
   { id: "lck-w11-7", title: { en: "T1 vs Hanwha Life Esports", ko: "T1 vs 한화생명e스포츠" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.t1, away: MT.hanwha }, ...at("2026-08-08T08:00:00Z", "2026-08-08 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 8)", ko: "Bo3 · 한국 8/8 17:00 KST" }, emoji: "🎮" },
   { id: "lck-w11-8", title: { en: "Nongshim RedForce vs SOOPers", ko: "농심 레드포스 vs SOOPers" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.ns, away: LT.soopers }, ...at("2026-08-08T10:00:00Z", "2026-08-08 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 8)", ko: "Bo3 · 한국 8/8 19:00 KST" }, emoji: "🎮" },
   { id: "lck-w11-9", title: { en: "Dplus vs KT Rolster", ko: "디플러스 vs KT 롤스터" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.dplus, away: LT.kt }, ...at("2026-08-09T08:00:00Z", "2026-08-09 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 9)", ko: "Bo3 · 한국 8/9 17:00 KST" }, emoji: "🎮" },
+  { id: "lck-w11-10", title: { en: "FEARX vs DRX", ko: "피어엑스 vs DRX" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.fearx, away: LT.drx }, ...at("2026-08-09T10:00:00Z", "2026-08-09 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 9)", ko: "Bo3 · 한국 8/9 19:00 KST" }, emoji: "🎮" },
+  // -- Week 12 (8.12~8.16) — Liquipedia 개별 매치 페이지 111~120 전부 직접 확인 (2026-07-28). 전 경기 Bo3, KST 17:00·19:00. --
+  { id: "lck-w12-1", title: { en: "SOOPers vs Nongshim RedForce", ko: "SOOPers vs 농심 레드포스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.soopers, away: LT.ns }, ...at("2026-08-12T08:00:00Z", "2026-08-12 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 12) · R3–4 Week 12", ko: "Bo3 · 한국 8/12 17:00 KST · 3~4라운드 12주차" }, emoji: "🎮" },
+  { id: "lck-w12-2", title: { en: "KT Rolster vs Dplus", ko: "KT 롤스터 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.kt, away: LT.dplus }, ...at("2026-08-12T10:00:00Z", "2026-08-12 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 12)", ko: "Bo3 · 한국 8/12 19:00 KST" }, emoji: "🎮" },
+  { id: "lck-w12-3", title: { en: "DRX vs FEARX", ko: "DRX vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.drx, away: LT.fearx }, ...at("2026-08-13T08:00:00Z", "2026-08-13 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 13)", ko: "Bo3 · 한국 8/13 17:00 KST" }, emoji: "🎮" },
+  { id: "lck-w12-4", title: { en: "Gen.G vs Hanwha Life Esports", ko: "젠지 vs 한화생명e스포츠" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.geng, away: MT.hanwha }, ...at("2026-08-13T10:00:00Z", "2026-08-13 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 13)", ko: "Bo3 · 한국 8/13 19:00 KST" }, emoji: "🎮" },
+  { id: "lck-w12-5", title: { en: "T1 vs Dplus", ko: "T1 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.t1, away: LT.dplus }, ...at("2026-08-14T08:00:00Z", "2026-08-14 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 14)", ko: "Bo3 · 한국 8/14 17:00 KST" }, emoji: "🎮" },
+  { id: "lck-w12-6", title: { en: "Nongshim RedForce vs BRION", ko: "농심 레드포스 vs 브리온" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.ns, away: LT.brion }, ...at("2026-08-14T10:00:00Z", "2026-08-14 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 14)", ko: "Bo3 · 한국 8/14 19:00 KST" }, emoji: "🎮" },
+  { id: "lck-w12-7", title: { en: "Hanwha Life Esports vs KT Rolster", ko: "한화생명e스포츠 vs KT 롤스터" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.hanwha, away: LT.kt }, ...at("2026-08-15T08:00:00Z", "2026-08-15 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 15)", ko: "Bo3 · 한국 8/15 17:00 KST" }, emoji: "🎮" },
+  { id: "lck-w12-8", title: { en: "FEARX vs SOOPers", ko: "피어엑스 vs SOOPers" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.fearx, away: LT.soopers }, ...at("2026-08-15T10:00:00Z", "2026-08-15 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 15)", ko: "Bo3 · 한국 8/15 19:00 KST" }, emoji: "🎮" },
+  { id: "lck-w12-9", title: { en: "T1 vs Gen.G", ko: "T1 vs 젠지" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.t1, away: LT.geng }, ...at("2026-08-16T08:00:00Z", "2026-08-16 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 16)", ko: "Bo3 · 한국 8/16 17:00 KST" }, emoji: "🎮" },
+  { id: "lck-w12-10", title: { en: "DRX vs BRION", ko: "DRX vs 브리온" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.drx, away: LT.brion }, ...at("2026-08-16T10:00:00Z", "2026-08-16 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 16)", ko: "Bo3 · 한국 8/16 19:00 KST" }, emoji: "🎮" },
 
   // 🎮 LoL Worlds 2026 (10.15~11.14) — 결승은 뉴욕 바클레이스!
   { id: "worlds-playin", title: { en: "Worlds · Play-In", ko: "Worlds · 플레이인" }, category: "esports", sub: "worlds", round: { en: "Play-In", ko: "플레이인" }, date: "2026-10-15", location: { en: "Riot Games Arena, LA", ko: "라이엇 게임즈 아레나 (LA)" }, description: { en: "Play-In · Oct 15 – 18", ko: "플레이인 · 10.15~18" }, emoji: "🎮" },
