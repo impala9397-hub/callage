@@ -148,6 +148,13 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    10주차(7/29~8/2)는 전부 미래 경기(7/29 재개) → 결과 없음·변경 없음. 7/31 19:00 브리온vsDRX는 이번에도 목록 요약에서 누락돼 개별 페이지(Match 96)로 존재 재확인.
 //    참고: DRX의 태그가 "KRX", FEARX가 "BFX"임을 매치 페이지에서 확인 — 과거 실행들의 "KRX"·"BFX" 혼동은 팀 태그였음.
 //    Worlds 2026: Liquipedia Format 여전히 "TBA", 진출팀 전부 TBD, 기간 10/15~11/14·경기장 기존과 일치 → 변경 없음. MSI·EWC·월드컵 종료(스킵).
+// ✅ LCK 재개 첫날(7/29) 결과 2경기 반영 — Liquipedia 개별 매치 페이지 + Rounds 3-4 목록 + 인벤(한국 e스포츠 매체) 3중 교차 확인(2026-07-29):
+//    Match 91 "DRX (KRX) vs. Nongshim RedForce (NS)" / "July 29, 2026 - 17:00 KST" / Completed "0 : 2" → 농심 2–0 승(lck-w10-1).
+//    Match 92 "T1" vs "KT Rolster" / Completed "0 : 2" → KT 2–0 승(lck-w10-2). 인벤 기사도 "kt 롤스터가 2:0으로 승리"(신인 '펜리르' 콜업)로 일치, 장소 종로 롤파크.
+//    ⚠️ 검색 요약은 같은 T1vsKT를 "0:0 미완료"로 반환 → 개별 매치 페이지·목록·언론 3개가 완료·0:2로 일치하므로 요약 기각(요약 불신 규칙).
+//    ⏱ Liquipedia가 Match 92 시각을 경기 후 "18:57 KST"(실제 시작)로 갱신 → 예정 시각 19:00 KST 기준 utc/src는 그대로 유지(3분 차, 캘린더 표기 의미 없음).
+//    7/30~8/2(10주차 나머지)·11·12주차는 전부 미래 경기 → 변경 없음. 2주 롤링 윈도우(~8/12)는 12주차(~8/16)로 충족.
+//    Worlds 2026: Format 여전히 "TBA", 19슬롯 전부 TBD(예외: 한화생명이 LCK 플레이오프 진출 시 MSI 챔피언 시드), 기간·경기장 기존과 일치 → 변경 없음. MSI·EWC·월드컵 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -464,8 +471,8 @@ export const EVENTS: CalEvent[] = [
   // 레전드 그룹(1~2라운드 상위 5팀: KT·젠지·T1·디플러스·한화생명) / 라이즈 그룹(하위 5팀) 더블 라운드로빈, 전 경기 Bo3.
   // ⏰ 한국 경기 → KST−9h = UTC. (17:00 KST = 08:00Z → 뉴욕 04:00 · 19:00 KST = 10:00Z → 뉴욕 06:00.)
   // 매일 루틴이 rolling window(~2주)로 다음 경기를 추가하고 지난 경기 결과를 채운다.
-  { id: "lck-w10-1", title: { en: "DRX vs Nongshim RedForce", ko: "DRX vs 농심 레드포스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.drx, away: LT.ns }, ...at("2026-07-29T08:00:00Z", "2026-07-29 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Jul 29) · R3–4 Week 10 · LCK resumes after MSI/EWC break", ko: "Bo3 · 한국 7/29 17:00 KST · 3~4라운드 10주차 · MSI·EWC 휴식기 후 LCK 재개" }, emoji: "🎮" },
-  { id: "lck-w10-2", title: { en: "T1 vs KT Rolster", ko: "T1 vs KT 롤스터" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.t1, away: LT.kt }, ...at("2026-07-29T10:00:00Z", "2026-07-29 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Jul 29) · Telecom War", ko: "Bo3 · 한국 7/29 19:00 KST · 통신사 더비" }, emoji: "🎮" },
+  { id: "lck-w10-1", title: { en: "DRX vs Nongshim RedForce", ko: "DRX vs 농심 레드포스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.drx, away: LT.ns }, ...at("2026-07-29T08:00:00Z", "2026-07-29 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Jul 29) · R3–4 Week 10 · LCK resumes after MSI/EWC break · Result: Nongshim RedForce 2–0 ✅", ko: "Bo3 · 한국 7/29 17:00 KST · 3~4라운드 10주차 · MSI·EWC 휴식기 후 LCK 재개 · 결과: 농심 레드포스 2–0 승 ✅" }, emoji: "🎮" },
+  { id: "lck-w10-2", title: { en: "T1 vs KT Rolster", ko: "T1 vs KT 롤스터" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.t1, away: LT.kt }, ...at("2026-07-29T10:00:00Z", "2026-07-29 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Jul 29) · Telecom War · Result: KT Rolster 2–0 ✅", ko: "Bo3 · 한국 7/29 19:00 KST · 통신사 더비 · 결과: KT 롤스터 2–0 승 ✅" }, emoji: "🎮" },
   { id: "lck-w10-3", title: { en: "SOOPers vs FEARX", ko: "SOOPers vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.soopers, away: LT.fearx }, ...at("2026-07-30T08:00:00Z", "2026-07-30 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Jul 30)", ko: "Bo3 · 한국 7/30 17:00 KST" }, emoji: "🎮" },
   { id: "lck-w10-4", title: { en: "Hanwha Life Esports vs Dplus", ko: "한화생명e스포츠 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.hanwha, away: LT.dplus }, ...at("2026-07-30T10:00:00Z", "2026-07-30 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Jul 30) · MSI champions return to LCK", ko: "Bo3 · 한국 7/30 19:00 KST · MSI 우승팀 LCK 복귀전" }, emoji: "🎮" },
   { id: "lck-w10-5", title: { en: "Gen.G vs T1", ko: "젠지 vs T1" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.geng, away: MT.t1 }, ...at("2026-07-31T08:00:00Z", "2026-07-31 17:00 Asia/Seoul"), location: GOYANG, description: { en: "Bo3 · 17:00 KST (Jul 31) · Goyang", ko: "Bo3 · 한국 7/31 17:00 KST · 고양" }, emoji: "🎮" },
