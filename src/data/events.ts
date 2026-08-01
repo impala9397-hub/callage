@@ -164,6 +164,14 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    ⚠️ 요약 왜곡 재확인: 다음 기사 자동요약이 팀명을 "BNK Fenix vs DN Supers"로 영문 변형 → 원 기사 제목의 한글 팀명("BNK 피어엑스"·"DN 수퍼스") 채택.
 //    8/1~8/16(10주차 잔여·11·12주차)은 전부 미래 경기 → 변경 없음. 2주 롤링 윈도우(~8/14)는 12주차(~8/16)로 충족.
 //    Worlds 2026: lolesports·Liquipedia 확인 — 포맷(19팀, 플레이인 4팀 더블엘림 Bo5 → 스위스 16팀 → 녹아웃)은 공개됐으나 진출팀은 지역 리그 종료 전이라 전부 미확정, 날짜·경기장 기존과 일치 → 변경 없음. MSI·EWC·월드컵 종료(스킵).
+// ✅ LCK 10주차 8/1 결과 2경기 반영 — 한국 e스포츠 매체 원문 인용 교차 확인(2026-08-01, 실행 시각 KST 8/1 22시경):
+//    8/1 17:00 농심 레드포스 2–1 BNK 피어엑스 ✅ — 인벤 원문 "1일 종각 치지직 롤파크에서 진행된 … BNK 피어엑스와 농심 레드포스의 대결은 농심의 2:1 승리로 끝났다" ·
+//       STN "농심, 2대1로 BNK 피어엑스 꺾고 2연승 질주" 2개 매체 일치(3세트 역전승, 농심 3라운드 2연승).
+//    8/1 19:00 젠지 0–2 디플러스 기아 ✅ — 인벤 "[LCK 로드쇼] 갈피를 잡지 못한 젠지, DK에게도 0:2 패배" ·
+//       STN "젠지 홈에서 2대0 완승, 6연승 질주" · 국민일보 "디플 기아도 LCK 로드쇼서 젠지 격파" 3중 일치(고양 킨텍스 제1전시장 5홀, 젠지 홈스탠드 로드쇼 마지막 경기).
+//    ⚠️ Liquipedia는 이번 실행에서도 WebFetch HTTP 403(차단) → 한국 매체 원문 인용으로 대체 검증(요약 서술 대신 헤드라인·첫 문단 인용 확인).
+//    8/2(10주차 잔여 2경기)·11·12주차는 전부 미래 경기 → 변경 없음. 2주 롤링 윈도우(~8/15)는 12주차(~8/16)로 충족 → 13주차는 다음 실행에서 창에 들어올 때 검증 후 추가.
+//    MSI·EWC·월드컵 종료(스킵). Worlds 2026은 지역 리그 종료 전이라 진출팀 전부 미확정 → 변경 없음(날짜·경기장은 7/25 공식 확인분 유지).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -486,8 +494,8 @@ export const EVENTS: CalEvent[] = [
   { id: "lck-w10-4", title: { en: "Hanwha Life Esports vs Dplus", ko: "한화생명e스포츠 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.hanwha, away: LT.dplus }, ...at("2026-07-30T10:00:00Z", "2026-07-30 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Jul 30) · MSI champions return to LCK · Result: Dplus 2–1 ✅", ko: "Bo3 · 한국 7/30 19:00 KST · MSI 우승팀 LCK 복귀전 · 결과: 디플러스 기아 2–1 승 ✅" }, emoji: "🎮" },
   { id: "lck-w10-5", title: { en: "Gen.G vs T1", ko: "젠지 vs T1" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.geng, away: MT.t1 }, ...at("2026-07-31T08:00:00Z", "2026-07-31 17:00 Asia/Seoul"), location: GOYANG, description: { en: "Bo3 · 17:00 KST (Jul 31) · Goyang · Result: T1 2–0 ✅", ko: "Bo3 · 한국 7/31 17:00 KST · 고양 · 결과: T1 2–0 승 ✅" }, emoji: "🎮" },
   { id: "lck-w10-6", title: { en: "BRION vs DRX", ko: "브리온 vs DRX" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.brion, away: LT.drx }, ...at("2026-07-31T10:00:00Z", "2026-07-31 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Jul 31) · Result: DRX 2–1 ✅", ko: "Bo3 · 한국 7/31 19:00 KST · 결과: DRX 2–1 승 ✅" }, emoji: "🎮" },
-  { id: "lck-w10-7", title: { en: "Nongshim RedForce vs FEARX", ko: "농심 레드포스 vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.ns, away: LT.fearx }, ...at("2026-08-01T08:00:00Z", "2026-08-01 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 1)", ko: "Bo3 · 한국 8/1 17:00 KST" }, emoji: "🎮" },
-  { id: "lck-w10-8", title: { en: "Gen.G vs Dplus", ko: "젠지 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.geng, away: LT.dplus }, ...at("2026-08-01T10:00:00Z", "2026-08-01 19:00 Asia/Seoul"), location: GOYANG, description: { en: "Bo3 · 19:00 KST (Aug 1) · Goyang", ko: "Bo3 · 한국 8/1 19:00 KST · 고양" }, emoji: "🎮" },
+  { id: "lck-w10-7", title: { en: "Nongshim RedForce vs FEARX", ko: "농심 레드포스 vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.ns, away: LT.fearx }, ...at("2026-08-01T08:00:00Z", "2026-08-01 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 1) · Result: Nongshim RedForce 2–1 ✅", ko: "Bo3 · 한국 8/1 17:00 KST · 결과: 농심 레드포스 2–1 승 ✅" }, emoji: "🎮" },
+  { id: "lck-w10-8", title: { en: "Gen.G vs Dplus", ko: "젠지 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.geng, away: LT.dplus }, ...at("2026-08-01T10:00:00Z", "2026-08-01 19:00 Asia/Seoul"), location: GOYANG, description: { en: "Bo3 · 19:00 KST (Aug 1) · Goyang · Result: Dplus 2–0 ✅", ko: "Bo3 · 한국 8/1 19:00 KST · 고양 · 결과: 디플러스 기아 2–0 승 ✅" }, emoji: "🎮" },
   { id: "lck-w10-9", title: { en: "SOOPers vs BRION", ko: "SOOPers vs 브리온" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.soopers, away: LT.brion }, ...at("2026-08-02T08:00:00Z", "2026-08-02 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 2)", ko: "Bo3 · 한국 8/2 17:00 KST" }, emoji: "🎮" },
   { id: "lck-w10-10", title: { en: "KT Rolster vs Hanwha Life Esports", ko: "KT 롤스터 vs 한화생명e스포츠" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.kt, away: MT.hanwha }, ...at("2026-08-02T10:00:00Z", "2026-08-02 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 2)", ko: "Bo3 · 한국 8/2 19:00 KST" }, emoji: "🎮" },
   // -- Week 11 (8.5~8.9) — 대진 확정 (Liquipedia Rounds 3-4 직접 조회 2회 교차 확인, 2026-07-22). 전 경기 Bo3, KST 17:00·19:00. --
