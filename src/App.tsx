@@ -63,7 +63,7 @@ export default function App() {
   // 레이어 2: 유저 변경분 — localStorage에 영속화.
   const [layer, setLayer] = useState(loadUserLayer);
   const [form, setForm] = useState<FormState>({ mode: "closed" });
-  const [view, setView] = useState<ViewMode>("competition"); // 기본: 대회별
+  const [view, setView] = useState<ViewMode>("month"); // 기본: 월 캘린더(오늘 기준)
   const [density, setDensity] = useState<Density>("rich");
   const [query, setQuery] = useState("");
   const { lang } = useI18n();
