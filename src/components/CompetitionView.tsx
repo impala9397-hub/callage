@@ -4,6 +4,7 @@ import type { I18nString, LocalizedText } from "../i18n";
 import { useI18n, loc, MONTHS, formatTimeTz, WEEKDAYS } from "../i18n";
 import { inMonthGrid, weekdayOf } from "../lib/date";
 import { MonthGrid } from "./MonthGrid";
+import { TODAY } from "../App";
 
 // ===== 이벤트별 색 (대회 안에서 의미를 갖게) =====
 const TEAM_COLOR: Record<string, string> = {
@@ -106,10 +107,19 @@ function sortedFor(events: CalEvent[], comp: Comp): CalEvent[] {
     .sort((a, b) => (a.date + (a.time ?? "")).localeCompare(b.date + (b.time ?? "")));
 }
 
-function firstYm(events: CalEvent[], comp: Comp): { y: number; m: number } {
-  const evs = sortedFor(events, comp);
-  if (!evs.length) return { y: 2026, m: 5 };
-  const [y, m] = evs[0].date.split("-").map(Number);
+// 대회 클릭 시 어느 달을 보여줄지 — "오늘"을 기준점으로.
+// ① 이번 달(오늘)에 경기가 있으면 오늘 달, ② 없으면 오늘 이후 가장 가까운(다가오는)
+// 경기 달, ③ 그것도 없으면(다 지난 대회) 가장 최근 경기 달. → 빈 달이 뜨지 않게.
+function anchorYm(events: CalEvent[], comp: Comp): { y: number; m: number } {
+  // TODAY는 런타임에 읽는다 (App↔CompetitionView 순환 import의 초기화 순서 문제 회피).
+  const [todayY, todayM] = TODAY.split("-").map(Number); // todayM: 1-indexed
+  const today0 = { y: todayY, m: todayM - 1 }; // 0-indexed 월
+  const evs = sortedFor(events, comp); // 날짜 오름차순
+  if (!evs.length) return today0;
+  const todayYm = TODAY.slice(0, 7); // "YYYY-MM"
+  if (evs.some((e) => e.date.slice(0, 7) === todayYm)) return today0;
+  const target = evs.find((e) => e.date >= TODAY) ?? evs[evs.length - 1];
+  const [y, m] = target.date.split("-").map(Number);
   return { y, m: m - 1 };
 }
 
@@ -124,7 +134,7 @@ export function CompetitionView({ events, onSelect, selectedId, onAddOn }: Props
   const { lang } = useI18n();
   const [compKey, setCompKey] = useState(COMPETITIONS[0].key);
   const [mode, setMode] = useState<"grid" | "list">("grid");
-  const [ym, setYm] = useState(() => firstYm(events, COMPETITIONS[0]));
+  const [ym, setYm] = useState(() => anchorYm(events, COMPETITIONS[0]));
 
   const comp = COMPETITIONS.find((c) => c.key === compKey) ?? COMPETITIONS[0];
 
@@ -145,7 +155,7 @@ export function CompetitionView({ events, onSelect, selectedId, onAddOn }: Props
   function pickComp(k: string) {
     const c = COMPETITIONS.find((x) => x.key === k) ?? COMPETITIONS[0];
     setCompKey(k);
-    setYm(firstYm(events, c));
+    setYm(anchorYm(events, c));
   }
 
   function shiftMonth(delta: number) {
