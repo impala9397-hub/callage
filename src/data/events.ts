@@ -233,6 +233,17 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    13주차(8/19~) 대진은 이번에도 확정 실패 — 검색 요약 자체에 모순 발견(예: BNK 피어엑스 다음 경기가 "8/15"와 "8/21"로 동시에 나옴) → 억측 반영 금지 규칙에 따라 미반영, 다음 실행에서 재시도(직접 접속 가능해지면 lck.lol 확인 권장).
 //    2주 롤링 윈도우(오늘 8/13 기준 ~8/27)는 12주차(~8/16)로 충족 → 13주차는 급하지 않으나 확인 필요 플래그 유지.
 //    Worlds 2026: 한화생명 MSI 우승으로 LCK 4번째 시드 확보(기존 확정 사항, 변경 아님) 외 신규 소식 없음 → 변경 없음. MSI·EWC·월드컵 종료(스킵).
+// ✅ LCK 12주차 8/14 T1vs디플러스 결과 반영 — 게임뷰(idxno 60039·60043)·이지경제 3매체 교차 확인(2026-08-14, 실행 시각 UTC 13시경/KST 22시경):
+//    T1 1–2 디플러스 기아(DK) ✅ — 게임뷰 "DK, T1 홈그라운드서 2:1 역전승(종합)" · 이지경제 "T1, 디플러스 기아에 1-2 역전패" · 게임뷰 "T1, 홈에서 DK에 역전패, 홈그라운드 첫날 아쉬운 마무리" 3매체 일치
+//    (T1 1세트 승, DK 2·3세트 역전, 3세트 쇼메이커 아칼리 쿼드라킬, 29분 넥서스). DK 3·4라운드 5승1패로 상승세, 시즌 16승.
+//    ⚠️ 같은 날 19:00 KST 농심 레드포스 vs 한진 브리온(lck-w12-6)은 미반영 — 검색 결과가 "농심 1세트 선취"만 확인되고 최종 세트스코어를 전하는 기사를 찾지 못함,
+//       게다가 검색 요약이 이 경기와 무관한 과거 회차(4/19·5/9·8/5 등 다른 날짜의 NS vs BRO 맞대결) 기사 제목을 뒤섞어 "농심 2:1 역전승"이라고 자체 조합(모순 소스) →
+//       추측 반영 금지 규칙에 따라 미반영, 결과·확인 필요 플래그로 남김(다음 실행에서 재확인). 8/15·8/16(12주차 잔여)은 아직 미래 경기.
+//    이번 실행도 이전과 동일하게 대부분의 원문 도메인(게임뷰·인벤·flashscore·lolesports·op.gg·Leaguepedia·daum 등)이 조직 egress 정책으로 WebFetch 직접 열람 불가 →
+//       WebSearch 스니펫 교차확인으로 대체(요약 자체 모순은 위와 같이 기각).
+//    13주차(8/19~23) 대진은 이번에도 확정 실패 — 유일한 단서로 스포츠경향 기사 제목에 "23일 T1-한화생명전"이 언급됐으나 원문 WebFetch 차단으로 시각·나머지 대진 확인 불가,
+//       단일 소스·부분 정보라 미반영(다음 실행에서 원문 접근 가능해지면 재시도). 2주 롤링 윈도우(오늘 8/14 기준 ~8/28)는 12주차(~8/16)까지만 충족 — 13주차 확인이 시급해짐, 다음 실행 우선 재시도 필요.
+//    Worlds 2026: 검색으로 신규 진출팀·시드 확정 소식 없음(LCK 정규시즌 9/13까지 진행 중) → 변경 없음. MSI·EWC·월드컵 종료(스킵, 결승 결과 기존 반영분 유지 확인).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -576,7 +587,7 @@ export const EVENTS: CalEvent[] = [
   { id: "lck-w12-2", title: { en: "KT Rolster vs Dplus", ko: "KT 롤스터 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.kt, away: LT.dplus }, ...at("2026-08-12T10:00:00Z", "2026-08-12 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 12) · Result: Dplus 2–0 ✅ (Dplus climbs to 4th, KT drops to 5th on 3-game losing streak)", ko: "Bo3 · 한국 8/12 19:00 KST · 결과: 디플러스 기아 2–0 완승 ✅ (DK 4위 등극, KT 3연패로 5위 추락)" }, emoji: "🎮" },
   { id: "lck-w12-3", title: { en: "DRX vs FEARX", ko: "DRX vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.drx, away: LT.fearx }, ...at("2026-08-13T08:00:00Z", "2026-08-13 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 13) · Result: BNK FEARX 2–1 ✅ (comeback, Rise Group 1st place)", ko: "Bo3 · 한국 8/13 17:00 KST · 결과: BNK 피어엑스 2–1 역전승 ✅ (라이즈 그룹 1위 등극)" }, emoji: "🎮" },
   { id: "lck-w12-4", title: { en: "Gen.G vs Hanwha Life Esports", ko: "젠지 vs 한화생명e스포츠" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.geng, away: MT.hanwha }, ...at("2026-08-13T10:00:00Z", "2026-08-13 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 13) · Result: Gen.G 2–1 ✅ (snaps 2-game losing streak)", ko: "Bo3 · 한국 8/13 19:00 KST · 결과: 젠지 2–1 승 ✅ (2연패 탈출)" }, emoji: "🎮" },
-  { id: "lck-w12-5", title: { en: "T1 vs Dplus", ko: "T1 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.t1, away: LT.dplus }, ...at("2026-08-14T08:00:00Z", "2026-08-14 17:00 Asia/Seoul"), location: KSPO_DOME, description: { en: "Bo3 · 17:00 KST (Aug 14) · \"T1 Home Ground\" fan event", ko: "Bo3 · 한국 8/14 17:00 KST · 'T1 홈그라운드' 팬 이벤트" }, emoji: "🎮" },
+  { id: "lck-w12-5", title: { en: "T1 vs Dplus", ko: "T1 vs 디플러스" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.t1, away: LT.dplus }, ...at("2026-08-14T08:00:00Z", "2026-08-14 17:00 Asia/Seoul"), location: KSPO_DOME, description: { en: "Bo3 · 17:00 KST (Aug 14) · \"T1 Home Ground\" fan event · Result: Dplus Kia 2–1 ✅ (T1 won G1, Dplus comeback; Showmaker Akali quadra kill in G3)", ko: "Bo3 · 한국 8/14 17:00 KST · 'T1 홈그라운드' 팬 이벤트 · 결과: 디플러스 기아 2–1 역전승 ✅ (T1 1세트 승, DK 2·3세트 역전; 3세트 쇼메이커 아칼리 쿼드라킬)" }, emoji: "🎮" },
   { id: "lck-w12-6", title: { en: "Nongshim RedForce vs BRION", ko: "농심 레드포스 vs 브리온" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.ns, away: LT.brion }, ...at("2026-08-14T10:00:00Z", "2026-08-14 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 14)", ko: "Bo3 · 한국 8/14 19:00 KST" }, emoji: "🎮" },
   { id: "lck-w12-7", title: { en: "Hanwha Life Esports vs KT Rolster", ko: "한화생명e스포츠 vs KT 롤스터" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.hanwha, away: LT.kt }, ...at("2026-08-15T08:00:00Z", "2026-08-15 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 15)", ko: "Bo3 · 한국 8/15 17:00 KST" }, emoji: "🎮" },
   { id: "lck-w12-8", title: { en: "FEARX vs SOOPers", ko: "피어엑스 vs SOOPers" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.fearx, away: LT.soopers }, ...at("2026-08-15T10:00:00Z", "2026-08-15 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 15)", ko: "Bo3 · 한국 8/15 19:00 KST" }, emoji: "🎮" },
