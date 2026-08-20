@@ -282,6 +282,13 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //       AGENTS.md 시각 규칙(추측·암산 금지)에 따라 이 8경기는 date만 기재하고 time은 비워둠(TBD), 다음 실행에서 시각 확인되면 at(utc, src)로 전환 예정.
 //    2주 롤링 윈도우(오늘 8/19 기준 ~9/2)는 13주차(~8/23, 정규시즌 종료)로 충족 — 정규시즌 이후 PO/플레이인 일정은 대진 미확정이라 다음 실행에서 확인.
 //    Worlds 2026: 검색으로 신규 진출팀·시드·포맷 변경 소식 없음(날짜·경기장 기존과 일치) → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ⚠️ 세션 인프라 이슈 정정 — 이전 실행(8/19)이 detached HEAD 상태에서 커밋해 main 브랜치·origin에 반영되지 않은 채 남아있었음(2026-08-20 발견).
+//    main을 해당 커밋으로 fast-forward해 복구, 이번 실행분과 함께 정상 push.
+// ✅ LCK 13주차 8/20 디플러스vs한화생명 결과 반영 — STN NEWS 원문 직접 fetch 확인(2026-08-20, 발행일 2026-08-20 원문 인용 "한화생명은 20일... 디플러스 기아전에서 세트스코어 2대0으로 이겼다"):
+//    한화생명e스포츠 2–0 디플러스 기아 ✅(lck-w13-3, 3라운드 2:1 패배 설욕). 시각은 여전히 출처 미보도 → TBD 유지.
+//    ⛔ 8/20 농심 레드포스vsDRX(lck-w13-4)는 미반영 — 여러 검색에서 결과를 전하는 신규 기사를 찾지 못함(검색이 반복적으로 7/29·5/2 등 다른 라운드의 농심-DRX 경기를 재활용), 직접 fetch로도 발행일 확인되는 8/20자 기사 없음 → 확인 필요 플래그 유지, 다음 실행 우선 재확인.
+//    8/21~23 나머지 6경기(KTvsT1·브리온vsFEARX·디플러스vs젠지·SOOPersvsDRX·한화생명vsT1·FEARXvs농심) 시각도 이번 실행 역시 KST 명시 원문 출처를 못 찾음 — Sportskeeda/strafe.com/sofascore 검색 스니펫이 "08:00 UTC"·"10:00 UTC" 등을 시사했으나 페이지 직접 fetch 시 타임존 라벨이 없거나(strafe "22 Aug 08:00", 시간대 미표기) sofascore는 403 차단 → 암산·추측 금지 규칙에 따라 전부 TBD 유지.
+//    Worlds 2026: 진출팀 3팀 최초 확정 확인(검색, 다중 매체 교차) — Team Secret Whales(LCP, 8/2 세계 최초), Bilibili Gaming(LPL, 8/13), 한화생명e스포츠(LCK, 8/15, 기존 반영분과 일치). 브래킷·전체 시드는 아직 미공개(지역 리그 진행 중)라 이벤트 구조 변경 없음. FIFA 월드컵·MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -634,7 +641,7 @@ export const EVENTS: CalEvent[] = [
   // -- Week 13 (8.19~8.23, 정규시즌 마지막 주) — dailian·gamemeca·flashscore fixtures 3소스 교차 확인 (2026-08-19). 8/20~23은 시각 미확정(TBD, date만 기재). --
   { id: "lck-w13-1", title: { en: "Gen.G vs KT Rolster", ko: "젠지 vs KT 롤스터" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.geng, away: LT.kt }, ...at("2026-08-19T08:00:00Z", "2026-08-19 17:00 Asia/Seoul"), description: { en: "Bo3 · 17:00 KST (Aug 19) · Result: Gen.G 2–1 ✅ (19-6, clinches Playoffs Round 2 bye)", ko: "Bo3 · 한국 8/19 17:00 KST · 결과: 젠지 2–1 승 ✅ (19승6패, 플레이오프 2라운드 직행 확정)" }, emoji: "🎮" },
   { id: "lck-w13-2", title: { en: "BRION vs SOOPers", ko: "브리온 vs SOOPers" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.brion, away: LT.soopers }, ...at("2026-08-19T10:00:00Z", "2026-08-19 19:00 Asia/Seoul"), description: { en: "Bo3 · 19:00 KST (Aug 19) · Result: Hanjin BRION 2–0 ✅ (10-15, keeps Rise Group 1st place)", ko: "Bo3 · 한국 8/19 19:00 KST · 결과: 한진 브리온 2–0 완승 ✅ (10승15패, 라이즈 그룹 선두 유지)" }, emoji: "🎮" },
-  { id: "lck-w13-3", title: { en: "Dplus vs Hanwha Life Esports", ko: "디플러스 vs 한화생명e스포츠" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.dplus, away: MT.hanwha }, date: "2026-08-20", description: { en: "Bo3 · Aug 20 · start time TBD (not yet reported)", ko: "Bo3 · 8/20 · 시각 미정(출처 미보도, 확인 필요)" }, emoji: "🎮" },
+  { id: "lck-w13-3", title: { en: "Dplus vs Hanwha Life Esports", ko: "디플러스 vs 한화생명e스포츠" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.dplus, away: MT.hanwha }, date: "2026-08-20", description: { en: "Bo3 · Aug 20 · start time TBD (not yet reported) · Result: Hanwha Life 2–0 ✅", ko: "Bo3 · 8/20 · 시각 미정(출처 미보도, 확인 필요) · 결과: 한화생명e스포츠 2–0 완승 ✅" }, emoji: "🎮" },
   { id: "lck-w13-4", title: { en: "Nongshim RedForce vs DRX", ko: "농심 레드포스 vs DRX" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.ns, away: LT.drx }, date: "2026-08-20", description: { en: "Bo3 · Aug 20 · start time TBD (not yet reported)", ko: "Bo3 · 8/20 · 시각 미정(출처 미보도, 확인 필요)" }, emoji: "🎮" },
   { id: "lck-w13-5", title: { en: "KT Rolster vs T1", ko: "KT 롤스터 vs T1" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.kt, away: MT.t1 }, date: "2026-08-21", description: { en: "Bo3 · Aug 21 · Telecom War · start time TBD (not yet reported)", ko: "Bo3 · 8/21 · 통신사 더비 · 시각 미정(출처 미보도, 확인 필요)" }, emoji: "🎮" },
   { id: "lck-w13-6", title: { en: "BRION vs FEARX", ko: "브리온 vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.brion, away: LT.fearx }, date: "2026-08-21", description: { en: "Bo3 · Aug 21 · start time TBD (not yet reported)", ko: "Bo3 · 8/21 · 시각 미정(출처 미보도, 확인 필요)" }, emoji: "🎮" },
