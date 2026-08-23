@@ -309,6 +309,18 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    LCK 플레이오프 일정 신규 확인(팀 대진은 미확정, 이벤트 미추가) — WebSearch 요약: "Play-In stage August 26–28, playoffs beginning August 29 and the grand final scheduled for September 13"(단일 출처 요약이라 참고용, 공식 확인 후 다음 실행에서 반영 검토).
 //    2주 롤링 윈도우(오늘 8/22 기준 ~9/5)는 13주차(~8/23, 정규시즌 종료)로 충족 — PO/플레이인 대진은 8/23 정규시즌 종료 후 확정 예정.
 //    Worlds 2026: 검색으로 신규 진출팀 확정 소식 없음(기존 3팀 유지, 19팀 포맷·날짜·경기장 기존과 일치) → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ LCK 13주차(정규시즌 마지막 주) 8/22·8/23 결과 2경기 반영, 정규시즌 사실상 종료 — 원문 직접 fetch 인용 확인(2026-08-23, 실행 시각 UTC 13시경/KST 22시경):
+//    8/22 SOOPers 2–0 DRX ✅(lck-w13-8) — 게임뷰(idxno 60221, 발행 2026-08-22 22:17) 직접 fetch 원문 "DN 수퍼스가 키움 DRX를 2:0으로 제압하며 정규시즌 마지막 경기를 승리로 장식했다" ·
+//       OSEN "뒤늦은 반등…정규 시즌 '꼴찌' DN 수퍼스, DRX 꺾고 라이즈 1위로 시즌 종료" 2매체 일치. 지난 실행이 미반영 플래그로 남겼던 경기(당시 1세트만 보도돼 최종 스코어 미확인 상태였음).
+//    8/23 한화생명e스포츠 2–0 T1 ✅(lck-w13-9) — invenglobal(발행 "Aug 23, 2026") 직접 fetch 원문 "Hanwha Life Esports Sweeps T1 in Battle for 2nd Place... Advances Directly to PO Round 2"("On August 23, the final matchday... took place", "2-0 sweep") ·
+//       루리웹 게시글 제목 "T1 2:0 셧아웃, 한화생명 정규시즌 2위 사수하며 PO 2R 직행티켓 획득"(동일 스코어·순위 결론) 2개 독립 소스 일치 → 한화생명 레전드 그룹 2위 확정, PO 2라운드 직행.
+//    ⛔ 8/23 BNK 피어엑스vs농심 레드포스(lck-w13-10, 라이즈 그룹 마지막 플레이-인 경합)는 미반영 — 이번 실행 시각(KST 22시경) 기준 경기가 끝났어야 할 시간이나, flashscore·sofascore는 JS 렌더링이라 WebFetch로 스코어를 못 읽고
+//       검색도 아직 결과 기사를 색인하지 못함(2025년·다른 시즌 기사만 반환) → 추측 반영 금지 규칙에 따라 미반영, 다음 실행 최우선 재확인(라이즈 그룹 남은 플레이-인 2자리를 가르는 경기라 시급).
+//    이로써 LCK 13주차(정규시즌) 사실상 종료(BNK vs 농심만 잔여) — 레전드 그룹: 젠지 1위, 한화생명 2위(PO 2R 직행 확정), T1·디플러스·KT는 이번 주 결과로 순위 유동적(KT는 지난 실행에서 플레이-인 추락 확정 확인됨).
+//    플레이오프/플레이-인 일정: 공식 lolesports.com 포맷 설명 페이지 직접 fetch 시도했으나 구체 날짜 미기재("추후 공개 예정")였고, 검색 요약들끼리 플레이-인 시작일(8/26 vs 8/29)·결승일(9/13 vs 9/4~13)이 서로 어긋남(사이트마다 상이) →
+//       공식 확정 소스 없이는 신뢰 불가라 이벤트 미추가, 다음 실행에서 공식 발표(lolesports.com·lck 공식 SNS) 확인 후 반영.
+//    Worlds 2026: 검색으로 신규 진출팀 확정 소식 없음(기존 3팀 Team Secret Whales·Bilibili Gaming(=BLG)·한화생명e스포츠 유지, 19팀 슬롯 배분·날짜·경기장 기존과 일치. 한화생명은 이번 PO 진출 확정으로 MSI 챔피언 시드 조건까지 충족) → 변경 없음.
+//    FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -666,8 +678,8 @@ export const EVENTS: CalEvent[] = [
   { id: "lck-w13-5", title: { en: "KT Rolster vs T1", ko: "KT 롤스터 vs T1" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: LT.kt, away: MT.t1 }, date: "2026-08-21", description: { en: "Bo3 · Aug 21 · Telecom War · start time TBD (not yet reported) · Result: T1 2–1 ✅", ko: "Bo3 · 8/21 · 통신사 더비 · 시각 미정(출처 미보도, 확인 필요) · 결과: T1 2–1 승(풀세트, KT 6연패로 플레이-인 추락) ✅" }, emoji: "🎮" },
   { id: "lck-w13-6", title: { en: "BRION vs FEARX", ko: "브리온 vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.brion, away: LT.fearx }, date: "2026-08-21", description: { en: "Bo3 · Aug 21 · start time TBD (not yet reported) · Result: FearX 2–1 ✅", ko: "Bo3 · 8/21 · 시각 미정(출처 미보도, 확인 필요) · 결과: 피어엑스 2–1 승 ✅" }, emoji: "🎮" },
   { id: "lck-w13-7", title: { en: "Dplus vs Gen.G", ko: "디플러스 vs 젠지" }, category: "esports", sub: "lck", round: LCK_LEGEND, match: { home: LT.dplus, away: LT.geng }, date: "2026-08-22", description: { en: "Bo3 · Aug 22 · start time TBD (not yet reported) · Result: Dplus KIA 2–1 ✅ (def. regular-season #1 Gen.G)", ko: "Bo3 · 8/22 · 시각 미정(출처 미보도, 확인 필요) · 결과: 디플러스 기아 2–1 승(정규시즌 1위 젠지 제압) ✅" }, emoji: "🎮" },
-  { id: "lck-w13-8", title: { en: "SOOPers vs DRX", ko: "SOOPers vs DRX" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.soopers, away: LT.drx }, date: "2026-08-22", description: { en: "Bo3 · Aug 22 · start time TBD (not yet reported)", ko: "Bo3 · 8/22 · 시각 미정(출처 미보도, 확인 필요)" }, emoji: "🎮" },
-  { id: "lck-w13-9", title: { en: "Hanwha Life Esports vs T1", ko: "한화생명e스포츠 vs T1" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.hanwha, away: MT.t1 }, date: "2026-08-23", description: { en: "Bo3 · Aug 23 · Regular season finale · start time TBD (not yet reported)", ko: "Bo3 · 8/23 · 정규시즌 마지막 경기일 · 시각 미정(출처 미보도, 확인 필요)" }, emoji: "🎮" },
+  { id: "lck-w13-8", title: { en: "SOOPers vs DRX", ko: "SOOPers vs DRX" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.soopers, away: LT.drx }, date: "2026-08-22", description: { en: "Bo3 · Aug 22 · start time TBD (not yet reported) · Result: SOOPers 2–0 ✅ (regular-season finale win)", ko: "Bo3 · 8/22 · 시각 미정(출처 미보도, 확인 필요) · 결과: SOOPers 2–0 완승 ✅(정규시즌 마지막 경기 승리)" }, emoji: "🎮" },
+  { id: "lck-w13-9", title: { en: "Hanwha Life Esports vs T1", ko: "한화생명e스포츠 vs T1" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.hanwha, away: MT.t1 }, date: "2026-08-23", description: { en: "Bo3 · Aug 23 · Regular season finale · start time TBD (not yet reported) · Result: Hanwha Life 2–0 ✅ (sweeps T1, secures Legend Group 2nd place, advances direct to PO Round 2)", ko: "Bo3 · 8/23 · 정규시즌 마지막 경기일 · 시각 미정(출처 미보도, 확인 필요) · 결과: 한화생명e스포츠 2–0 완승 ✅(T1 상대 셧아웃, 레전드 그룹 2위 확정, PO 2라운드 직행)" }, emoji: "🎮" },
   { id: "lck-w13-10", title: { en: "FEARX vs Nongshim RedForce", ko: "피어엑스 vs 농심 레드포스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.fearx, away: LT.ns }, date: "2026-08-23", description: { en: "Bo3 · Aug 23 · Regular season finale · start time TBD (not yet reported)", ko: "Bo3 · 8/23 · 정규시즌 마지막 경기일 · 시각 미정(출처 미보도, 확인 필요)" }, emoji: "🎮" },
 
   // 🎮 LoL Worlds 2026 (10.15~11.14) — 결승은 뉴욕 바클레이스!
