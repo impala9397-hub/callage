@@ -332,6 +332,14 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    추측 반영 금지 규칙에 따라 미반영, 다음 실행에서 공식 lolesports.com·LCK 공식 SNS 재확인 필요.
 // ✅ Worlds 2026 재확인 — 검색 교차 확인(2026-08-24): 19팀 포맷(LCK·LPL 4석, LEC·LCS·LCP 3석, CBLOL 2석) 기존과 일치. 확정 진출팀은 기존 3팀(한화생명e스포츠 MSI 챔피언 시드·Team Secret Whales·Bilibili Gaming)에서 변경 없음(LEC·LCS 등 타 리그도 플레이오프 진행 중이라 신규 확정 소식 없음). 날짜·경기장 기존 반영분과 일치 → 변경 없음.
 //    FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 이번 실행 확인 대상 아님(대회 완전 종료).
+// ✅ LCK 플레이-인·플레이오프 1라운드 일정 최초 확정 반영 — supple.kr(직접 fetch, 8.26~30 5경기 전부 "오후 5시"·Bo5 명시)·경향게임스(직접 fetch, 날짜·구조 일치)·WebSearch 교차 확인(2026-08-25):
+//    플레이-인(치지직 롤파크, 전경기 Bo5): 8/26 17:00 KT vs 브리온(승자 PO 5번시드 직행, 패자 3라운드행) · 8/27 17:00 농심 vs 피어엑스(승자 3라운드행, 패자 탈락) ·
+//    8/28 17:00 (1R 패자)vs(2R 승자, 대진 미확정) → 승자가 마지막 PO 자리 획득. 지난 실행(8/24)엔 "라이즈 1위 브리온"이 방금 확정된 타이브레이더 결과와 안 맞아 보여 미반영했으나,
+//    이번 확인 결과 라이즈 최종순위(브리온1·농심2·피어엑스3, 8/23 확정)와 대진이 정확히 일치 → 지난 실행의 우려가 해소돼 채택.
+//    플레이오프 1라운드: 8/29 17:00 T1(레전드 3위) vs 플레이-인 1R 승자(TBD) · 8/30 17:00 디플러스(레전드 4위) vs 플레이-인 3R 승자(TBD) — Bo수는 출처 미보도라 description에 미기재(추측 금지).
+//    젠지(1위)·한화생명(2위)은 기존 반영대로 플레이오프 2라운드 직행(대진 상대는 1라운드 결과 이후 확정, 이번 실행은 미추가). at(utc, src)로 저장, check-times 통과.
+//    2주 롤링 윈도우(오늘 8/25 기준 ~9/8)는 플레이오프 1라운드(~8/30)로 충족 — 2라운드 이후 대진은 다음 실행에서 확인.
+//    Worlds 2026: 검색 재확인 — 기존 3팀(한화생명e스포츠·Team Secret Whales·Bilibili Gaming)에서 변경 없음, 19팀 포맷·날짜·경기장 기존과 일치. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -547,6 +555,8 @@ const LT = {
 const EWC_GRP = { en: "Group Stage", ko: "그룹 스테이지" };
 const LCK_LEGEND = { en: "Legend Group", ko: "레전드 그룹" };
 const LCK_RISE = { en: "Rise Group", ko: "라이즈 그룹" };
+const LCK_PLAYIN = { en: "Play-In", ko: "플레이-인" };
+const LCK_PO_R1 = { en: "Playoffs · Round 1", ko: "플레이오프 · 1라운드" };
 
 export const EVENTS: CalEvent[] = [
   // 🏀 NBA Finals 2026 — Knicks vs Spurs (스퍼스 홈코트 우위: 닉스 1·2 원정 / 3·4 홈 / 5 원정 / 6 홈 / 7 원정)
@@ -692,6 +702,12 @@ export const EVENTS: CalEvent[] = [
   { id: "lck-w13-8", title: { en: "SOOPers vs DRX", ko: "SOOPers vs DRX" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.soopers, away: LT.drx }, date: "2026-08-22", description: { en: "Bo3 · Aug 22 · start time TBD (not yet reported) · Result: SOOPers 2–0 ✅ (regular-season finale win)", ko: "Bo3 · 8/22 · 시각 미정(출처 미보도, 확인 필요) · 결과: SOOPers 2–0 완승 ✅(정규시즌 마지막 경기 승리)" }, emoji: "🎮" },
   { id: "lck-w13-9", title: { en: "Hanwha Life Esports vs T1", ko: "한화생명e스포츠 vs T1" }, category: "esports", sub: "lck", round: LCK_LEGEND, starred: true, match: { home: MT.hanwha, away: MT.t1 }, date: "2026-08-23", description: { en: "Bo3 · Aug 23 · Regular season finale · start time TBD (not yet reported) · Result: Hanwha Life 2–0 ✅ (sweeps T1, secures Legend Group 2nd place, advances direct to PO Round 2)", ko: "Bo3 · 8/23 · 정규시즌 마지막 경기일 · 시각 미정(출처 미보도, 확인 필요) · 결과: 한화생명e스포츠 2–0 완승 ✅(T1 상대 셧아웃, 레전드 그룹 2위 확정, PO 2라운드 직행)" }, emoji: "🎮" },
   { id: "lck-w13-10", title: { en: "FEARX vs Nongshim RedForce", ko: "피어엑스 vs 농심 레드포스" }, category: "esports", sub: "lck", round: LCK_RISE, match: { home: LT.fearx, away: LT.ns }, date: "2026-08-23", description: { en: "Bo3 · Aug 23 · Regular season finale · start time TBD (not yet reported) · Result: Nongshim RedForce 2–1 ✅ (Rise Group 2nd place, BRO 1st, FEARX 3rd — all 10-16, tiebreak)", ko: "Bo3 · 8/23 · 정규시즌 마지막 경기일 · 시각 미정(출처 미보도, 확인 필요) · 결과: 농심 레드포스 2–1 승 ✅(라이즈 그룹 2위 확정, 브리온 1위·피어엑스 3위 — 셋 다 10승16패 동률, 타이브레이커로 순위 결정)" }, emoji: "🎮" },
+  // -- 플레이-인(8.26~28)·플레이오프 1라운드(8.29~30) — supple.kr·경향게임스·WebSearch 교차 확인 (2026-08-25). 젠지(1위)·한화생명(2위)은 플레이오프 2라운드 직행, T1(3위)·디플러스(4위)는 1라운드부터, KT(레전드 5위)·브리온(라이즈 1위)·농심(라이즈 2위)·피어엑스(라이즈 3위)가 플레이-인. 풀 더블 엘리미네이션, 치지직 롤파크. --
+  { id: "lck-playin-1", title: { en: "KT Rolster vs BRION", ko: "KT 롤스터 vs 브리온" }, category: "esports", sub: "lck", round: LCK_PLAYIN, starred: true, match: { home: LT.kt, away: LT.brion }, ...at("2026-08-26T08:00:00Z", "2026-08-26 17:00 Asia/Seoul"), description: { en: "Bo5 · 17:00 KST (Aug 26) · Play-In Round 1 (Legend 5th vs Rise 1st) · Winner advances directly to Playoffs Round 1 as 5th seed, loser drops to Play-In Round 3", ko: "Bo5 · 한국 8/26 17:00 KST · 플레이-인 1라운드(레전드 5위 vs 라이즈 1위) · 승자 플레이오프 1라운드 5번 시드 직행, 패자는 플레이-인 3라운드로" }, emoji: "🎮" },
+  { id: "lck-playin-2", title: { en: "Nongshim RedForce vs FEARX", ko: "농심 레드포스 vs 피어엑스" }, category: "esports", sub: "lck", round: LCK_PLAYIN, match: { home: LT.ns, away: LT.fearx }, ...at("2026-08-27T08:00:00Z", "2026-08-27 17:00 Asia/Seoul"), description: { en: "Bo5 · 17:00 KST (Aug 27) · Play-In Round 2 (Rise 2nd vs Rise 3rd) · Winner advances to Play-In Round 3, loser eliminated", ko: "Bo5 · 한국 8/27 17:00 KST · 플레이-인 2라운드(라이즈 2위 vs 3위) · 승자 플레이-인 3라운드 진출, 패자 탈락" }, emoji: "🎮" },
+  { id: "lck-playin-3", title: { en: "TBD vs TBD", ko: "미정 vs 미정" }, category: "esports", sub: "lck", round: LCK_PLAYIN, match: { home: MT.tbd, away: MT.tbd }, ...at("2026-08-28T08:00:00Z", "2026-08-28 17:00 Asia/Seoul"), description: { en: "Bo5 · 17:00 KST (Aug 28) · Play-In Round 3: Round 1 loser vs Round 2 winner · Winner claims the last Playoffs spot", ko: "Bo5 · 한국 8/28 17:00 KST · 플레이-인 3라운드: 1라운드 패자 vs 2라운드 승자 · 승자가 플레이오프 마지막 자리 획득(대진 미확정, TBD)" }, emoji: "🎮" },
+  { id: "lck-po-r1-1", title: { en: "T1 vs Play-In Qualifier", ko: "T1 vs 플레이-인 통과팀" }, category: "esports", sub: "lck", round: LCK_PO_R1, starred: true, match: { home: MT.t1, away: MT.tbd }, ...at("2026-08-29T08:00:00Z", "2026-08-29 17:00 Asia/Seoul"), description: { en: "17:00 KST (Aug 29) · Playoffs Round 1 (Legend 3rd seed vs Play-In R1 winner) · format (Bo count) not yet reported — opponent TBD", ko: "한국 8/29 17:00 KST · 플레이오프 1라운드(레전드 3위 vs 플레이-인 1라운드 승자) · 세트 방식(Bo수) 출처 미보도, 상대팀 미확정(TBD)" }, emoji: "🎮" },
+  { id: "lck-po-r1-2", title: { en: "Dplus vs Play-In Qualifier", ko: "디플러스 vs 플레이-인 통과팀" }, category: "esports", sub: "lck", round: LCK_PO_R1, match: { home: LT.dplus, away: MT.tbd }, ...at("2026-08-30T08:00:00Z", "2026-08-30 17:00 Asia/Seoul"), description: { en: "17:00 KST (Aug 30) · Playoffs Round 1 (Legend 4th seed vs Play-In R3 winner) · format (Bo count) not yet reported — opponent TBD", ko: "한국 8/30 17:00 KST · 플레이오프 1라운드(레전드 4위 vs 플레이-인 3라운드 승자) · 세트 방식(Bo수) 출처 미보도, 상대팀 미확정(TBD)" }, emoji: "🎮" },
 
   // 🎮 LoL Worlds 2026 (10.15~11.14) — 결승은 뉴욕 바클레이스!
   { id: "worlds-playin", title: { en: "Worlds · Play-In", ko: "Worlds · 플레이인" }, category: "esports", sub: "worlds", round: { en: "Play-In", ko: "플레이인" }, date: "2026-10-15", location: { en: "Riot Games Arena, LA", ko: "라이엇 게임즈 아레나 (LA)" }, description: { en: "Play-In · Oct 15 – 18", ko: "플레이인 · 10.15~18" }, emoji: "🎮" },
