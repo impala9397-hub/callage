@@ -380,6 +380,13 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    패자조 1라운드(9/3) 디플러스 vs 피어엑스(둘 다 PO 1라운드 패자) 확정 반영(lck-lower-r1 팀명 반영, TBD 해제).
 //    2주 롤링 윈도우(오늘 8/30 기준 ~9/13)는 이미 반영된 결승(9/13)까지로 충족. 패자조 2R(9/4)·PO 3R(9/5)·패자조 3R(9/6) 이후 대진은 9/1~2 결과 이후 다음 실행에서 확인.
 //    Worlds 2026: 검색 재확인 — 신규 진출팀 소식 없음(기존 3팀 한화생명e스포츠·Team Secret Whales·Bilibili Gaming 유지), 19팀 포맷·날짜·경기장 기존과 일치 → 변경 없음. FIFA 월드컵·MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 2팀 추가 확정(LCP) — Wikipedia "2026 League of Legends World Championship qualification" 페이지 + sheepesports 개별 기사 2건 교차 확인(2026-08-31):
+//    MVK Esports(LCP 시즌 포인트 3위 이상 확보로 확정, 8/22) — sheepesports 기사 제목 "MVK Esports become the fourth team to qualify for Worlds 2026" 원문 확인.
+//    CTBC Flying Oyster(2026 LCP 전 스플릿 우승, 8/29) — sheepesports "LoL: CTBC Flying Oyster completed 2026 LCP roster" 및 Wikipedia 표에서 확인.
+//    → 기존 3팀(한화생명e스포츠·Team Secret Whales·Bilibili Gaming)에 추가돼 총 5팀 확정, LCP 3시드 전부 확정(TSW·MVK·CFO). LCK·LEC·LCS·CBLOL 나머지 14자리는 각 리그 플레이오프 진행 중이라 미확정.
+//    캘린더 이벤트(worlds-playin 등)는 스테이지 날짜만 갖고 팀명을 표기하는 구조가 아직 없어 실데이터 변경 없음 — 조편성·브래킷 공개 시 추가 예정.
+//    LCK: 8/31은 경기 없는 날(PO 2라운드는 9/1·9/2) — WebSearch로 확인, 변경 없음. 2주 롤링 윈도우(오늘 8/31 기준 ~9/14)는 이미 반영된 결승(9/13)까지로 충족.
+//    FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 이번 실행 확인 대상 아님(대회 완전 종료). MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
