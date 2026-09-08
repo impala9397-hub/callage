@@ -419,6 +419,13 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    디플러스는 이 패배로 탈락하나 최종 4팀 진입으로 Worlds 2026 진출은 이미 확정된 상태(기존 반영과 동일, 변경 없음).
 //    2주 롤링 윈도우(오늘 9/6 기준 ~9/20)는 이미 반영된 결승(9/13)까지로 충족 — LCK 시즌 종료까지 남은 대진(9/12·9/13) 모두 팀명 확정 완료.
 //    Worlds 2026: 검색 재확인 — T1이 이번 승리로 LCK 3번째 시드로 신규 확정, 총 7팀 확정(한화생명·TSW·BLG·MVK·CFO·젠지·T1). LCK 4번째(마지막) 시드는 9/12·9/13 결과로 한화생명 또는 디플러스 중 결정 예정. 다른 리그(LEC·LCS·CBLOL)는 플레이오프 진행 중이라 신규 확정 없음, 19팀 포맷·날짜·경기장 기존과 일치. 캘린더 이벤트는 팀명 표기 구조가 없어 실데이터 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 2팀 추가 확정(LEC) — Wikipedia + Karmine Corp 공식 X(트위터) 원문 인용 + Sheep Esports 교차 확인(2026-09-08):
+//    G2 Esports(LEC 승자조 결승 3-1 승리로 확정, 9/5) — Wikipedia "2026 League of Legends World Championship qualification" 표 확인, "secured its 10th World Championship in eleven years" 문구로 진출 재확인.
+//    Karmine Corp(사상 최초 Worlds 진출, 9/5) — 팀 공식 X "QUALIFIÉS AUX WORLDS 2026 ! ... La Karmine Corp se qualifie pour la première fois de son histoire aux WORLDS" 원문 확인 + Sheep Esports "KARMINE CORP QUALIFY FOR WORLDS FOR THE FIRST TIME IN TEAM HISTORY!" 독립 교차 확인.
+//    → 기존 7팀(한화생명·TSW·BLG·MVK·CFO·젠지·T1)에 추가돼 총 9팀 확정. LEC 3번째 시드는 하부브라켓 진행 중(Movistar KOI 유력하나 9/18 결정 예정)이라 미확정. LPL(빌리빌리 외 추가 없음)·LCS(플레이오프 9/12 시작 전)·CBLOL(결승 9/19 예정)은 신규 확정 없음.
+//    캘린더 이벤트(worlds-playin 등)는 팀명 표기 구조가 없어 실데이터 변경 없음 — Worlds 조편성은 애초에 고정 그룹 드로우가 아니라 Swiss 스테이지 방식(라운드마다 대진 추첨)이라 전원 확정 전엔 발표될 대진 자체가 없음(loltheory.gg 확인).
+//    LCK: 9/7~9/8 검색 재확인 — 9/6 이후 다음 경기는 예정대로 9/12(한화생명vsT1, 결승 진출전)·9/13(젠지vs승자, 결승), 몰수패·일정변경 등 특이사항 없음. 기존 반영(lck-lower-r4·lck-grand-final) 그대로 유지.
+//    FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
