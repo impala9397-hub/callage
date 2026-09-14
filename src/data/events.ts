@@ -443,6 +443,12 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    Worlds 2026: LCK 4시드는 지난 실행에 이미 전원 확정(한화생명·젠지·T1·Dplus KIA) — 오늘 결승은 시드 순서(1번 젠지·2번 한화생명)만 정하는 경기로, 신규 진출 확정 아님(젠지는 9/1 PO 2R 승리로 이미 확정된 사항). LPL에서 "Anyone's Legend"가 챔피언십 포인트로 수학적 진출 확정됐다는 검색 스니펫(sheepesports)이 있었으나 원문 인용 1건뿐이라 교차 확인 부족 → 이번 실행은 반영 보류(다음 실행 재확인).
 //       LEC 3번째 시드(9/18 하부브라켓 결승)·LPL 나머지 시드(9/17~19 지역예선)·LCS 3팀(플레이오프 10/4까지)·CBLOL 2팀(결승 9/26·10/3)은 예정대로 아직 미정 → 변경 없음. 캘린더 이벤트는 팀명 표기 구조가 없어 실데이터 변경 없음.
 //    FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음(대회 완전 종료). MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 1팀 신규 확정(LPL, 지난 실행 "반영 보류" 항목 재확인 완료) — Wikipedia + team-aaa.com(프랑스 매체, 원문 직접 fetch) + WebSearch(dotesports 스니펫) 3중 교차 확인(2026-09-14):
+//    Anyone's Legend(LPL 2026 그랜드파이널 우승, 9/13) — team-aaa.com 원문(발행 2026-09-13) "Anyone's Legend s'impose 3 à 1 face au double champion en titre Bilibili Gaming"(AL이 2연패 디펜딩 챔피언 빌리빌리 게이밍을 3–1로 꺾음) · "le titre domestique et le seed numéro 1 chinois pour les prochains Worlds"(LPL 우승 + 중국 1번 시드로 Worlds 진출) 직접 인용 확인.
+//       빌리빌리 게이밍은 결승 패배에도 중국 2번 시드로 기존 진출(8/13 챔피언십 포인트 확정분) 유지 — 순서만 AL 1번·BLG 2번으로 정리.
+//    → 기존 10팀(한화생명·TSW·BLG·MVK·CFO·젠지·T1·Dplus KIA·G2·Karmine Corp)에 Anyone's Legend 추가돼 총 11팀 확정. LPL 나머지 2시드(지역예선 9/17~19)·LEC 3번째 시드(하부브라켓 결승 9/18)·LCS 3팀(플레이오프 10/4까지)·CBLOL 2팀(결승 9/26·10/3)은 여전히 미정 → 변경 없음.
+//    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
+//    LCK 2026 시즌은 9/13 결승으로 완전 종료 — 다음 대회(LCK 2027 시즌)까지 휴지기, 추가할 예정 경기 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
