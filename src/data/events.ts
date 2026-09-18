@@ -449,6 +449,15 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    → 기존 10팀(한화생명·TSW·BLG·MVK·CFO·젠지·T1·Dplus KIA·G2·Karmine Corp)에 Anyone's Legend 추가돼 총 11팀 확정. LPL 나머지 2시드(지역예선 9/17~19)·LEC 3번째 시드(하부브라켓 결승 9/18)·LCS 3팀(플레이오프 10/4까지)·CBLOL 2팀(결승 9/26·10/3)은 여전히 미정 → 변경 없음.
 //    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
 //    LCK 2026 시즌은 9/13 결승으로 완전 종료 — 다음 대회(LCK 2027 시즌)까지 휴지기, 추가할 예정 경기 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 1팀 신규 확정(LPL 3번째 시드) — Wikipedia raw wikitext(action=raw, 요약 우회 직접 확인) + GosuGamers 원문 직접 fetch 교차 확인(2026-09-18):
+//    Top Esports(LPL 리저널 파이널 어퍼브라켓 결승, 3-1 승, 9/17) — GosuGamers 원문 "Top Esports (TES) will be the third representative for China's League of Legends Pro League (LPL) in the 2026 League of Legends World Championship after they defeated Invictus Gaming (IG), 3-1, in the upper bracket finals of the LPL 2026 Regional Finals on Thursday (17 September)." ·
+//       Wikipedia 표 "With their 3–1 win, Top Esports secured its spot at the World Championship for the fifth time." 재확인.
+//    → 기존 11팀(한화생명·TSW·BLG·MVK·CFO·젠지·T1·Dplus KIA·G2·Karmine Corp·Anyone's Legend)에 Top Esports 추가돼 총 12팀 확정.
+//    ⛔ LEC 3번째 시드는 이번 실행에도 미확정 — Wikipedia 표에 나비(Natus Vincere) vs 모비스타 코이(Movistar KOI) 하부브라켓 2라운드가 9/18 17:00 CEST(프랑스 니스)로 예정돼 있으나 스코어 0-0(미실시)로 확인, WebSearch(navi.gg·movistaresports.com·sheepesports)도 "예정"만 확인되고 완료된 스코어를 보도한 곳 없음 → 추측 반영 금지 규칙에 따라 미반영.
+//    ⛔ LPL 4번째(마지막) 시드도 미확정 — Wikipedia 표에 인빅터스 게이밍(IG) vs JD 게이밍(JDG) 4번 시드 플레이오프가 9/19(내일)로 예정, 아직 미실시.
+//    LCS(플레이오프 진행 중, 첫 경기 9/19)·CBLOL(어퍼브라켓 결승 9/26·로어브라켓 결승 10/3) 전부 미정 → 변경 없음. 캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음.
+//    ⚠️ 첫 WebFetch 요약 패스가 표 전체를 그럴듯하지만 조작된 값(존재하지 않는 "Karmine Corp 최초 진출" 프레이밍, CBLOL 결승일 "10월 10일" 등 실제와 다른 날짜)으로 반환해 전량 기각 — raw wikitext 재조회로 대체 확인(요약 신뢰 금지 규칙 재확인 사례).
+//    LCK 2026 시즌은 9/13 결승으로 완전 종료, 휴지기 지속(다음 대회 LCK 2027 시즌까지 확정 일정 없음) → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
