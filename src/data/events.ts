@@ -458,6 +458,12 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    LCS(플레이오프 진행 중, 첫 경기 9/19)·CBLOL(어퍼브라켓 결승 9/26·로어브라켓 결승 10/3) 전부 미정 → 변경 없음. 캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음.
 //    ⚠️ 첫 WebFetch 요약 패스가 표 전체를 그럴듯하지만 조작된 값(존재하지 않는 "Karmine Corp 최초 진출" 프레이밍, CBLOL 결승일 "10월 10일" 등 실제와 다른 날짜)으로 반환해 전량 기각 — raw wikitext 재조회로 대체 확인(요약 신뢰 금지 규칙 재확인 사례).
 //    LCK 2026 시즌은 9/13 결승으로 완전 종료, 휴지기 지속(다음 대회 LCK 2027 시즌까지 확정 일정 없음) → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 2팀 추가 확정(LEC 3번째 시드·LPL 4번째 시드) — team-aaa.com(프랑스 매체, 원문 직접 fetch) + GosuGamers(원문 직접 fetch) + WebSearch(rdy.gg) 교차 확인(2026-09-19):
+//    Movistar KOI(LEC 하부브라켓 준결승, 나투스 빈체레 상대 3-1 역전승, 9/18) — team-aaa.com 원문(발행 2026-09-18) "Movistar KOI a corrigé le tir pour remporter les trois parties suivantes et conclure la rencontre sur le score de 3 à 1"(0-1 뒤진 뒤 3연승) · "ce résultat garantit à Movistar KOI sa présence lors des prochains Championnats du monde. L'équipe sécurise le dernier seed européen"(마지막 유럽 시드 확보) 직접 인용 확인 → LEC 3시드 전원(G2·Karmine Corp·Movistar KOI) 확정.
+//    Invictus Gaming(LPL 리저널 파이널 하부브라켓 결승, JD 게이밍 상대 3-1 승, 9/19) — GosuGamers 원문 "Invictus Gaming (IG) ... defeated JD Gaming (JDG), 3-1, in the lower bracket finals" · "IG now join Anyone's Legend, Bilibili Gaming, and Top Esports in representing the LPL" 직접 인용 확인 → LPL 4시드 전원(Anyone's Legend·BLG·Top Esports·IG) 확정. JDG는 3년 연속 리저널 파이널 3위로 탈락.
+//    → 기존 12팀(한화생명·TSW·BLG·MVK·CFO·젠지·T1·Dplus KIA·G2·Karmine Corp·Anyone's Legend·Top Esports)에 Movistar KOI·Invictus Gaming 추가돼 총 14팀 확정. 남은 5자리는 LCS 3시드(플레이오프 진행 중, ~10/4)·CBLOL 2시드(어퍼브라켓 결승 9/26·로어브라켓 결승 10/3)만 미정.
+//    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
+//    LCK: WebSearch 재확인 — 2026 시즌 9/13 결승으로 완전 종료, 스토브리그(계약 만료 UTC 11/16까지 유지) 진입 확인, 추가 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
