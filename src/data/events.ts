@@ -464,6 +464,12 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    → 기존 12팀(한화생명·TSW·BLG·MVK·CFO·젠지·T1·Dplus KIA·G2·Karmine Corp·Anyone's Legend·Top Esports)에 Movistar KOI·Invictus Gaming 추가돼 총 14팀 확정. 남은 5자리는 LCS 3시드(플레이오프 진행 중, ~10/4)·CBLOL 2시드(어퍼브라켓 결승 9/26·로어브라켓 결승 10/3)만 미정.
 //    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
 //    LCK: WebSearch 재확인 — 2026 시즌 9/13 결승으로 완전 종료, 스토브리그(계약 만료 UTC 11/16까지 유지) 진입 확인, 추가 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 1팀 추가 확정(LCS 1번째 시드) — sheepesports 기사 제목("Cloud9 upset LYON 3-1 to secure Worlds spot for the first time since 2023") + fieldlevelmedia(원문 직접 fetch, 3-1 스코어·날짜 확인) + WebSearch 3회 독립 교차 확인(2026-09-20):
+//    Cloud9(LCS 서머 플레이오프 어퍼브라켓 준결승, LYON 상대 3-1 승, 9/19 토요일) — fieldlevelmedia 원문 "Cloud9 defeated LYON 3-1 on Saturday in the upper-bracket semifinals to advance to the bracket final" 직접 인용 확인(LYON은 기존 LCS 챔피언). 어퍼브라켓 결승 진출로 LCS 파이널 4강(Gas South Arena, 10/3~4) 진출 확정 — "top three teams qualify for Worlds" 규정상 이 단계 진출이 곧 Worlds 시드 확보를 의미한다는 sheepesports 제목·WebSearch 종합이 반복 일치.
+//    ⚠️ sheepesports 원문 페이지는 이번 실행도 WebFetch 403(차단)이라 제목만 검색 결과로 확인, 본문 직접 인용은 못 함 — fieldlevelmedia(직접 fetch)는 스코어·날짜만 명시하고 "이 승리 자체가 진출을 보장하진 않는다"고 신중한 문구를 씀(모순은 아니고 해당 매체가 확정 표현을 안 썼을 뿐). 확인 필요로 남기되, 스코어·상대·날짜는 확정 사실로 반영.
+//    → 기존 14팀에 Cloud9 추가돼 총 15팀 확정. 남은 4자리: LCS 2시드(플레이오프 진행 중, 파이널 10/3~4 Gas South Arena — LCS 공식 X·gassouthdistrict.com 공식 페이지로 날짜 확인)·CBLOL 2시드(어퍼브라켓 결승 9/26·로어브라켓 결승 10/3, São Paulo, 아직 대진 진행 중).
+//    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어 실데이터 변경 없음(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인).
+//    LCK: 2026 시즌 9/13 결승으로 완전 종료, 스토브리그 지속, 다음 시즌(2027)까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
