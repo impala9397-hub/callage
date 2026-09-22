@@ -470,6 +470,12 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    → 기존 14팀에 Cloud9 추가돼 총 15팀 확정. 남은 4자리: LCS 2시드(플레이오프 진행 중, 파이널 10/3~4 Gas South Arena — LCS 공식 X·gassouthdistrict.com 공식 페이지로 날짜 확인)·CBLOL 2시드(어퍼브라켓 결승 9/26·로어브라켓 결승 10/3, São Paulo, 아직 대진 진행 중).
 //    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어 실데이터 변경 없음(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인).
 //    LCK: 2026 시즌 9/13 결승으로 완전 종료, 스토브리그 지속, 다음 시즌(2027)까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 1팀 추가 확정(LCS 2번째 시드) — Wikipedia raw wikitext(action=raw, 요약 우회 직접 확인) + insider-gaming.com(원문 직접 fetch) + sheepesports(WebSearch 스니펫) 교차 확인(2026-09-22):
+//    Team Liquid Alienware(LCS 서머 플레이오프 어퍼브라켓 2라운드, FlyQuest 상대 3-0 승, 9/20) — Wikipedia raw wikitext "Team Liquid Alienware secured its sixth World Championship... with their 3–0 victory over FlyQuest" 직접 인용 확인 + insider-gaming.com 원문 "Team Liquid has qualified for the League of Legends World Championships 2026 after dismantling FlyQuest 3-0... secured the second North American spot" 독립 교차 확인 일치.
+//    Team Liquid는 Cloud9과 함께 LCS 파이널 위너스 파이널(Atlanta, Gas South Arena)에서 격돌 예정(승자는 Worlds 플레이인 스킵 확정 시드) — 최종 시드 순번은 플레이오프 최종 순위로 결정(Wikipedia efn 각주 "final seed will depend on its final playoff ranking" 확인, 아직 미정이라 보류).
+//    → 기존 15팀에 Team Liquid Alienware 추가돼 총 16팀 확정. 남은 3자리: LCS 3번째 시드(9/26 LYON vs 로어브라켓 2R 승자(FlyQuest 또는 Shopify Rebellion), Wikipedia raw 확인)·CBLOL 2시드(어퍼브라켓 결승 9/26·로어브라켓 결승 10/3, São Paulo, 아직 대진 진행 중, 변경 없음).
+//    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
+//    LCK: 2026 시즌 9/13 결승으로 완전 종료, 스토브리그 지속(계약 만료 UTC 11/16까지), 다음 시즌(2027)까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
