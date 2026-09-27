@@ -476,6 +476,12 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    → 기존 15팀에 Team Liquid Alienware 추가돼 총 16팀 확정. 남은 3자리: LCS 3번째 시드(9/26 LYON vs 로어브라켓 2R 승자(FlyQuest 또는 Shopify Rebellion), Wikipedia raw 확인)·CBLOL 2시드(어퍼브라켓 결승 9/26·로어브라켓 결승 10/3, São Paulo, 아직 대진 진행 중, 변경 없음).
 //    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
 //    LCK: 2026 시즌 9/13 결승으로 완전 종료, 스토브리그 지속(계약 만료 UTC 11/16까지), 다음 시즌(2027)까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 1팀 추가 확정(LCS 3번째·마지막 시드) — dotesports.com·strafe.com·yardbarker.com 3개 매체 원문/제목 교차 확인(2026-09-27):
+//    LYON(LCS 서머 플레이오프 로어브라켓, Shopify Rebellion 상대 3-1 승, 9/26) — strafe.com "LYON Earns Final LCS Ticket to Worlds 2026 By Eliminating Shopify Rebellion" · dotesports.com "LYON beats Shopify Rebellion to qualify for Worlds 2026" · yardbarker.com "LYON ousts Shopify Rebellion in LCS Summer playoffs" 제목 3중 일치, 세트 스코어(1·2세트 LYON, 3세트 Shopify, 4세트 LYON 24:8)까지 일치 확인.
+//    → 기존 16팀에 LYON 추가돼 총 17팀 확정, LCS 3시드(Cloud9·Team Liquid Alienware·LYON) 전원 확정. 남은 2자리는 CBLOL뿐.
+//    CBLOL: Los Grandes vs LOUD 어퍼브라켓 결승이 hotspawn 브래킷 확인 결과 9/27 16:00 UTC 예정(이 실행 시각 UTC 13:09 기준 아직 미시작, "LOUD 탈락" 등 검색에 섞여 나온 문구는 다른 시즌/이벤트 기사로 판단돼 기각) → 변경 없음, 다음 실행에서 재확인.
+//    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
+//    LCK: 2026 시즌 9/13 결승으로 완전 종료, 스토브리그 지속, 다음 시즌(2027)까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
