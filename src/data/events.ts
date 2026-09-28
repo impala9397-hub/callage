@@ -482,6 +482,12 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    CBLOL: Los Grandes vs LOUD 어퍼브라켓 결승이 hotspawn 브래킷 확인 결과 9/27 16:00 UTC 예정(이 실행 시각 UTC 13:09 기준 아직 미시작, "LOUD 탈락" 등 검색에 섞여 나온 문구는 다른 시즌/이벤트 기사로 판단돼 기각) → 변경 없음, 다음 실행에서 재확인.
 //    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
 //    LCK: 2026 시즌 9/13 결승으로 완전 종료, 스토브리그 지속, 다음 시즌(2027)까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 진출팀 1팀 추가 확정(CBLOL 1번째 시드) — maisesports.com.br(브라질 매체, 원문 직접 fetch) + esportenewsmundo.com.br·sheepesports(WebSearch 스니펫) 교차 확인(2026-09-28):
+//    LØS(Los Grandes, CBLOL 플레이오프 어퍼브라켓 결승, LOUD 상대 3-2 승, 9/27 일요일) — maisesports.com.br 원문 직접 인용 "na sequência, se vingou da Verduxa ao triunfar por 3-2, garantindo vaga na grande final"(LOUD를 3-2로 꺾고 그랜드파이널 진출 확정 = Worlds行 확정) ·
+//    sheepesports 제목 "LØS become first CBLOL representative confirmed for Worlds 2026" 교차 확인 일치. LØS는 CBLOL 결승(10/10, 리우데자네이루)에서 우승 시 플레이인 없이 스위스 스테이지 직행.
+//    → 기존 17팀에 LØS 추가돼 총 18팀 확정. 남은 마지막 1자리(CBLOL 2번째 시드)는 10/3 로어브라켓 결승 LOUD vs FURIA 승자로 결정(하나의 소스만 날짜 확인, 다음 실행에서 재확인 후 반영).
+//    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
+//    LCK: 2026 시즌 9/13 결승으로 완전 종료, 스토브리그 지속(로스터 개편 뉴스만 존재, 캘린더 반영 대상인 경기 일정은 없음), 다음 시즌(2027)까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
