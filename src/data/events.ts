@@ -488,6 +488,11 @@ function at(utc: string, src?: string): { utc: string; date: string; time: strin
 //    → 기존 17팀에 LØS 추가돼 총 18팀 확정. 남은 마지막 1자리(CBLOL 2번째 시드)는 10/3 로어브라켓 결승 LOUD vs FURIA 승자로 결정(하나의 소스만 날짜 확인, 다음 실행에서 재확인 후 반영).
 //    캘린더 이벤트(worlds-playin 등)는 여전히 팀명 표기 구조가 없어(Swiss 스테이지는 19팀 전원 확정 전 대진 자체가 없음, 기존 확인) 실데이터 변경 없음, 날짜·경기장 7/25 공식 확인분과 일치.
 //    LCK: 2026 시즌 9/13 결승으로 완전 종료, 스토브리그 지속(로스터 개편 뉴스만 존재, 캘린더 반영 대상인 경기 일정은 없음), 다음 시즌(2027)까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 결승 결과는 기존 반영분(wc-final) 유지, 손대지 않음. MSI·EWC 종료(스킵).
+// ✅ Worlds 2026 그랜드파이널 시작 시각 신규 확정 반영 — lolesports.com 공식 페이지(worlds-2026-venue-event-policies, 원문 직접 fetch) + insider-gaming.com(9/25 발행, lolesports 공식 트윗 인용) 교차 확인(2026-09-29):
+//    lolesports.com 원문 인용 "New York City – Final / Nov. 14: 2 PM EST" → worlds-final에 time: "14:00" 반영(TBD 해제). 경기장이 뉴욕(바클레이스 센터, 브루클린) 현지 행사이므로 AGENTS.md 규칙대로 date+time 직접 기입(ET=NY 현지 시각이라 at(utc, src) 변환 불필요).
+//    같은 공식 페이지에서 플레이인(10/15, 2 PM EDT)·스위스(10/23~24·25~26·28~30·31, 시간대별로 상이)·녹아웃(11/3~8, 5 PM EST) 시각도 확인했으나, 기존 4개 캘린더 항목은 각 단계의 여러 날짜를 아우르는 요약 이벤트라 단일 time을 넣으면 오해 소지 → 그대로 date만 유지(기존 설계와 일치).
+//    CBLOL 마지막 1자리(2번째 시드) 재확인 — Wikipedia qualification 페이지 직접 fetch: 여전히 TBD, "LOUD and FURIA will vie for a spot" 10/3 로어브라켓 결승으로 결정 예정(9/28 확인분과 동일, 변경 없음). 나머지 18팀 명단도 Wikipedia와 기존 반영분 전부 일치.
+//    LCK: 스토브리그 지속, 다음 시즌까지 확정 경기 없음 → 변경 없음. FIFA 월드컵 종료(스킵). MSI·EWC 종료(스킵).
 const NBA_FINALS = { en: "Finals", ko: "파이널" };
 const WC_GROUP = { en: "Group Stage", ko: "조별리그" };
 const WC_R32 = { en: "Round of 32", ko: "32강" };
@@ -877,7 +882,7 @@ export const EVENTS: CalEvent[] = [
   { id: "worlds-playin", title: { en: "Worlds · Play-In", ko: "Worlds · 플레이인" }, category: "esports", sub: "worlds", round: { en: "Play-In", ko: "플레이인" }, date: "2026-10-15", location: { en: "Riot Games Arena, LA", ko: "라이엇 게임즈 아레나 (LA)" }, description: { en: "Play-In · Oct 15 – 18", ko: "플레이인 · 10.15~18" }, emoji: "🎮" },
   { id: "worlds-swiss", title: { en: "Worlds · Swiss Stage", ko: "Worlds · 스위스 스테이지" }, category: "esports", sub: "worlds", round: { en: "Swiss", ko: "스위스" }, date: "2026-10-23", location: { en: "Credit Union of Texas Event Center, Allen TX", ko: "크레딧 유니언 오브 텍사스 이벤트 센터 (앨런, 텍사스)" }, description: { en: "Swiss · Oct 23–26 and Oct 28–31", ko: "스위스 · 10.23~26 및 10.28~31" }, emoji: "🎮" },
   { id: "worlds-knockout", title: { en: "Worlds · Knockouts", ko: "Worlds · 녹아웃" }, category: "esports", sub: "worlds", round: { en: "Knockout", ko: "녹아웃" }, date: "2026-11-03", location: { en: "Credit Union of Texas Event Center, Allen TX", ko: "크레딧 유니언 오브 텍사스 이벤트 센터 (앨런, 텍사스)" }, description: { en: "Knockouts · Nov 3 – 8", ko: "녹아웃 · 11.3~8" }, emoji: "🎮" },
-  { id: "worlds-final", title: { en: "Worlds Final", ko: "Worlds 결승" }, category: "esports", sub: "worlds", round: { en: "Final", ko: "결승" }, starred: true, date: "2026-11-14", location: { en: "Barclays Center, Brooklyn NY", ko: "바클레이스 센터 (브루클린 뉴욕)" }, description: { en: "Worlds 2026 Grand Final · Nov 14 · New York (start time not yet announced)", ko: "Worlds 2026 그랜드 파이널 · 11/14 · 뉴욕 (시작 시각 미발표)" }, emoji: "🏆" },
+  { id: "worlds-final", title: { en: "Worlds Final", ko: "Worlds 결승" }, category: "esports", sub: "worlds", round: { en: "Final", ko: "결승" }, starred: true, date: "2026-11-14", time: "14:00", location: { en: "Barclays Center, Brooklyn NY", ko: "바클레이스 센터 (브루클린 뉴욕)" }, description: { en: "Worlds 2026 Grand Final · 2:00 PM ET · Barclays Center, Brooklyn NY", ko: "Worlds 2026 그랜드 파이널 · 14:00 ET · 바클레이스 센터 (브루클린 뉴욕)" }, emoji: "🏆" },
 
   // 🎤 콘서트 (Jongwon 큐레이션 · 뉴욕/뉴저지)
   { id: "con-cortis", title: { en: "CORTIS", ko: "CORTIS 콘서트" }, category: "music", sub: "concert", date: "2026-08-06", time: "20:00", location: { en: "Infosys Theater at MSG, NY", ko: "인포시스 시어터 @ MSG (뉴욕)" }, emoji: "🎤" },
